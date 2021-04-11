@@ -1,0 +1,20 @@
+version: '2'
+services:
+
+  thesis-postgres:
+    image:  erodriguezg/postgres-without-volume:9.6.2
+    container_name: thesis-postgres
+    environment:
+      - DB_USER=postgres
+      - DB_PASSWORD=password
+    volumes:
+      - <CURR_DIR>/postgres/unique/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432"
+    networks:
+       default:
+         ipv4_address: 172.100.1.62
+networks:
+  default:
+    external:
+      name: thesis
