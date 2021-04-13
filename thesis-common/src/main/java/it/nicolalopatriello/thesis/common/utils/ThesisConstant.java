@@ -4,7 +4,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class KirkConstant {
+public class ThesisConstant {
     public static final String AUTHORIZATION = "Authorization";
     public static final String SERVER_DISCONNECTED_EXCEPTION = "ServerDisconnectedException";
 

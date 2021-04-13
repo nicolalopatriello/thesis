@@ -14,12 +14,12 @@ import java.util.Optional;
  */
 @Log4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class KirkSecurityContext {
+public class ThesisSecurityContext {
 
     private static final ThreadLocal<JwtUser> current = new ThreadLocal<>();
 
     public static void set(JwtUser env) {
-        log.info("[ KirkSecurityContext ] Set User " + env);
+        log.info("[ ThesisSecurityContext ] Set User " + env);
         current.set(env);
     }
 
