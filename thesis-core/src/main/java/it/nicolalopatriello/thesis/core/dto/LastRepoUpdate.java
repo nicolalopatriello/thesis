@@ -30,7 +30,9 @@ public class LastRepoUpdate {
     public LastRepoUpdate(Gitrace gitrace) throws IOException {
         switch (gitrace.getGitProvider()) {
             case GITHUB:
-                GitHub github = new GitHubBuilder().withOAuthToken("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").build();
+                GitHub github = GitHub.connect();
+
+                //    GitHub github = new GitHubBuilder().withOAuthToken("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").build();
                 Optional<String> repoNameOpt = getRepoName(gitrace.getGitRepoUrl());
                 if (repoNameOpt.isPresent()) {
                     GHRepository repo = github.getRepository(repoNameOpt.get());

@@ -35,17 +35,24 @@ create table IF NOT EXISTS ${schema}.gitrace(
 create table IF NOT EXISTS ${schema}.user_test(
   url varchar(255) not null PRIMARY KEY,
   description VARCHAR(255),
-  username VARCHAR(255) references ${schema}.user_
+  username VARCHAR(255) references ${schema}.user_,
+  created_at TIMESTAMPTZ
 );
 
+create sequence IF NOT EXISTS ${schema}.user_test_dep_test_vector_seq;
 create table IF NOT EXISTS ${schema}.user_test_dep_test_vector(
-  url VARCHAR(255) not null PRIMARY KEY references ${schema}.user_test,
-  test_vector_id bigint references ${schema}.test_vector
+  id bigint default nextval('${schema}.user_test_dep_test_vector_seq') PRIMARY KEY,
+  url VARCHAR(255) not null references ${schema}.user_test,
+  test_vector_id bigint references ${schema}.test_vector,
+  unique(url, test_vector_id)
 );
 
+create sequence IF NOT EXISTS ${schema}.user_test_dep_gitrace_seq;
 create table IF NOT EXISTS ${schema}.user_test_dep_gitrace(
-  url VARCHAR(255) not null PRIMARY KEY references ${schema}.user_test,
-  gitrace_id bigint references ${schema}.gitrace
+  id bigint default nextval('${schema}.user_test_dep_gitrace_seq') PRIMARY KEY,
+  url VARCHAR(255) not null references ${schema}.user_test,
+  gitrace_id bigint references ${schema}.gitrace,
+  unique(url, gitrace_id)
 );
 
 
