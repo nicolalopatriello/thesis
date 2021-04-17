@@ -1,7 +1,6 @@
 package it.nicolalopatriello.thesis.core.interceptors;
 
 
-
 import it.nicolalopatriello.thesis.common.spring.contexts.ThesisSecurityContext;
 import it.nicolalopatriello.thesis.common.spring.security.jwt.JwtUser;
 import it.nicolalopatriello.thesis.common.spring.services.JwtTokenServiceExt;
@@ -34,12 +33,13 @@ public class HttpRequestInterceptor extends HandlerInterceptorAdapter {
         String token = req.getHeader(AUTHORIZATION);
         if (token != null) {
             try {
-              //  JwtUser opt = jwtTokenUtil.fromUserToken(token);
-                ThesisSecurityContext.set(null);
+                JwtUser opt = jwtTokenUtil.fromUserToken(token);
+                ThesisSecurityContext.set(opt);
             } catch (Exception e) {
                 log.info(e.getClass().getCanonicalName() + ": " + e.getMessage());
                 if (log.isDebugEnabled())
                     log.debug(e.getMessage(), e);
+                return false;
             }
         }
 
@@ -48,8 +48,8 @@ public class HttpRequestInterceptor extends HandlerInterceptorAdapter {
 
 
     @Override
-    public void postHandle(
-            HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) {
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+        super.postHandle(request, response, handler, modelAndView);
         ThesisSecurityContext.clear();
     }
 }

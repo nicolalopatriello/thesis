@@ -13,25 +13,22 @@ import java.sql.Timestamp;
 public class TestVector extends DTO {
 
     private Long id;
+    private String url;
     private String fileName;
     private String hash;
-    private Timestamp lastChanged;
-    private Timestamp lastModifiledFileTs;
     private String path;
-    private Timestamp timestamp;
-    private String url;
+    private Timestamp registrationTime;
+    private Timestamp lastUpdate;
 
-    public TestVectorEntity to(String username) {
+    public TestVectorEntity to() {
         TestVectorEntity testVector = new TestVectorEntity();
         testVector.setId(id);
+        testVector.setUrl(url);
         testVector.setFilename(fileName);
         testVector.setHash(hash);
-        testVector.setLastChanged(lastChanged);
-        testVector.setLastModifiledFileTs(lastModifiledFileTs);
         testVector.setPath(path);
-        testVector.setTimestamp(timestamp);
-        testVector.setUrl(url);
-
+        testVector.setRegistrationTime(registrationTime);
+        testVector.setLastUpdate(lastUpdate);
         return testVector;
     }
 
@@ -39,13 +36,12 @@ public class TestVector extends DTO {
     public static TestVector from(TestVectorEntity testVector) {
         TestVector dto = new TestVector();
         dto.setId(testVector.getId());
+        dto.setUrl(testVector.getUrl());
         dto.setFileName(testVector.getFilename());
         dto.setHash(testVector.getHash());
-        dto.setLastChanged(testVector.getLastChanged());
-        dto.setLastModifiledFileTs(testVector.getLastModifiledFileTs());
         dto.setPath(testVector.getPath());
-        dto.setTimestamp(testVector.getTimestamp());
-        dto.setUrl(testVector.getUrl());
+        dto.setRegistrationTime(testVector.getRegistrationTime());
+        dto.setLastUpdate(testVector.getLastUpdate());
         return dto;
     }
 

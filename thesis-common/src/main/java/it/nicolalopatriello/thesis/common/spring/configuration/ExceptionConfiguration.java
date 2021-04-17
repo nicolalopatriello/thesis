@@ -70,7 +70,7 @@ public class ExceptionConfiguration {
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     @ExceptionHandler({DataIntegrityViolationException.class,
             BadRequestException.class, DBUpsertException.class, PersistenceException.class, SQLGrammarException.class, TransactionSystemException.class, InvalidParameterException.class,
-            InvalidFormatException.class, HttpMessageNotReadableException.class, MethodArgumentNotValidException.class})
+            DuplicateEntityException.class, InvalidFormatException.class, HttpMessageNotReadableException.class, MethodArgumentNotValidException.class})
     public void badRequestException(Exception e) {
         if (log.isInfoEnabled())
             log.info(e.getMessage(), e);

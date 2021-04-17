@@ -26,6 +26,11 @@ public class TestVectorEntity implements WithDTO<TestVector> {
     @NotBlank
     @NotNull
     @Column
+    private String url;
+
+    @NotBlank
+    @NotNull
+    @Column
     private String filename;
 
     @NotBlank
@@ -33,37 +38,28 @@ public class TestVectorEntity implements WithDTO<TestVector> {
     @Column
     private String hash;
 
-    @Column(name = "last_changed")
-    private Timestamp lastChanged;
-
-    @Column(name = "last_modified_filets")
-    private Timestamp lastModifiledFileTs;
-
     @NotBlank
     @NotNull
     @Column
     private String path;
 
-    @Column
-    private Timestamp timestamp;
+    @Column(name = "registration_time")
+    private Timestamp registrationTime;
 
-    @NotBlank
-    @NotNull
-    @Column
-    private String url;
+    @Column(name = "last_update")
+    private Timestamp lastUpdate;
 
 
     @Override
     public TestVector dto() {
         TestVector tv = new TestVector();
         tv.setId(id);
+        tv.setUrl(url);
         tv.setFileName(filename);
         tv.setHash(hash);
-        tv.setLastChanged(lastChanged);
-        tv.setLastModifiledFileTs(lastModifiledFileTs);
         tv.setPath(path);
-        tv.setTimestamp(timestamp);
-        tv.setUrl(url);
+        tv.setRegistrationTime(registrationTime);
+        tv.setLastUpdate(lastUpdate);
         return tv;
     }
 

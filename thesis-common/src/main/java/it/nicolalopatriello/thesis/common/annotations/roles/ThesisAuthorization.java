@@ -9,15 +9,4 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ThesisAuthorization {
-    boolean superUser() default false;
-
-    boolean develop() default false;
-
-    boolean read() default false;
-
-    boolean readReport() default false;
-
-    boolean execute() default false;
-
-    boolean shared() default false;
 }
