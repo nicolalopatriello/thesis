@@ -7,9 +7,11 @@ import it.nicolalopatriello.thesis.core.entities.UserTestDepGitraceEntity;
 import it.nicolalopatriello.thesis.core.entities.UserTestEntity;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface UserTestDepGitraceRepository extends PagingAndSortingWithSpecificationRepository<UserTestDepGitraceEntity, Long> {
     Optional<UserTestDepGitrace> findByUrlAndGitraceId(String repoUrl, Long gitraceId);
+    List<UserTestDepGitrace> findByGitraceId(Long gitraceId);
 }
