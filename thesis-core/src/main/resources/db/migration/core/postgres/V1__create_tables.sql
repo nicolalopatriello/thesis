@@ -70,7 +70,8 @@ create table IF NOT EXISTS ${schema}.notification(
   uuid VARCHAR(255),
   checked INTEGER DEFAULT 0,
   created_at TIMESTAMPTZ,
-  checked_at TIMESTAMPTZ
+  checked_at TIMESTAMPTZ,
+  username VARCHAR(255) references ${schema}.user_
 );
 
 

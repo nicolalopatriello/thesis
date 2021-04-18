@@ -25,6 +25,10 @@ public class NotificationEntity implements WithDTO<Notification> {
     private Long id;
 
     @NotNull
+    @Column(name = "user_test_id")
+    private Long userTestId;
+
+    @NotNull
     @Column(name = "user_test_url")
     private String userTestUrl;
 
@@ -50,11 +54,15 @@ public class NotificationEntity implements WithDTO<Notification> {
     @Column(name = "checked_at")
     private Timestamp checkedAt;
 
+    @Column
+    private String username;
+
 
     @Override
     public Notification dto() {
         Notification notification = new Notification();
         notification.setId(id);
+        notification.setUserTestId(userTestId);
         notification.setUserTestUrl(userTestUrl);
         notification.setChangedDepType(changedDepType);
         notification.setChangedDepId(changedDepId);
@@ -62,6 +70,7 @@ public class NotificationEntity implements WithDTO<Notification> {
         notification.setChecked(checked);
         notification.setCreatedAt(createdAt);
         notification.setCheckedAt(checkedAt);
+        notification.setUsername(username);
         return notification;
     }
 

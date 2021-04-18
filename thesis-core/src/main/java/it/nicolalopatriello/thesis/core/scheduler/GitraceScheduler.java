@@ -81,6 +81,8 @@ public class GitraceScheduler {
                             n.setUserTestUrl(userTest.getUrl());
                             n.setChangedDepType(DepType.GITRACE);
                             n.setChecked(BooleanUtils.FALSE);
+                            n.setUsername(userEntityOpt.get().getUsername());
+                            n.setUserTestId(userTest.getId());
                             notificationRepository.save(n);
                             try {
                                 mailService.sendNotificationMail(n.dto(), userEntityOpt.get().getEmail());

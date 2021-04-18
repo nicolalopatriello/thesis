@@ -155,6 +155,8 @@ public class TestVectorScheduler {
                                         n.setUserTestUrl(userTest.getUrl());
                                         n.setChangedDepType(DepType.TEST_VECTOR);
                                         n.setChecked(BooleanUtils.FALSE);
+                                        n.setUsername(userEntityOpt.get().getUsername());
+                                        n.setUserTestId(userTest.getId());
                                         notificationRepository.save(n);
                                         try {
                                             mailService.sendNotificationMail(n.dto(), userEntityOpt.get().getEmail());
