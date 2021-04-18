@@ -2,6 +2,7 @@ package it.nicolalopatriello.thesis.core.dto.schedulerhistory;
 
 
 import it.nicolalopatriello.thesis.common.spring.dto.DTO;
+import it.nicolalopatriello.thesis.core.dto.DepType;
 import it.nicolalopatriello.thesis.core.entities.SchedulerHistoryEntity;
 import lombok.Data;
 import lombok.extern.log4j.Log4j;
@@ -13,7 +14,7 @@ import java.sql.Timestamp;
 public class SchedulerHistory extends DTO {
 
     private Long id;
-    private SchedulerHistoryType type;
+    private DepType type;
     private Timestamp timestamp;
 
     public SchedulerHistoryEntity to() {

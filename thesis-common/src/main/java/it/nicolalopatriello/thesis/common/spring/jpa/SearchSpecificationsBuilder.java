@@ -13,9 +13,6 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 
-/**
- * Created by Domenico Grieco <domenico.grieco@gfmintegration.it> on 10/5/17.
- */
 public class SearchSpecificationsBuilder<E> {
 
     private static final Logger log = Logger.getLogger(SearchSpecificationsBuilder.class);

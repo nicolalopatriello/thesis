@@ -12,10 +12,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.sql.Timestamp;
 
 
@@ -27,6 +24,10 @@ import java.sql.Timestamp;
 public class UserTestEntity implements WithDTO<UserTest> {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
+    private Long id;
+
     @Column
     private String url;
 
@@ -46,6 +47,7 @@ public class UserTestEntity implements WithDTO<UserTest> {
         userTest.setDescription(description);
         userTest.setUsername(username);
         userTest.setCreatedAt(createdAt);
+        userTest.setId(id);
         return userTest;
     }
 

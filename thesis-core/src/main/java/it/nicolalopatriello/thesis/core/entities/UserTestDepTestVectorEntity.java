@@ -13,6 +13,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @ToString
 @Entity
@@ -26,6 +27,10 @@ public class UserTestDepTestVectorEntity implements WithDTO<UserTestDepTestVecto
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
     private Long id;
+
+    @NotNull
+    @Column(name = "user_test_id")
+    private Long userTestId;
 
     @Column
     private String url;

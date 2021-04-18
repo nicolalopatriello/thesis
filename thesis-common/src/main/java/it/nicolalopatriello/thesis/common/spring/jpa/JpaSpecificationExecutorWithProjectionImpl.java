@@ -1,8 +1,5 @@
 package it.nicolalopatriello.thesis.common.spring.jpa;
 
-/**
- * Created by Domenico Grieco <domenico.grieco@gfmintegration.it> on 12/8/17.
- */
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -35,9 +32,6 @@ import java.lang.reflect.Method;
 import java.util.*;
 
 
-/**
- * Created by pramoth on 9/29/2016 AD.
- */
 public class JpaSpecificationExecutorWithProjectionImpl<T, ID extends Serializable> extends SimpleJpaRepository<T, ID> implements JpaSpecificationExecutorWithProjection<T> {
 
     private static final Logger log = LoggerFactory.getLogger(JpaSpecificationExecutorWithProjectionImpl.class);

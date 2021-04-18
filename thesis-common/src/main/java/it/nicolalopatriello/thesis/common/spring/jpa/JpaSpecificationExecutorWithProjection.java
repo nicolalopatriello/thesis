@@ -1,8 +1,5 @@
 package it.nicolalopatriello.thesis.common.spring.jpa;
 
-/**
- * Created by Domenico Grieco <domenico.grieco@gfmintegration.it> on 12/8/17.
- */
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

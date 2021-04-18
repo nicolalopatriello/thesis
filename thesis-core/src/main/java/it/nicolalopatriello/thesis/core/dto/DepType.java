@@ -1,11 +1,11 @@
-package it.nicolalopatriello.thesis.core.dto.schedulerhistory;
+package it.nicolalopatriello.thesis.core.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public enum SchedulerHistoryType {
+public enum DepType {
     TEST_VECTOR,
     GITRACE
 }

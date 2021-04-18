@@ -22,10 +22,6 @@ import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.sql.Timestamp;
 
-/**
- * Created by nik on 7/17/17.
- */
-
 public class Utility {
 
     private final static Logger log = Logger.getLogger(Utility.class);
@@ -50,13 +46,17 @@ public class Utility {
         return success;
     }
 
-    public static String getHash(File file, String typeOfHash) throws IOException {
+    public static String getMD5(File file) throws IOException {
         return DigestUtils.md5Hex(new FileInputStream(file));
     }
 
     public static String getText(File pdfFile) throws IOException {
-        return new PDFTextStripper().getText(PDDocument.load(pdfFile));
-
+        PDDocument pdDocument = PDDocument.load(pdfFile);
+        try {
+            return new PDFTextStripper().getText(pdDocument);
+        } finally {
+            pdDocument.close();
+        }
     }
 
     public static Timestamp getLastChanged(File pdfFile) throws IOException {

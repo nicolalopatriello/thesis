@@ -6,10 +6,6 @@ import javax.persistence.criteria.*;
 
 import static it.nicolalopatriello.thesis.common.spring.jpa.SearchCriteria.*;
 
-
-/**
- * Created by Domenico Grieco <domenico.grieco@gfmintegration.it> on 10/5/17.
- */
 public abstract class SearchSpecification<E> implements Specification<E> {
 
     private SearchCriteria criteria;

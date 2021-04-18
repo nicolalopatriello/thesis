@@ -14,4 +14,5 @@ import java.util.Optional;
 public interface UserTestDepGitraceRepository extends PagingAndSortingWithSpecificationRepository<UserTestDepGitraceEntity, Long> {
     Optional<UserTestDepGitrace> findByUrlAndGitraceId(String repoUrl, Long gitraceId);
     List<UserTestDepGitrace> findByGitraceId(Long gitraceId);
+    List<UserTestDepGitrace> findByUserTestId(Long userTestId);
 }

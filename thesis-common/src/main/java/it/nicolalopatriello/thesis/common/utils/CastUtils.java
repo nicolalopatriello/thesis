@@ -1,9 +1,5 @@
 package it.nicolalopatriello.thesis.common.utils;
 
-/**
- * Created by Greta Sasso <greta.sasso@gfmintegration.it> on 4/6/20.
- */
-
 
 import it.nicolalopatriello.thesis.common.exception.CastUtilsException;
 import lombok.AccessLevel;

@@ -20,6 +20,7 @@ import java.util.List;
 @Setter
 public class UserTest extends DTO {
 
+    private Long id;
     private String url;
     private String description;
     private String username;
@@ -27,6 +28,7 @@ public class UserTest extends DTO {
 
     public UserTestEntity to() {
         UserTestEntity userTestEntity = new UserTestEntity();
+        userTestEntity.setId(id);
         userTestEntity.setUrl(url);
         userTestEntity.setDescription(description);
         userTestEntity.setUsername(username);
@@ -37,6 +39,7 @@ public class UserTest extends DTO {
 
     public static UserTest from(UserTestEntity userTestEntity) {
         UserTest dto = new UserTest();
+        dto.setId(userTestEntity.getId());
         dto.setUrl(userTestEntity.getUrl());
         dto.setDescription(userTestEntity.getDescription());
         dto.setUsername(userTestEntity.getUsername());

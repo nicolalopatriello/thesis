@@ -2,9 +2,6 @@ package it.nicolalopatriello.thesis.common.spring.jpa;
 
 import java.io.Serializable;
 
-/**
- * Created by Domenico Grieco <domenico.grieco@gfmintegration.it> on 10/5/17.
- */
 public class SearchCriteria implements Serializable {
 
     private static final long serialVersionUID = 1905122041950251207L;

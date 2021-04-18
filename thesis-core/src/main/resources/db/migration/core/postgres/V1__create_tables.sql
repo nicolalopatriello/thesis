@@ -31,35 +31,43 @@ create table IF NOT EXISTS ${schema}.gitrace(
   registration_time TIMESTAMPTZ
 );
 
-
+create sequence IF NOT EXISTS ${schema}.user_test_seq;
 create table IF NOT EXISTS ${schema}.user_test(
-  url varchar(255) not null PRIMARY KEY,
+  id bigint default nextval('${schema}.user_test_seq') PRIMARY KEY,
+  url varchar(255) not null,
   description VARCHAR(255),
   username VARCHAR(255) references ${schema}.user_,
-  created_at TIMESTAMPTZ
+  created_at TIMESTAMPTZ,
+  unique(url, username)
 );
 
 create sequence IF NOT EXISTS ${schema}.user_test_dep_test_vector_seq;
 create table IF NOT EXISTS ${schema}.user_test_dep_test_vector(
   id bigint default nextval('${schema}.user_test_dep_test_vector_seq') PRIMARY KEY,
-  url VARCHAR(255) not null references ${schema}.user_test,
+  user_test_id bigint not null references ${schema}.user_test,
+  url VARCHAR(255),
   test_vector_id bigint references ${schema}.test_vector,
-  unique(url, test_vector_id)
+  unique(user_test_id, test_vector_id)
 );
 
 create sequence IF NOT EXISTS ${schema}.user_test_dep_gitrace_seq;
 create table IF NOT EXISTS ${schema}.user_test_dep_gitrace(
   id bigint default nextval('${schema}.user_test_dep_gitrace_seq') PRIMARY KEY,
-  url VARCHAR(255) not null references ${schema}.user_test,
+  user_test_id bigint not null references ${schema}.user_test,
+  url VARCHAR(255),
   gitrace_id bigint references ${schema}.gitrace,
-  unique(url, gitrace_id)
+  unique(user_test_id, gitrace_id)
 );
 
 
-create sequence IF NOT EXISTS ${schema}.notifications_seq;
-create table IF NOT EXISTS ${schema}.notifications(
-  id bigint default nextval('${schema}.notifications_seq') PRIMARY KEY,
-  git_repo_url VARCHAR(255) references ${schema}.user_test,
+create sequence IF NOT EXISTS ${schema}.notification_seq;
+create table IF NOT EXISTS ${schema}.notification(
+  id bigint default nextval('${schema}.notification_seq') PRIMARY KEY,
+  user_test_id bigint references ${schema}.user_test,
+  user_test_url VARCHAR(255),
+  changed_dep_type VARCHAR(255),
+  changed_dep_id bigint,
+  uuid VARCHAR(255),
   checked INTEGER DEFAULT 0,
   created_at TIMESTAMPTZ,
   checked_at TIMESTAMPTZ

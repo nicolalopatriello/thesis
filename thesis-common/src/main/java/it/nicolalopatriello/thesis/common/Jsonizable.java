@@ -1,9 +1,5 @@
 package it.nicolalopatriello.thesis.common;
 
-/**
- * Created by Greta Sasso <greta.sasso@gfmintegration.it> on 12/13/19.
- */
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import it.nicolalopatriello.thesis.common.exception.JsonizableException;

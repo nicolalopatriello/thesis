@@ -6,9 +6,6 @@ import javax.persistence.criteria.*;
 import java.util.Arrays;
 import java.util.regex.Pattern;
 
-/**
- * Created by Domenico Grieco <domenico.grieco@gfmintegration.it> on 11/3/17.
- */
 public class SimpleSearchSpecification<E> extends SearchSpecification<E> {
 
     public SimpleSearchSpecification(SearchCriteria criteria) {

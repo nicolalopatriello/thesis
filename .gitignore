@@ -35,3 +35,4 @@ __pycache__
 
 
 **/rest-client.private.env.json
+env-key.sh

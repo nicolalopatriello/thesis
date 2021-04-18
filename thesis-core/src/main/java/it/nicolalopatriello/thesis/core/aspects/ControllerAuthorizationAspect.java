@@ -18,9 +18,6 @@ import javax.annotation.Nullable;
 import java.lang.reflect.Method;
 import java.util.Optional;
 
-/**
- * Created by Domenico Grieco <domenico.grieco@gfmintegration.it> on 9/21/17.
- */
 
 @Component
 @Aspect

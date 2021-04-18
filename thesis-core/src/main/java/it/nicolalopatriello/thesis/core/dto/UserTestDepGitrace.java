@@ -11,11 +11,15 @@ import lombok.extern.log4j.Log4j;
 @ToString
 public class UserTestDepGitrace extends DTO {
 
+    private Long id;
+    private Long userTestId;
     private String url;
     private Long gitraceId;
 
     public UserTestDepGitraceEntity to() {
         UserTestDepGitraceEntity userTestDepGitraceEntity = new UserTestDepGitraceEntity();
+        userTestDepGitraceEntity.setId(id);
+        userTestDepGitraceEntity.setUserTestId(userTestId);
         userTestDepGitraceEntity.setUrl(url);
         userTestDepGitraceEntity.setGitraceId(gitraceId);
         return userTestDepGitraceEntity;
@@ -24,6 +28,8 @@ public class UserTestDepGitrace extends DTO {
 
     public static UserTestDepGitrace from(UserTestDepGitraceEntity userTestDepGitraceEntity) {
         UserTestDepGitrace dto = new UserTestDepGitrace();
+        dto.setId(userTestDepGitraceEntity.getId());
+        dto.setUserTestId(userTestDepGitraceEntity.getUserTestId());
         dto.setUrl(userTestDepGitraceEntity.getUrl());
         dto.setGitraceId(userTestDepGitraceEntity.getGitraceId());
         return dto;

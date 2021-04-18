@@ -5,11 +5,10 @@ import it.nicolalopatriello.thesis.common.spring.jpa.SearchCriteria;
 import it.nicolalopatriello.thesis.common.spring.jpa.SimpleSearchSpecification;
 import it.nicolalopatriello.thesis.core.Schema;
 import it.nicolalopatriello.thesis.core.dto.schedulerhistory.SchedulerHistory;
-import it.nicolalopatriello.thesis.core.dto.schedulerhistory.SchedulerHistoryType;
+import it.nicolalopatriello.thesis.core.dto.DepType;
 import lombok.Data;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 
@@ -25,7 +24,7 @@ public class SchedulerHistoryEntity implements WithDTO<SchedulerHistory> {
 
     @NotNull
     @Column
-    private SchedulerHistoryType type;
+    private DepType type;
 
     @Column
     private Timestamp timestamp;

@@ -11,6 +11,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 
 @ToString
@@ -25,6 +26,10 @@ public class UserTestDepGitraceEntity implements WithDTO<UserTestDepGitrace> {
     @Column
     private Long id;
 
+    @NotNull
+    @Column(name = "user_test_id")
+    private Long userTestId;
+
     @Column
     private String url;
 
@@ -34,6 +39,8 @@ public class UserTestDepGitraceEntity implements WithDTO<UserTestDepGitrace> {
     @Override
     public UserTestDepGitrace dto() {
         UserTestDepGitrace userTestDepGitrace = new UserTestDepGitrace();
+        userTestDepGitrace.setId(id);
+        userTestDepGitrace.setUserTestId(userTestId);
         userTestDepGitrace.setUrl(url);
         userTestDepGitrace.setGitraceId(gitraceId);
         return userTestDepGitrace;

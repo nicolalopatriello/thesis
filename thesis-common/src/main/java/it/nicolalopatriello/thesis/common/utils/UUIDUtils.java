@@ -1,9 +1,5 @@
 package it.nicolalopatriello.thesis.common.utils;
 
-/**
- * Created by Greta Sasso <greta.sasso@gfmintegration.it> on 2/19/20.
- */
-
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.log4j.Log4j;

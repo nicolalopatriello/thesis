@@ -1,9 +1,5 @@
 package it.nicolalopatriello.thesis.common.spring.controller;
 
-/**
- * Created by Greta Sasso <greta.sasso@gfmintegration.it> on 1/8/20.
- */
-
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

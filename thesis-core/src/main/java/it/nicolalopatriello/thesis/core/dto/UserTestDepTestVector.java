@@ -15,11 +15,15 @@ import java.sql.Timestamp;
 @ToString
 public class UserTestDepTestVector extends DTO {
 
+    private Long id;
+    private Long userTestId;
     private String url;
     private Long testVectorId;
 
     public UserTestDepTestVectorEntity to() {
         UserTestDepTestVectorEntity userTestDepTestVectorEntity = new UserTestDepTestVectorEntity();
+        userTestDepTestVectorEntity.setId(id);
+        userTestDepTestVectorEntity.setUserTestId(userTestId);
         userTestDepTestVectorEntity.setUrl(url);
         userTestDepTestVectorEntity.setTestVectorId(testVectorId);
         return userTestDepTestVectorEntity;
@@ -28,6 +32,8 @@ public class UserTestDepTestVector extends DTO {
 
     public static UserTestDepTestVector from(UserTestDepTestVectorEntity userTestDepTestVectorEntity) {
         UserTestDepTestVector dto = new UserTestDepTestVector();
+        dto.setId(userTestDepTestVectorEntity.getId());
+        dto.setUserTestId(userTestDepTestVectorEntity.getUserTestId());
         dto.setUrl(userTestDepTestVectorEntity.getUrl());
         dto.setTestVectorId(userTestDepTestVectorEntity.getTestVectorId());
         return dto;

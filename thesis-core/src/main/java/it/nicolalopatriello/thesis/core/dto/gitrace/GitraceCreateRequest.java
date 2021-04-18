@@ -1,11 +1,9 @@
 package it.nicolalopatriello.thesis.core.dto.gitrace;
 
-import it.nicolalopatriello.thesis.core.dto.schedulerhistory.SchedulerHistoryType;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
-import java.sql.Timestamp;
 
 @Getter
 @Setter
