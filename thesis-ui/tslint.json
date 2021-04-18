@@ -6,13 +6,6 @@
     "deprecation": {
       "severity": "warning"
     },
-    "trailing-comma": [
-      true,
-      {
-        "multiline": "always",
-        "singleline": "never"
-      }
-    ],
     "arrow-return-shorthand": true,
     "callable-types": true,
     "class-name": true,
@@ -38,14 +31,6 @@
     ],
     "member-access": false,
     "no-arg": true,
-    "no-console": [
-      true,
-      "debug",
-      "log",
-      "time",
-      "timeEnd",
-      "trace"
-    ],
     "no-construct": true,
     "no-debugger": true,
     "no-duplicate-super": true,

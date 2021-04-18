@@ -1,0 +1,17 @@
+<div class="w-100">
+  <form [formGroup]="loginFormGroup">
+    <div class="form-group row">
+      <div class="col-sm-9">
+        <label for="username" class="label col-form-label">Username</label>
+        <input formControlName="username" type="username" nbInput fullWidth id="username">
+      </div>
+      <div class="col-sm-9">
+        <label for="password" class="label col-form-label">Password</label>
+        <input formControlName="password" type="password" nbInput fullWidth id="password">
+      </div>
+      <div class="col-sm-9 mt-3">
+        <button [disabled]="loginFormGroup.invalid" (click)="login()" nbButton fullWidth status="success">Login</button>
+      </div>
+    </div>
+  </form>
+</div>
