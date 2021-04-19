@@ -17,7 +17,7 @@ services:
       - thesis-core
 
   thesis-core:
-    image: it.nicolalopatriello/thesis/thesis-core:<REVISION>
+    image: nik.90/thesis-core:<REVISION>
     container_name: thesis-core
     ports:
       - "8080"
@@ -40,7 +40,7 @@ services:
     restart: always
 
   thesis-ui:
-    image: it.nicolalopatriello/thesis/thesis-ui:<REVISION>
+    image: nik90/thesis-ui:<REVISION>
     container_name: thesis-ui
     ports:
       - "80"

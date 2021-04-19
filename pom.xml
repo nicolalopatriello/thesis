@@ -73,7 +73,7 @@
             <modules>
                 <module>thesis-core</module>
                 <module>thesis-common</module>
-               <!-- <module>thesis-ui</module>-->
+                <module>thesis-ui</module>
             </modules>
         </profile>
 
@@ -130,11 +130,10 @@
         <dockerfile.skip>true</dockerfile.skip>
         <jacoco.skip>true</jacoco.skip>
 
-        <docker.group>thesis</docker.group>
-        <docker.repo>it.nicolalopatriello</docker.repo>
+        <docker.repo>nik90</docker.repo>
         <docker.username/>
         <docker.password/>
-        <docker.tagname>${docker.repo}/${docker.group}/${project.artifactId}</docker.tagname>
+        <docker.tagname>${docker.repo}/${project.artifactId}</docker.tagname>
 
         <compilationMode>local</compilationMode>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
