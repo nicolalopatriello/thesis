@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {GitProvider} from '../../../@core/models/gitrace';
+import {GitraceService} from '../../../@core/services/gitrace.service';
+import {LocalDataSource} from 'ng2-smart-table';
 
 @Component({
   selector: 'ngx-repositories',
@@ -7,9 +11,74 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RepositoriesComponent implements OnInit {
 
-  constructor() { }
+  public newGitraceFormGroup: FormGroup;
 
-  ngOnInit(): void {
+  settings = {
+    columns: {
+      gitRepoUrl: {
+        title: 'URL',
+        type: 'string',
+      },
+      gitDescription: {
+        title: 'Description',
+        type: 'string',
+      },
+      gitProvider: {
+        title: 'Provider',
+        type: 'string',
+      },
+      lastRepoUpdate: {
+        title: 'Last commit',
+        type: 'string',
+      },
+      registrationTime: {
+        title: 'Registered at',
+        type: 'string',
+      },
+    },
+    actions: {
+      delete: false,
+      add: false,
+      edit: false,
+      position: 'right'
+    },
+  };
+
+  source: LocalDataSource = new LocalDataSource();
+
+  GitProvider = GitProvider;
+  pendingRequest = false;
+
+  constructor(private gitraceService: GitraceService) {
   }
 
+  ngOnInit(): void {
+    this.newGitraceFormGroup = new FormGroup(
+      {
+        gitProvider: new FormControl(GitProvider.GITHUB, [Validators.required]),
+        gitRepoUrl: new FormControl(null, [Validators.required]),
+        token: new FormControl(null, []),
+        gitDescription: new FormControl(null, [])
+      }
+    );
+    this.findAll();
+  }
+
+  findAll() {
+    this.gitraceService.findAll().subscribe(t => {
+      if (!!t) {
+        this.source.load(t);
+      }
+    });
+  }
+
+  createNewGitrace() {
+    this.pendingRequest = true;
+    this.gitraceService.create(this.newGitraceFormGroup.getRawValue()).subscribe(t => {
+      this.pendingRequest = false;
+      this.findAll();
+      this.newGitraceFormGroup.reset();
+      this.newGitraceFormGroup.controls.gitProvider.setValue(GitProvider.GITHUB);
+    });
+  }
 }

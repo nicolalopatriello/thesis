@@ -6,11 +6,12 @@ import * as path from 'path';
 import {Ng2SmartTableModule} from 'ng2-smart-table';
 import {NbCardModule, NbIconModule, NbInputModule, NbTreeGridModule} from '@nebular/theme';
 import {ThemeModule} from '../../@theme/theme.module';
+import {BtnActionsComponent} from './test-vectors-table/btnActions.component';
 
 
 
 @NgModule({
-  declarations: [TestVectorsTableComponent],
+  declarations: [TestVectorsTableComponent, BtnActionsComponent],
   imports: [
     CommonModule,
     Ng2SmartTableModule,

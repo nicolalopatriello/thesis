@@ -17,7 +17,7 @@ services:
       - thesis-core
 
   thesis-core:
-    image: nik.90/thesis-core:<REVISION>
+    image: nik90/thesis-core:<REVISION>
     container_name: thesis-core
     ports:
       - "8080"

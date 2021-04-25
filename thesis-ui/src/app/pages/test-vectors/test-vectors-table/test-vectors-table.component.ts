@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {LocalDataSource} from 'ng2-smart-table';
-import {SmartTableData} from '../../../@core/data/smart-table';
+import {TestVectorsService} from '../../../@core/services/test-vectors.service';
+import {BtnActionsComponent} from './btnActions.component';
 
 @Component({
   selector: 'ngx-test-vectors-table',
@@ -10,62 +11,52 @@ import {SmartTableData} from '../../../@core/data/smart-table';
 export class TestVectorsTableComponent implements OnInit {
 
   settings = {
-    add: {
-      addButtonContent: '<i class="nb-plus"></i>',
-      createButtonContent: '<i class="nb-checkmark"></i>',
-      cancelButtonContent: '<i class="nb-close"></i>',
-    },
-    edit: {
-      editButtonContent: '<i class="nb-edit"></i>',
-      saveButtonContent: '<i class="nb-checkmark"></i>',
-      cancelButtonContent: '<i class="nb-close"></i>',
-    },
-    delete: {
-      deleteButtonContent: '<i class="nb-trash"></i>',
-      confirmDelete: true,
-    },
     columns: {
-      id: {
-        title: 'ID',
-        type: 'number',
-      },
-      firstName: {
-        title: 'First Name',
+      fileName: {
+        title: 'Name',
         type: 'string',
       },
-      lastName: {
-        title: 'Last Name',
+      hash: {
+        title: 'Hash',
         type: 'string',
       },
-      username: {
-        title: 'Username',
+      registrationTime: {
+        title: 'Registered at',
         type: 'string',
       },
-      email: {
-        title: 'E-mail',
+      lastUpdate: {
+        title: 'Last update',
         type: 'string',
       },
-      age: {
-        title: 'Age',
-        type: 'number',
+      url: {
+        title: 'Actions',
+        filter: false,
+        type: 'custom',
+        renderComponent: BtnActionsComponent,
+        onComponentInitFunction:
+          (instance: any) => {
+            instance.showPdf.subscribe(row => {
+              window.open(row.url, '_blank');
+            });
+          }
       },
+    },
+    actions: {
+      delete: false,
+      add: false,
+      edit: false,
+      position: 'right'
     },
   };
 
   source: LocalDataSource = new LocalDataSource();
 
-  constructor(private service: SmartTableData) {
-    const data = this.service.getData();
-    this.source.load(data);
+  constructor(private testVectorsService: TestVectorsService) {
+    this.testVectorsService.findAll().subscribe(t => {
+      this.source.load(t);
+    });
   }
 
-  onDeleteConfirm(event): void {
-    if (window.confirm('Are you sure you want to delete?')) {
-      event.confirm.resolve();
-    } else {
-      event.confirm.reject();
-    }
-  }
 
   ngOnInit(): void {
   }

@@ -6,7 +6,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import { CoreModule } from './@core/core.module';
 import { ThemeModule } from './@theme/theme.module';
 import { AppComponent } from './app.component';
@@ -23,6 +23,7 @@ import {
 } from '@nebular/theme';
 import {LoginComponent} from './login/login.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {TokenInterceptorService} from './@core/interceptors/token-interceptor.service';
 
 @NgModule({
   declarations: [AppComponent, LoginComponent],
@@ -46,6 +47,9 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
     }),
     CoreModule.forRoot(),
     ThemeModule.forRoot(),
+  ],
+  providers: [
+
   ],
   bootstrap: [AppComponent],
 })

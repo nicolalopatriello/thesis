@@ -1,1 +1,54 @@
-<p>repositories works!</p>
+<div class="w-100">
+  <div class="row w-100">
+    <nb-card class="inline-form-card w-100">
+      <nb-card-header>Add here your new repository to trace</nb-card-header>
+      <nb-card-body>
+        <form [formGroup]="newGitraceFormGroup" class="form-inline">
+
+          <nb-select formControlName="gitProvider">
+            <nb-option [value]="GitProvider.GITHUB">GITHUB</nb-option>
+            <nb-option [value]="GitProvider.GITLAB">GITLAB</nb-option>
+          </nb-select>
+
+          <input
+            type="text"
+            nbInput fullWidth
+            class="form-control full-width"
+            placeholder="Repository link..."
+            formControlName="gitRepoUrl"
+            required>
+
+          <input
+            type="text"
+            nbInput fullWidth
+            class="form-control"
+            placeholder="Repository token (if private)..."
+            name="token">
+
+          <input
+            type="text"
+            nbInput fullWidth
+            class="form-control"
+            placeholder="Notes/Description"
+            name="gitDescription">
+
+          <button
+            type="submit"
+            nbButton
+            status="primary"
+            (click)="createNewGitrace()"
+            [disabled]="newGitraceFormGroup.invalid || pendingRequest">Create
+          </button>
+        </form>
+      </nb-card-body>
+    </nb-card>
+  </div>
+  <div class="row w-100 mt-2">
+    <nb-card class="w-100">
+      <nb-card-body>
+        <ng2-smart-table [settings]="settings" [source]="source">
+        </ng2-smart-table>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>
