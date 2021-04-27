@@ -1,16 +1,47 @@
 <div class="w-100">
-  <div class="row">
-    <div class="col-md-6" style="max-height: 300px; overflow: auto">
-      <input class="mb-2" type="text" nbInput fullWidth  placeholder="Search...">
+  <div class="row d-flex flex-row justify-content-center mb-4" [formGroup]="createFormGroup">
+    <div class="col-md-5">
+      <input
+        type="text"
+        nbInput fullWidth
+        class="form-control full-width"
+        placeholder="Test repositories..."
+        formControlName="url"
+        required>
+    </div>
 
+    <div class="col-md-5">
+      <input
+        type="text"
+        nbInput fullWidth
+        class="form-control full-width"
+        placeholder="Description"
+        formControlName="description"
+        required>
+    </div>
+
+    <div class="col-md-2">
+      <button
+        type="submit"
+        nbButton
+        status="primary"
+        [disabled]="!createEnabled"
+        (click)="createNewDepManagerEntity()">Create
+      </button>
+    </div>
+
+  </div>
+  <div class="row">
+    <div class="col-md-6" style="max-height: 70vh; overflow: auto">
+      <input class="mb-2 sticky-top" type="text" nbInput fullWidth placeholder="Search...">
       <div class="w-100" *ngFor="let g of gitraces">
-        <nb-checkbox>{{g.gitRepoUrl}}</nb-checkbox>
+        <nb-checkbox (checkedChange)="onGitracesCheckedChanges($event, g.id)">{{g.gitRepoUrl}}</nb-checkbox>
       </div>
     </div>
-    <div class="col-md-6" style="max-height: 300px; overflow: auto">
-      <input class="mb-2" type="text" nbInput fullWidth  placeholder="Search...">
+    <div class="col-md-6" style="max-height: 70vh; overflow: auto">
+      <input class="mb-2 sticky-top" type="text" nbInput fullWidth placeholder="Search...">
       <div class="w-100" *ngFor="let tv of testVectors">
-        <nb-checkbox>{{tv.fileName}}</nb-checkbox>
+        <nb-checkbox (checkedChange)="onTestVectorsCheckedChanges($event, tv.id)">{{tv.fileName}}</nb-checkbox>
       </div>
     </div>
   </div>
