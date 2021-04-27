@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DependenciesManagerComponent } from './dependencies-manager/dependencies-manager.component';
 import {RouterModule} from '@angular/router';
+import {NbCheckboxModule, NbInputModule} from "@nebular/theme";
 
 
 
@@ -14,7 +15,9 @@ import {RouterModule} from '@angular/router';
         path: '',
         component: DependenciesManagerComponent
       }
-    ])
+    ]),
+    NbCheckboxModule,
+    NbInputModule
   ]
 })
 export class DependenciesManagerModule { }
