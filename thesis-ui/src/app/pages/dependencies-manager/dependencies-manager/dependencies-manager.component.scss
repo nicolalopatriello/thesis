@@ -1,0 +1,18 @@
+.model-full {
+  width: 100% !important;
+  height: 100% !important;
+
+  .cdk-visually-hidden {
+    width: 99% !important;
+    height: 99% !important;
+  }
+
+  nb-dialog-container {
+    width: 60vw !important;
+    height: 100% !important;
+  }
+}
+
+nb-dialog-container {
+  width: 60vw !important;
+}

@@ -1,48 +1,71 @@
-<div class="w-100">
-  <div class="row d-flex flex-row justify-content-center mb-4" [formGroup]="createFormGroup">
-    <div class="col-md-5">
-      <input
-        type="text"
-        nbInput fullWidth
-        class="form-control full-width"
-        placeholder="Test repositories..."
-        formControlName="url"
-        required>
-    </div>
-
-    <div class="col-md-5">
-      <input
-        type="text"
-        nbInput fullWidth
-        class="form-control full-width"
-        placeholder="Description"
-        formControlName="description"
-        required>
-    </div>
-
-    <div class="col-md-2">
-      <button
-        type="submit"
-        nbButton
-        status="primary"
-        [disabled]="!createEnabled"
-        (click)="createNewDepManagerEntity()">Create
-      </button>
-    </div>
-
-  </div>
-  <div class="row">
-    <div class="col-md-6" style="max-height: 70vh; overflow: auto">
-      <input class="mb-2 sticky-top" type="text" nbInput fullWidth placeholder="Search...">
-      <div class="w-100" *ngFor="let g of gitraces">
-        <nb-checkbox (checkedChange)="onGitracesCheckedChanges($event, g.id)">{{g.gitRepoUrl}}</nb-checkbox>
+<nb-card>
+  <nb-card-header>
+    <div class="w-100 d-flex flex-row justify-content-between">
+      <div>
+        Test vectors
+      </div>
+      <div>
+        <button status="primary" nbButton (click)="openCreateNewUserTest(addNewDepDialog)">Add</button>
       </div>
     </div>
-    <div class="col-md-6" style="max-height: 70vh; overflow: auto">
-      <input class="mb-2 sticky-top" type="text" nbInput fullWidth placeholder="Search...">
-      <div class="w-100" *ngFor="let tv of testVectors">
-        <nb-checkbox (checkedChange)="onTestVectorsCheckedChanges($event, tv.id)">{{tv.fileName}}</nb-checkbox>
+
+  </nb-card-header>
+  <nb-card-body>
+    <ng2-smart-table [settings]="userTestsTableSettings" [source]="userTestsTableSource">
+    </ng2-smart-table>
+  </nb-card-body>
+</nb-card>
+
+
+
+
+<ng-template #addNewDepDialog let-data let-ref="addNewDepDialog">
+  <nb-card>
+    <nb-card-header>Create</nb-card-header>
+    <nb-card-body>
+      <div class="w-100">
+        <div class="row d-flex flex-row justify-content-center mb-4" [formGroup]="createUserTestFormGroup">
+          <div class="col-md-5">
+            <input
+              type="text"
+              nbInput fullWidth
+              class="form-control full-width"
+              placeholder="Test repositories..."
+              formControlName="url"
+              required>
+          </div>
+
+          <div class="col-md-5">
+            <input
+              type="text"
+              nbInput fullWidth
+              class="form-control full-width"
+              placeholder="Description"
+              formControlName="description"
+              required>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6" style="max-height: 70vh; overflow: auto">
+            <input class="mb-2 sticky-top" type="text" nbInput fullWidth placeholder="Search...">
+            <div class="w-100" *ngFor="let g of gitraces">
+              <nb-checkbox (checkedChange)="onGitracesCheckedChanges($event, g.id)">{{g.gitRepoUrl}}</nb-checkbox>
+            </div>
+          </div>
+          <div class="col-md-6" style="max-height: 70vh; overflow: auto">
+            <input class="mb-2 sticky-top" type="text" nbInput fullWidth placeholder="Search...">
+            <div class="w-100" *ngFor="let tv of testVectors">
+              <nb-checkbox (checkedChange)="onTestVectorsCheckedChanges($event, tv.id)">{{tv.fileName}}</nb-checkbox>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-</div>
+    </nb-card-body>
+    <nb-card-footer>
+      <div class="w-100 d-flex flex-row justify-content-end">
+        <button nbButton (click)="createNewUserTestDialogRef.close()">Close</button>
+        <button [disabled]="!createEnabled" class="ml-1" nbButton status="primary" (click)="newUserTestConfirm()">Confirm</button>
+      </div>
+    </nb-card-footer>
+  </nb-card>
+</ng-template>
