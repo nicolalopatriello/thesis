@@ -21,5 +21,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
     title: 'Dependencies manager',
     icon: 'flip-2-outline',
     link: '/pages/dependencies-manager',
+  },
+  {
+    title: 'Notifications',
+    icon: 'bell-outline',
+    link: '/pages/notifications',
   }
 ];

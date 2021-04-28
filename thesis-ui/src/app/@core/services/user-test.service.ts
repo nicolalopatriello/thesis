@@ -7,6 +7,7 @@ import {TestVector} from '../models/test-vector';
 import {LOCALSTORAGE_KEY_TOKEN} from '../../../constants';
 import {Gitrace} from '../models/gitrace';
 import {UserTest} from '../models/user-test';
+import {UserTestWithDeps} from '../models/user-test-with-deps';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +21,14 @@ export class UserTestService {
 
   findAll(): Observable<Array<UserTest>> {
     return this.httpClient.get<Array<UserTest>>(`${this.endpoint}/user-test/`, {
+      headers: {
+        'Authorization': localStorage.getItem(LOCALSTORAGE_KEY_TOKEN)
+      }
+    });
+  }
+
+  findById(id: number): Observable<UserTestWithDeps> {
+    return this.httpClient.get<UserTestWithDeps>(`${this.endpoint}/user-test/${id}/`, {
       headers: {
         'Authorization': localStorage.getItem(LOCALSTORAGE_KEY_TOKEN)
       }

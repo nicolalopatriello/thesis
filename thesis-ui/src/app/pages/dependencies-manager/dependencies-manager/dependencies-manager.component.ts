@@ -1,21 +1,27 @@
-import {Component, OnInit, TemplateRef} from '@angular/core';
+import {Component, OnInit, TemplateRef, ViewChild, ViewEncapsulation} from '@angular/core';
 import {GitraceService} from '../../../@core/services/gitrace.service';
 import {Gitrace} from '../../../@core/models/gitrace';
 import {TestVectorsService} from '../../../@core/services/test-vectors.service';
 import {TestVector} from '../../../@core/models/test-vector';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {NbDialogRef, NbDialogService} from '@nebular/theme';
-import {BtnActionsComponent} from "../../test-vectors/test-vectors-table/btnActions.component";
-import {LocalDataSource} from "ng2-smart-table";
-import {UserTestService} from "../../../@core/services/user-test.service";
-import {UserTest} from "../../../@core/models/user-test";
+import {LocalDataSource} from 'ng2-smart-table';
+import {UserTestService} from '../../../@core/services/user-test.service';
+import {UserTest} from '../../../@core/models/user-test';
+import {BtnActionsComponent} from '../../test-vectors/test-vectors-table/btnActions.component';
+import {DepManagerActionsComponent} from './dep-manager-actions.component';
+import {UserTestWithDeps} from '../../../@core/models/user-test-with-deps';
 
 @Component({
   selector: 'ngx-dependencies-manager',
   templateUrl: './dependencies-manager.component.html',
-  styleUrls: ['./dependencies-manager.component.scss']
+  styleUrls: ['./dependencies-manager.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class DependenciesManagerComponent implements OnInit {
+
+  @ViewChild('userTestDetailsDialog', { static: true }) userTestDetailsDialog: TemplateRef<any>;
+
   public gitraces: Array<Gitrace> = [];
   public testVectors: Array<TestVector> = [];
   public createUserTestFormGroup: FormGroup;
@@ -23,6 +29,8 @@ export class DependenciesManagerComponent implements OnInit {
   public selectedGitraces: Array<number> = [];
   public selectedTestVectors: Array<number> = [];
   public createNewUserTestDialogRef: NbDialogRef<any>;
+  public currentUserTestDetails: UserTestWithDeps;
+  public userTestDetailsDialogRef: NbDialogRef<any>;
 
   get createEnabled() {
     return this.createUserTestFormGroup.valid && (this.selectedTestVectors.length > 0 || this.selectedGitraces.length > 0);
@@ -41,6 +49,21 @@ export class DependenciesManagerComponent implements OnInit {
       createdAt: {
         title: 'Created at',
         type: 'string',
+      },
+      actions: {
+        title: 'Actions',
+        filter: false,
+        type: 'custom',
+        renderComponent: DepManagerActionsComponent,
+        onComponentInitFunction:
+          (instance: any) => {
+            instance.showDetails.subscribe(row => {
+              this.userTestService.findById(row.id).subscribe(t => {
+                this.currentUserTestDetails = t;
+                this.userTestDetailsDialogRef = this.dialogService.open(this.userTestDetailsDialog, {});
+              });
+            });
+          }
       },
     },
     actions: {
@@ -90,7 +113,7 @@ export class DependenciesManagerComponent implements OnInit {
       dialog,
       {
         hasBackdrop: false,
-        dialogClass: 'model-full'
+        closeOnEsc: false,
       });
   }
 

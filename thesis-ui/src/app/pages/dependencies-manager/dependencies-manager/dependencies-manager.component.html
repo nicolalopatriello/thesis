@@ -16,15 +16,41 @@
   </nb-card-body>
 </nb-card>
 
-
-
+<ng-template #userTestDetailsDialog let-data let-ref="userTestDetailsDialog">
+  <nb-card>
+    <nb-card-header>Details</nb-card-header>
+    <nb-card-body>
+      <div class="w-100">
+        <div class="row p-2" style="background: #f1f1f1">
+          <div class="col-md-6" style="max-height: 70vh; overflow: auto; border-right: inset 1px #505050">
+            <h3 class="font-weight-bold sticky-top" style="background: #f1f1f1">Git repositories</h3>
+            <ng-container *ngFor="let g of gitraces">
+              <div class="w-100">{{g.gitRepoUrl}}</div>
+            </ng-container>
+          </div>
+          <div class="col-md-6" style="max-height: 70vh; overflow: auto">
+            <h3 class="font-weight-bold sticky-top" style="background: #f1f1f1">Test Vectors</h3>
+            <ng-container *ngFor="let g of testVectors">
+              <div class="w-100">{{g.fileName}}</div>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </nb-card-body>
+    <nb-card-footer>
+      <div class="w-100 d-flex flex-row justify-content-end">
+        <button nbButton (click)="userTestDetailsDialogRef.close()">Close</button>
+      </div>
+    </nb-card-footer>
+  </nb-card>
+</ng-template>
 
 <ng-template #addNewDepDialog let-data let-ref="addNewDepDialog">
   <nb-card>
     <nb-card-header>Create</nb-card-header>
     <nb-card-body>
       <div class="w-100">
-        <div class="row d-flex flex-row justify-content-center mb-4" [formGroup]="createUserTestFormGroup">
+        <div class="row d-flex flex-row mb-4" [formGroup]="createUserTestFormGroup">
           <div class="col-md-5">
             <input
               type="text"
@@ -45,18 +71,24 @@
               required>
           </div>
         </div>
-        <div class="row">
-          <div class="col-md-6" style="max-height: 70vh; overflow: auto">
-            <input class="mb-2 sticky-top" type="text" nbInput fullWidth placeholder="Search...">
-            <div class="w-100" *ngFor="let g of gitraces">
-              <nb-checkbox (checkedChange)="onGitracesCheckedChanges($event, g.id)">{{g.gitRepoUrl}}</nb-checkbox>
-            </div>
+        <div class="row p-2" style="background: #f1f1f1">
+          <div class="col-md-6" style="max-height: 70vh; overflow: auto; border-right: inset 1px #505050">
+            <input #searchGitRepoUrl class="mb-2 sticky-top" type="text" nbInput fullWidth
+                   placeholder="Search GIT repositories...">
+            <ng-container *ngFor="let g of gitraces">
+              <div class="w-100" *ngIf="g.gitRepoUrl.includes(searchGitRepoUrl.value)">
+                <nb-checkbox (checkedChange)="onGitracesCheckedChanges($event, g.id)">{{g.gitRepoUrl}}</nb-checkbox>
+              </div>
+            </ng-container>
           </div>
           <div class="col-md-6" style="max-height: 70vh; overflow: auto">
-            <input class="mb-2 sticky-top" type="text" nbInput fullWidth placeholder="Search...">
-            <div class="w-100" *ngFor="let tv of testVectors">
-              <nb-checkbox (checkedChange)="onTestVectorsCheckedChanges($event, tv.id)">{{tv.fileName}}</nb-checkbox>
-            </div>
+            <input #searchTestVector class="mb-2 sticky-top" type="text" nbInput fullWidth
+                   placeholder="Search Test vectors...">
+            <ng-container *ngFor="let tv of testVectors">
+              <div class="w-100" *ngIf="tv.fileName.includes(searchTestVector.value)">
+                <nb-checkbox (checkedChange)="onTestVectorsCheckedChanges($event, tv.id)">{{tv.fileName}}</nb-checkbox>
+              </div>
+            </ng-container>
           </div>
         </div>
       </div>
@@ -64,7 +96,9 @@
     <nb-card-footer>
       <div class="w-100 d-flex flex-row justify-content-end">
         <button nbButton (click)="createNewUserTestDialogRef.close()">Close</button>
-        <button [disabled]="!createEnabled" class="ml-1" nbButton status="primary" (click)="newUserTestConfirm()">Confirm</button>
+        <button [disabled]="!createEnabled" class="ml-1" nbButton status="primary" (click)="newUserTestConfirm()">
+          Confirm
+        </button>
       </div>
     </nb-card-footer>
   </nb-card>
