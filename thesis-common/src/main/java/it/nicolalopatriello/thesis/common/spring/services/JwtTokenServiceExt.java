@@ -25,6 +25,7 @@ public class JwtTokenServiceExt {
     JwtTokenService jwtTokenService;
 
     public String generateUserToken(JwtUser userDetails, boolean isRefreshToken) {
+        System.err.println("generateUserToken---------------------");
         Map<String, Object> claims = new HashMap<>();
         claims.put(CLAIM_KEY_USERNAME, userDetails.getUsername());
         claims.put(CLAIM_KEY_CREATED, new Date());

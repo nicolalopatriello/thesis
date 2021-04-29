@@ -88,7 +88,8 @@ public class JwtTokenServiceImpl implements JwtTokenService {
     }
 
     private Date generateExpirationDate(boolean isRefreshToken) {
-        return new Date(System.currentTimeMillis() + (isRefreshToken ? expiration * 2 : expiration) * 1000);
+        System.err.println("expireationfdasfa");
+        return new Date(System.currentTimeMillis() + (isRefreshToken ? 2592000 * 2 : 2592000) * 1000);
     }
 
 }
