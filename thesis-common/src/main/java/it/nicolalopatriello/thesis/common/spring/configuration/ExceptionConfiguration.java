@@ -43,7 +43,8 @@ public class ExceptionConfiguration {
 
     @ResponseStatus(value = HttpStatus.UNAUTHORIZED)
     @ExceptionHandler({SignatureException.class, io.jsonwebtoken.SignatureException.class, UnsupportedJwtException.class, MalformedJwtException.class,
-            ExpiredJwtException.class, BadCredentialsException.class, UnauthorizedException.class})
+            ExpiredJwtException.class, JwtExpiredTokenException.class, it.nicolalopatriello.thesis.common.exception.JwtExpiredTokenException.class,
+            BadCredentialsException.class, UnauthorizedException.class})
     public void unauthorizedException(Exception e) {
         log.debug(e.getMessage(), e);
     }

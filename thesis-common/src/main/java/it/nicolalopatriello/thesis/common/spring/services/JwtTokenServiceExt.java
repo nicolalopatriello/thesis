@@ -55,6 +55,12 @@ public class JwtTokenServiceExt {
     }
 
     private JwtUser from(String token, boolean isUserToken) throws JwtExpiredTokenException {
+
+        if (jwtTokenService.getExpirationDateFromToken(token) == null) {
+            System.err.println("1111");
+            throw new JwtExpiredTokenException("ERR", null);
+        }
+
         final Claims claims = jwtTokenService.getClaimsFromToken(token);
         if (isUserToken && claims.getExpiration().getTime() < System.currentTimeMillis())
             throw new JwtExpiredTokenException(claims.getExpiration().toString(), null);

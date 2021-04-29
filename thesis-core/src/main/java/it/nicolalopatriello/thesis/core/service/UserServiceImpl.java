@@ -5,7 +5,9 @@ import it.nicolalopatriello.thesis.common.spring.services.JwtTokenServiceExt;
 import it.nicolalopatriello.thesis.core.dto.User;
 import it.nicolalopatriello.thesis.core.dto.users.LoginRequest;
 import it.nicolalopatriello.thesis.core.dto.users.LoginResponse;
+import it.nicolalopatriello.thesis.core.dto.users.UserCreateRequest;
 import it.nicolalopatriello.thesis.core.entities.UserEntity;
+import it.nicolalopatriello.thesis.core.exception.BadUserCreationException;
 import it.nicolalopatriello.thesis.core.repos.UserRepository;
 import it.nicolalopatriello.thesis.core.utils.JwtUserHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +53,17 @@ public class UserServiceImpl implements UserService {
         String token = jwtTokenUtil.generateUserToken(JwtUserHelper.of(userEntity), false);
         UserEntity userLogged = userRepository.save(userEntity);
         return LoginResponse.of(User.of(userLogged), token);
+    }
+
+    @Override
+    public User create(UserCreateRequest userCreateRequest) throws BadUserCreationException {
+        if (userRepository.findByUsername(userCreateRequest.getUsername()).isPresent())
+            throw new BadUserCreationException();
+        UserEntity userEntity = new UserEntity();
+        userEntity.setUsername(userCreateRequest.getUsername());
+        userCreateRequest.setEmail(userCreateRequest.getEmail());
+        userCreateRequest.setPassword(passwordEncoder.encode(userCreateRequest.getPassword()));
+        return User.of(userRepository.save(userEntity));
     }
 
     @Override
