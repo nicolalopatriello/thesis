@@ -18,9 +18,9 @@ export const MENU_ITEMS: NbMenuItem[] = [
     link: '/pages/repositories',
   },
   {
-    title: 'Dependencies manager',
-    icon: 'flip-2-outline',
-    link: '/pages/dependencies-manager',
+    title: 'Moon Cloud tests',
+    icon: 'moon-outline',
+    link: '/pages/moon-cloud-tests',
   },
   {
     title: 'Notifications',

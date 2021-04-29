@@ -7,9 +7,9 @@ import { Component } from '@angular/core';
     <span class="created-by">
    <!--   Created by Nicola Lopatriello-->
     </span>
-    <div class="socials">
+<!--    <div class="socials">
       <a href="https://github.com/nicolalopatriello/thesis" target="_blank" class="ion ion-social-github"></a>
-    </div>
+    </div>-->
   `,
 })
 export class FooterComponent {
