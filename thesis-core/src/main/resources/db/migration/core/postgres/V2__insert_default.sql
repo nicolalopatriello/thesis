@@ -1,3 +1,5 @@
 INSERT INTO ${schema}.user_ (username,name,surname,email,password,registration_time) VALUES
-('nlopatriello', 'Nicola', 'Lopatriello', 'nic.lopatriello@gmail.com', '$2a$10$gxQYMWL07SYva2twf8phH.5SKEqlak02fSU6RA02FpIVFgw9YF3.G',NULL)
-;
+('nlopatriello', 'Nicola', 'Lopatriello', 'n.lopatriello@thesis.test', '$2a$12$5HJMvSfdjbevzLrvA4a8jeLY3zoHjXL.gi34d43PGbVKKVQfEzpYe', NULL);
+
+INSERT INTO ${schema}.user_ (username,name,surname,email,password,registration_time) VALUES
+('admin', 'Admin', 'Admin', 'admin@thesis.test', '$2a$12$5HJMvSfdjbevzLrvA4a8jeLY3zoHjXL.gi34d43PGbVKKVQfEzpYe',NULL);

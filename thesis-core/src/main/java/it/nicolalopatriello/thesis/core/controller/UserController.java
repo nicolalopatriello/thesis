@@ -7,6 +7,9 @@ import it.nicolalopatriello.thesis.common.spring.security.jwt.JwtUser;
 import it.nicolalopatriello.thesis.core.dto.User;
 import it.nicolalopatriello.thesis.core.dto.users.LoginRequest;
 import it.nicolalopatriello.thesis.core.dto.users.LoginResponse;
+import it.nicolalopatriello.thesis.core.dto.users.UserCreateRequest;
+import it.nicolalopatriello.thesis.core.dto.users.UserCreateResponse;
+import it.nicolalopatriello.thesis.core.exception.BadUserCreationException;
 import it.nicolalopatriello.thesis.core.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -32,5 +35,12 @@ public class UserController {
         } else {
             throw new NotFoundException();
         }
+    }
+
+    @PostMapping(value = "/")
+    @ResponseBody
+    @ThesisPublicApi
+    public UserCreateResponse create(@Valid @RequestBody UserCreateRequest userCreateRequest) throws BadUserCreationException {
+        return userService.create(userCreateRequest);
     }
 }

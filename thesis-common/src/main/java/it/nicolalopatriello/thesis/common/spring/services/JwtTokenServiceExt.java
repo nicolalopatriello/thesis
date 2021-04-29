@@ -25,7 +25,6 @@ public class JwtTokenServiceExt {
     JwtTokenService jwtTokenService;
 
     public String generateUserToken(JwtUser userDetails, boolean isRefreshToken) {
-        System.err.println("generateUserToken---------------------");
         Map<String, Object> claims = new HashMap<>();
         claims.put(CLAIM_KEY_USERNAME, userDetails.getUsername());
         claims.put(CLAIM_KEY_CREATED, new Date());
@@ -56,6 +55,11 @@ public class JwtTokenServiceExt {
     }
 
     private JwtUser from(String token, boolean isUserToken) throws JwtExpiredTokenException {
+
+        if (jwtTokenService.getExpirationDateFromToken(token) == null) {
+            throw new JwtExpiredTokenException("ERR", null);
+        }
+
         final Claims claims = jwtTokenService.getClaimsFromToken(token);
         if (isUserToken && claims.getExpiration().getTime() < System.currentTimeMillis())
             throw new JwtExpiredTokenException(claims.getExpiration().toString(), null);

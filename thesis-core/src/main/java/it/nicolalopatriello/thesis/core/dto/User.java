@@ -1,6 +1,7 @@
 package it.nicolalopatriello.thesis.core.dto;
 
 
+import it.nicolalopatriello.thesis.common.spring.dto.DTO;
 import it.nicolalopatriello.thesis.core.entities.UserEntity;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,12 +10,13 @@ import java.sql.Timestamp;
 
 @Getter
 @Setter
-public class User {
+public class User extends DTO {
     private String username;
     private String email;
     private String name;
     private String surname;
-    private Long registrationTime;
+    private String password;
+    private Timestamp registrationTime;
 
     public static User of(UserEntity user) {
         User dto = new User();
@@ -22,7 +24,8 @@ public class User {
         dto.setEmail(user.getEmail());
         dto.setName(user.getName());
         dto.setSurname(user.getSurname());
-        if (user.getRegistrationTime() != null) dto.setRegistrationTime(user.getRegistrationTime().getTime());
+        dto.setPassword(user.getPassword());
+        if (user.getRegistrationTime() != null) dto.setRegistrationTime(user.getRegistrationTime());
         return dto;
     }
 
@@ -32,7 +35,8 @@ public class User {
         user.setEmail(email);
         user.setName(name);
         user.setSurname(surname);
-        if (user.getRegistrationTime() != null) user.setRegistrationTime(new Timestamp(registrationTime));
+        user.setPassword(password);
+        if (user.getRegistrationTime() != null) user.setRegistrationTime(registrationTime);
         return user;
     }
 }
