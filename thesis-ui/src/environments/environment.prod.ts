@@ -5,5 +5,6 @@
  */
 export const environment = {
   production: true,
-  endpoint: '',
+  baseEndpoint: 'http://51.158.101.5/',
+  endpoint: 'http://51.158.101.5/api/core',
 };
