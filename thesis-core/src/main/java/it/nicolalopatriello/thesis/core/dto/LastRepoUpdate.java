@@ -42,6 +42,8 @@ public class LastRepoUpdate {
                         Date date = optionalGHCommit.get().getCommitDate();
                         this.timestamp = new Timestamp(date.getTime());
                     }
+                } else {
+                    this.timestamp = null;
                 }
                 break;
             case GITLAB:

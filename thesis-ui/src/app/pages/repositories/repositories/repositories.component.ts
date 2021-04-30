@@ -1,8 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
 import {GitProvider} from '../../../@core/models/gitrace';
 import {GitraceService} from '../../../@core/services/gitrace.service';
 import {LocalDataSource} from 'ng2-smart-table';
+import {ToastrService} from 'ngx-toastr';
+import {catchError} from 'rxjs/operators';
+import {of} from 'rxjs';
 
 @Component({
   selector: 'ngx-repositories',
@@ -49,14 +52,14 @@ export class RepositoriesComponent implements OnInit {
   GitProvider = GitProvider;
   pendingRequest = false;
 
-  constructor(private gitraceService: GitraceService) {
+  constructor(private gitraceService: GitraceService, private toastr: ToastrService) {
   }
 
   ngOnInit(): void {
     this.newGitraceFormGroup = new FormGroup(
       {
         gitProvider: new FormControl(GitProvider.GITHUB, [Validators.required]),
-        gitRepoUrl: new FormControl(null, [Validators.required]),
+        gitRepoUrl: new FormControl(null, [Validators.required, githubUrlValidation]),
         token: new FormControl(null, []),
         gitDescription: new FormControl(null, [])
       }
@@ -74,7 +77,12 @@ export class RepositoriesComponent implements OnInit {
 
   createNewGitrace() {
     this.pendingRequest = true;
-    this.gitraceService.create(this.newGitraceFormGroup.getRawValue()).subscribe(t => {
+    this.gitraceService.create(this.newGitraceFormGroup.getRawValue()).pipe(
+      catchError(err => {
+        this.toastr.error('Cannot create repository');
+        return of(null);
+      })
+    ).subscribe(t => {
       this.pendingRequest = false;
       this.findAll();
       this.newGitraceFormGroup.reset();
@@ -82,3 +90,12 @@ export class RepositoriesComponent implements OnInit {
     });
   }
 }
+
+export const githubUrlValidation: ValidatorFn = (control: FormControl) => {
+  const ext = control.value?.slice(control.value.length - 4);
+  if (ext === '.git') {
+    return null;
+  } else {
+    return {invalidUrl: true};
+  }
+};

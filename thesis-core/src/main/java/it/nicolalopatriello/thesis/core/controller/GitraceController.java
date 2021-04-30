@@ -1,6 +1,7 @@
 package it.nicolalopatriello.thesis.core.controller;
 
 import it.nicolalopatriello.thesis.common.annotations.roles.ThesisAuthorization;
+import it.nicolalopatriello.thesis.common.exception.BadRequestException;
 import it.nicolalopatriello.thesis.common.exception.DuplicateEntityException;
 import it.nicolalopatriello.thesis.common.exception.UnauthorizedException;
 import it.nicolalopatriello.thesis.common.spring.security.jwt.JwtUser;
@@ -26,7 +27,7 @@ public class GitraceController {
     @ThesisAuthorization
     @PostMapping(value = "/")
     @ResponseBody
-    public Gitrace create(JwtUser user, @Valid @RequestBody GitraceCreateRequest request) throws DuplicateEntityException, UnauthorizedException, IOException {
+    public Gitrace create(JwtUser user, @Valid @RequestBody GitraceCreateRequest request) throws DuplicateEntityException, BadRequestException, UnauthorizedException, IOException {
         return gitraceService.create(request);
     }
 

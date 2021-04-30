@@ -1,5 +1,6 @@
 package it.nicolalopatriello.thesis.core.service;
 
+import it.nicolalopatriello.thesis.common.exception.BadRequestException;
 import it.nicolalopatriello.thesis.common.exception.DuplicateEntityException;
 import it.nicolalopatriello.thesis.common.exception.UnauthorizedException;
 import it.nicolalopatriello.thesis.core.dto.LastRepoUpdate;
@@ -25,7 +26,7 @@ public class GitraceServiceImpl implements GitraceService {
 
 
     @Override
-    public Gitrace create(GitraceCreateRequest gitraceCreateRequest) throws UnauthorizedException, DuplicateEntityException, IOException {
+    public Gitrace create(GitraceCreateRequest gitraceCreateRequest) throws UnauthorizedException, DuplicateEntityException, IOException, BadRequestException {
         if (repository.findByGitRepoUrl(gitraceCreateRequest.getGitRepoUrl()).isPresent())
             throw new DuplicateEntityException(gitraceCreateRequest.getGitRepoUrl());
 
@@ -36,6 +37,10 @@ public class GitraceServiceImpl implements GitraceService {
         entity.setRegistrationTime(new Timestamp(System.currentTimeMillis()));
         Gitrace gitrace = entity.dto();
         LastRepoUpdate lastRepoUpdate = new LastRepoUpdate(gitrace);
+
+        if (lastRepoUpdate.getTimestamp() == null)
+            throw new BadRequestException();
+
         entity.setLastRepoUpdate(lastRepoUpdate.getTimestamp());
         Gitrace dto = repository.save(entity).dto();
         return dto;

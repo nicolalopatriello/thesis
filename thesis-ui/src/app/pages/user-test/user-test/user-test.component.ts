@@ -10,6 +10,9 @@ import {UserTestService} from '../../../@core/services/user-test.service';
 import {UserTest} from '../../../@core/models/user-test';
 import {UserTestWithDeps} from '../../../@core/models/user-test-with-deps';
 import {UserTestActionsComponent} from './user-test-actions.component';
+import {ToastrService} from 'ngx-toastr';
+import {catchError} from 'rxjs/operators';
+import {of} from 'rxjs';
 
 @Component({
   selector: 'ngx-user-test',
@@ -19,7 +22,7 @@ import {UserTestActionsComponent} from './user-test-actions.component';
 })
 export class UserTestComponent implements OnInit {
 
-  @ViewChild('userTestDetailsDialog', { static: true }) userTestDetailsDialog: TemplateRef<any>;
+  @ViewChild('userTestDetailsDialog', {static: true}) userTestDetailsDialog: TemplateRef<any>;
 
   public gitraces: Array<Gitrace> = [];
   public testVectors: Array<TestVector> = [];
@@ -76,6 +79,7 @@ export class UserTestComponent implements OnInit {
   userTestsTableSource: LocalDataSource = new LocalDataSource();
 
   constructor(private gitraceService: GitraceService,
+              private toastr: ToastrService,
               private dialogService: NbDialogService,
               private testVectorsService: TestVectorsService,
               private userTestService: UserTestService,
@@ -139,7 +143,12 @@ export class UserTestComponent implements OnInit {
       gitraceDep: this.selectedGitraces,
       testVectorsDep: this.selectedTestVectors
     };
-    this.userTestService.create(userTest).subscribe(t => {
+    this.userTestService.create(userTest).pipe(
+      catchError(() => {
+        this.toastr.error('Cannot register test');
+        return of(null);
+      })
+    ).subscribe(t => {
       this.selectedTestVectors = [];
       this.selectedGitraces = [];
       this.findAllUserTests();
