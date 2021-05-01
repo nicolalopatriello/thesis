@@ -73,7 +73,7 @@
             <modules>
                 <module>thesis-core</module>
                 <module>thesis-common</module>
-                <module>thesis-ui</module>
+            <!--    <module>thesis-ui</module>-->
             </modules>
         </profile>
 
@@ -90,7 +90,6 @@
             <modules>
                 <module>thesis-core</module>
                 <module>thesis-common</module>
-                <!-- <module>kirk-ui</module>-->
             </modules>
         </profile>
 
@@ -104,7 +103,6 @@
             <modules>
                 <module>thesis-core</module>
                 <module>thesis-common</module>
-                <!-- <module>kirk-ui</module>-->
             </modules>
         </profile>
 

@@ -21,10 +21,14 @@ import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.sql.Timestamp;
+import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Utility {
 
     private final static Logger log = Logger.getLogger(Utility.class);
+    private final static Pattern REPO_NAME_PATTERN = Pattern.compile("http+s?://github.com\\/(?<REPO>.*)\\..*");
 
 
     public static boolean downloadFile(String source, File destination) throws IOException {
@@ -89,6 +93,17 @@ public class Utility {
        return tmp.toString();
 
    }
+
+
+
+    public static Optional<String> getGitHubRepoName(String completeUrl) {
+        Matcher matcher = REPO_NAME_PATTERN.matcher(completeUrl.toLowerCase());
+        String filename = null;
+        if (matcher.find()) {
+            filename = matcher.group("REPO");
+        }
+        return Optional.ofNullable(filename);
+    }
 
 
 

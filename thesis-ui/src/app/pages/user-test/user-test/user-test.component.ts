@@ -1,6 +1,6 @@
 import {Component, OnInit, TemplateRef, ViewChild, ViewEncapsulation} from '@angular/core';
 import {GitraceService} from '../../../@core/services/gitrace.service';
-import {Gitrace} from '../../../@core/models/gitrace';
+import {GitProvider, Gitrace} from '../../../@core/models/gitrace';
 import {TestVectorsService} from '../../../@core/services/test-vectors.service';
 import {TestVector} from '../../../@core/models/test-vector';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
@@ -13,6 +13,7 @@ import {UserTestActionsComponent} from './user-test-actions.component';
 import {ToastrService} from 'ngx-toastr';
 import {catchError} from 'rxjs/operators';
 import {of} from 'rxjs';
+import {githubUrlValidation} from '../../repositories/repositories/repositories.component';
 
 @Component({
   selector: 'ngx-user-test',
@@ -40,8 +41,8 @@ export class UserTestComponent implements OnInit {
 
   userTestsTableSettings = {
     columns: {
-      url: {
-        title: 'URL',
+      gitRepoUrl: {
+        title: 'Repository',
         type: 'string',
       },
       description: {
@@ -86,6 +87,8 @@ export class UserTestComponent implements OnInit {
   ) {
   }
 
+  GitProvider = GitProvider;
+
   ngOnInit(): void {
     this.gitraceService.findAll().subscribe(t => {
       this.gitraces = t;
@@ -96,7 +99,8 @@ export class UserTestComponent implements OnInit {
     });
 
     this.createUserTestFormGroup = new FormGroup({
-      url: new FormControl(null, [Validators.required]),
+      gitProvider: new FormControl(GitProvider.GITHUB, [Validators.required]),
+      gitRepoUrl: new FormControl(null, [Validators.required, githubUrlValidation]),
       description: new FormControl(null, [])
     });
 
@@ -138,7 +142,8 @@ export class UserTestComponent implements OnInit {
 
   newUserTestConfirm() {
     const userTest: UserTest = {
-      url: this.createUserTestFormGroup.controls.url.value,
+      gitProvider: this.createUserTestFormGroup.controls.gitProvider.value,
+      gitRepoUrl: this.createUserTestFormGroup.controls.gitRepoUrl.value,
       description: this.createUserTestFormGroup.controls.description.value,
       gitraceDep: this.selectedGitraces,
       testVectorsDep: this.selectedTestVectors
@@ -146,6 +151,7 @@ export class UserTestComponent implements OnInit {
     this.userTestService.create(userTest).pipe(
       catchError(() => {
         this.toastr.error('Cannot register test');
+        this.createUserTestFormGroup.reset();
         return of(null);
       })
     ).subscribe(t => {

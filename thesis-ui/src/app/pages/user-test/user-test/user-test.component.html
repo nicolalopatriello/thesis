@@ -51,28 +51,47 @@
     <nb-card-body>
       <div class="w-100">
         <div class="row d-flex flex-row mb-4" [formGroup]="createUserTestFormGroup">
-          <div class="col-md-5">
+
+          <div class="row w-100 d-flex flex-row">
+            <div class="col-md-2">
+            <nb-select formControlName="gitProvider">
+              <nb-option [value]="GitProvider.GITHUB">GITHUB</nb-option>
+              <nb-option disabled [value]="GitProvider.GITLAB">GITLAB</nb-option>
+            </nb-select>
+            </div>
+
+            <div class="col-md-10">
             <input
-              type="text"
-              nbInput fullWidth
-              class="form-control full-width"
-              placeholder="Test repositories..."
-              formControlName="url"
-              required>
+                type="text"
+                nbInput fullWidth
+                class="form-control full-width"
+                placeholder="Repository link..."
+                formControlName="gitRepoUrl"
+                required>
+              <div class="position-absolute text-danger small" *ngIf="createUserTestFormGroup.controls.gitRepoUrl.dirty &&
+            createUserTestFormGroup.controls.gitRepoUrl.hasError('invalidUrl')">
+                GIT url must end with .git extension
+              </div>
+            </div>
+          </div>
+          <div class="row w-100 d-flex flex-row mt-4">
+            <div class="col-md-12">
+              <input
+                type="text"
+                nbInput fullWidth
+                class="form-control full-width"
+                placeholder="Description"
+                formControlName="description"
+                required>
+            </div>
           </div>
 
-          <div class="col-md-5">
-            <input
-              type="text"
-              nbInput fullWidth
-              class="form-control full-width"
-              placeholder="Description"
-              formControlName="description"
-              required>
-          </div>
+
+
+
         </div>
         <div class="row p-2" style="background: #f1f1f1">
-          <div class="col-md-6" style="max-height: 70vh; overflow: auto; border-right: inset 1px #505050">
+          <div class="col-md-6" style="max-height: 50vh; overflow: auto; border-right: inset 1px #505050">
             <input #searchGitRepoUrl class="mb-2 sticky-top" type="text" nbInput fullWidth
                    placeholder="Search GIT repositories...">
             <ng-container *ngFor="let g of gitraces">
@@ -81,7 +100,7 @@
               </div>
             </ng-container>
           </div>
-          <div class="col-md-6" style="max-height: 70vh; overflow: auto">
+          <div class="col-md-6" style="max-height: 50vh; overflow: auto">
             <input #searchTestVector class="mb-2 sticky-top" type="text" nbInput fullWidth
                    placeholder="Search Test vectors...">
             <ng-container *ngFor="let tv of testVectors">

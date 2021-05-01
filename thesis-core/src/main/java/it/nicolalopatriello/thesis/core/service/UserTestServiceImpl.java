@@ -1,6 +1,7 @@
 package it.nicolalopatriello.thesis.core.service;
 
 import com.google.common.collect.Lists;
+import it.nicolalopatriello.thesis.common.exception.BadRequestException;
 import it.nicolalopatriello.thesis.common.exception.DuplicateEntityException;
 import it.nicolalopatriello.thesis.common.exception.UnauthorizedException;
 import it.nicolalopatriello.thesis.common.spring.security.jwt.JwtUser;
@@ -17,6 +18,7 @@ import it.nicolalopatriello.thesis.core.entities.UserTestDepGitraceEntity;
 import it.nicolalopatriello.thesis.core.entities.UserTestDepTestVectorEntity;
 import it.nicolalopatriello.thesis.core.entities.UserTestEntity;
 import it.nicolalopatriello.thesis.core.repos.*;
+import it.nicolalopatriello.thesis.core.utils.Utility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -70,7 +72,7 @@ public class UserTestServiceImpl implements UserTestService {
             userTestDepTestVectors.forEach(testVectorDep -> {
                 testVectorsList.add(testVectorRepository.findById(testVectorDep.getTestVectorId()).get().dto());
             });
-            userTestWithDep.setUrl(t.get().getUrl());
+            userTestWithDep.setUrl(t.get().getGitRepoUrl());
             userTestWithDep.setCreatedAt(t.get().getCreatedAt());
             userTestWithDep.setDescription(t.get().getDescription());
             userTestWithDep.setGitraceDep(gitraceList);
@@ -80,11 +82,18 @@ public class UserTestServiceImpl implements UserTestService {
     }
 
     @Override
-    public UserTestCreateResponse create(JwtUser user, UserTestCreateRequest userTestCreateRequest) throws UnauthorizedException, DuplicateEntityException {
+    public UserTestCreateResponse create(JwtUser user, UserTestCreateRequest userTestCreateRequest) throws UnauthorizedException, BadRequestException, DuplicateEntityException {
+
+        Optional<String> repoNameOpt = Utility.getGitHubRepoName(userTestCreateRequest.getGitRepoUrl());
+
+        if (!repoNameOpt.isPresent())
+            throw new BadRequestException();
+
 
         UserTestEntity userTestEntity = new UserTestEntity();
 
-        userTestEntity.setUrl(userTestCreateRequest.getUrl());
+        userTestEntity.setGitRepoUrl(userTestCreateRequest.getGitRepoUrl());
+        userTestEntity.setGitProvider(userTestCreateRequest.getGitProvider());
         userTestEntity.setDescription(userTestCreateRequest.getDescription());
         userTestEntity.setCreatedAt(new Timestamp(System.currentTimeMillis()));
         userTestEntity.setUsername(user.getUsername());
@@ -94,7 +103,7 @@ public class UserTestServiceImpl implements UserTestService {
 
         for (Long gitraceId : userTestCreateRequest.getGitraceDep()) {
             UserTestDepGitraceEntity userTestDepGitraceEntity = new UserTestDepGitraceEntity();
-            userTestDepGitraceEntity.setUrl(userTestCreateRequest.getUrl());
+            userTestDepGitraceEntity.setUrl(userTestCreateRequest.getGitRepoUrl());
             userTestDepGitraceEntity.setGitraceId(gitraceId);
             userTestDepGitraceEntity.setUserTestId(userTest.getId());
             if (!userTestDepGitraceRepository.findByUrlAndGitraceId(userTestDepGitraceEntity.getUrl(),
@@ -105,7 +114,7 @@ public class UserTestServiceImpl implements UserTestService {
 
         for (Long testVectorId : userTestCreateRequest.getTestVectorsDep()) {
             UserTestDepTestVectorEntity userTestDepTestVectorEntity = new UserTestDepTestVectorEntity();
-            userTestDepTestVectorEntity.setUrl(userTestCreateRequest.getUrl());
+            userTestDepTestVectorEntity.setUrl(userTestCreateRequest.getGitRepoUrl());
             userTestDepTestVectorEntity.setTestVectorId(testVectorId);
             userTestDepTestVectorEntity.setUserTestId(userTest.getId());
             if (!userTestDepTestVectorRepository.findByUrlAndTestVectorId(userTestDepTestVectorEntity.getUrl(),
@@ -116,7 +125,7 @@ public class UserTestServiceImpl implements UserTestService {
 
 
         UserTestCreateResponse userTestCreateResponse = new UserTestCreateResponse();
-        userTestCreateResponse.setUrl(userTest.getUrl());
+        userTestCreateResponse.setGitRepoUrl(userTest.getGitRepoUrl());
         userTestCreateResponse.setDescription(userTest.getDescription());
         return userTestCreateResponse;
     }

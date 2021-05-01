@@ -5,6 +5,7 @@ import it.nicolalopatriello.thesis.common.spring.dto.WithDTO;
 import it.nicolalopatriello.thesis.common.spring.jpa.SearchCriteria;
 import it.nicolalopatriello.thesis.common.spring.jpa.SimpleSearchSpecification;
 import it.nicolalopatriello.thesis.core.Schema;
+import it.nicolalopatriello.thesis.core.dto.gitrace.GitProvider;
 import it.nicolalopatriello.thesis.core.dto.gitrace.Gitrace;
 import it.nicolalopatriello.thesis.core.dto.schedulerhistory.SchedulerHistory;
 import it.nicolalopatriello.thesis.core.dto.usertest.UserTest;
@@ -13,6 +14,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 
 
@@ -28,8 +30,13 @@ public class UserTestEntity implements WithDTO<UserTest> {
     @Column
     private Long id;
 
-    @Column
-    private String url;
+    @NotNull
+    @Column(name = "git_repo_url")
+    private String gitRepoUrl;
+
+    @NotNull
+    @Column(name = "git_provider")
+    private GitProvider gitProvider;
 
     @Column
     private String description;
@@ -43,7 +50,8 @@ public class UserTestEntity implements WithDTO<UserTest> {
     @Override
     public UserTest dto() {
         UserTest userTest = new UserTest();
-        userTest.setUrl(url);
+        userTest.setGitRepoUrl(gitRepoUrl);
+        userTest.setGitProvider(gitProvider);
         userTest.setDescription(description);
         userTest.setUsername(username);
         userTest.setCreatedAt(createdAt);

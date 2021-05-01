@@ -1,6 +1,7 @@
 package it.nicolalopatriello.thesis.core.dto;
 
 import it.nicolalopatriello.thesis.core.dto.gitrace.Gitrace;
+import it.nicolalopatriello.thesis.core.utils.Utility;
 import lombok.Getter;
 import org.kohsuke.github.*;
 
@@ -15,25 +16,14 @@ import java.util.regex.Pattern;
 public class LastRepoUpdate {
 
     private Timestamp timestamp;
-    private final static Pattern REPO_NAME_PATTERN = Pattern.compile("https://github.com\\/(?<REPO>.*)\\..*");
 
-
-    private static Optional<String> getRepoName(String completeUrl) {
-        Matcher matcher = REPO_NAME_PATTERN.matcher(completeUrl.toLowerCase());
-        String filename = null;
-        if (matcher.find()) {
-            filename = matcher.group("REPO");
-        }
-        return Optional.ofNullable(filename);
-    }
 
     public LastRepoUpdate(Gitrace gitrace) throws IOException {
         switch (gitrace.getGitProvider()) {
             case GITHUB:
                 GitHub github = GitHub.connect();
-
                 //    GitHub github = new GitHubBuilder().withOAuthToken("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").build();
-                Optional<String> repoNameOpt = getRepoName(gitrace.getGitRepoUrl());
+                Optional<String> repoNameOpt = Utility.getGitHubRepoName(gitrace.getGitRepoUrl());
                 if (repoNameOpt.isPresent()) {
                     GHRepository repo = github.getRepository(repoNameOpt.get());
                     PagedIterable<GHCommit> pagedIterable = repo.listCommits();

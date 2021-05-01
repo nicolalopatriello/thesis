@@ -144,7 +144,7 @@ public class TestVectorScheduler {
                             testVectorService.update(tsUpdate);
                             List<UserTestDepTestVector> t = userTestDepTestVectorRepository.findByTestVectorId(tsOpt.get().getId());
                             t.forEach(userTest -> {
-                                Optional<UserTest> userTestEntityOpt = userTestRepository.findByUrl(userTest.getUrl());
+                                Optional<UserTest> userTestEntityOpt = userTestRepository.findByGitRepoUrl(userTest.getUrl());
                                 if (userTestEntityOpt.isPresent()) {
                                     Optional<UserEntity> userEntityOpt = userRepository.findByUsername(userTestEntityOpt.get().getUsername());
                                     if (userEntityOpt.isPresent()) {

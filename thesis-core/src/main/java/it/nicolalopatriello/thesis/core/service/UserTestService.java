@@ -1,6 +1,7 @@
 package it.nicolalopatriello.thesis.core.service;
 
 
+import it.nicolalopatriello.thesis.common.exception.BadRequestException;
 import it.nicolalopatriello.thesis.common.exception.DuplicateEntityException;
 import it.nicolalopatriello.thesis.common.exception.UnauthorizedException;
 import it.nicolalopatriello.thesis.common.spring.security.jwt.JwtUser;
@@ -17,5 +18,5 @@ import java.util.List;
 public interface UserTestService {
     List<UserTest> findAll(JwtUser user);
     UserTestWithDep findByID(Long userTestId);
-    UserTestCreateResponse create(JwtUser user, UserTestCreateRequest userTestCreateRequest) throws UnauthorizedException, DuplicateEntityException;
+    UserTestCreateResponse create(JwtUser user, UserTestCreateRequest userTestCreateRequest) throws UnauthorizedException, BadRequestException, DuplicateEntityException;
 }

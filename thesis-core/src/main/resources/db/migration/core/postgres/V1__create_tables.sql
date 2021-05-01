@@ -25,7 +25,7 @@ create table IF NOT EXISTS ${schema}.gitrace(
   id bigint default nextval('${schema}.gitrace_seq') PRIMARY KEY,
   git_repo_url VARCHAR(255),
   git_description VARCHAR(255),
-  git_provider VARCHAR(255),
+  git_provider VARCHAR(255) not null,
   token VARCHAR(255),
   last_repo_update TIMESTAMPTZ,
   registration_time TIMESTAMPTZ
@@ -34,11 +34,12 @@ create table IF NOT EXISTS ${schema}.gitrace(
 create sequence IF NOT EXISTS ${schema}.user_test_seq;
 create table IF NOT EXISTS ${schema}.user_test(
   id bigint default nextval('${schema}.user_test_seq') PRIMARY KEY,
-  url varchar(255) not null,
+  git_provider VARCHAR(255) not null,
+  git_repo_url varchar(255) not null,
   description VARCHAR(255),
   username VARCHAR(255) references ${schema}.user_,
   created_at TIMESTAMPTZ,
-  unique(url, username)
+  unique(git_repo_url, username)
 );
 
 create sequence IF NOT EXISTS ${schema}.user_test_dep_test_vector_seq;

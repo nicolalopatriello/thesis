@@ -1,7 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {RouterModule} from '@angular/router';
-import {NbButtonModule, NbCardModule, NbCheckboxModule, NbInputModule} from '@nebular/theme';
+import {
+  NbButtonModule,
+  NbCardModule,
+  NbCheckboxModule,
+  NbInputModule,
+  NbOptionModule,
+  NbSelectModule
+} from '@nebular/theme';
 import {ReactiveFormsModule} from '@angular/forms';
 import {Ng2SmartTableModule} from 'ng2-smart-table';
 import {UserTestComponent} from './user-test/user-test.component';
@@ -26,7 +33,9 @@ import {ToastrModule} from 'ngx-toastr';
     ReactiveFormsModule,
     NbCardModule,
     Ng2SmartTableModule,
-    ToastrModule
+    ToastrModule,
+    NbOptionModule,
+    NbSelectModule
   ]
 })
 export class UserTestModule { }

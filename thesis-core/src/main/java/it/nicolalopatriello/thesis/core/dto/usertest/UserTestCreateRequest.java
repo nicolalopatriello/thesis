@@ -1,6 +1,7 @@
 package it.nicolalopatriello.thesis.core.dto.usertest;
 
 import com.google.common.collect.Lists;
+import it.nicolalopatriello.thesis.core.dto.gitrace.GitProvider;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,7 +14,10 @@ import java.util.List;
 @Setter
 public class UserTestCreateRequest {
     @NotNull
-    private String url;
+    private String gitRepoUrl;
+
+    @NotNull
+    private GitProvider gitProvider;
 
     @NotNull
     private List<Long> testVectorsDep = Lists.newLinkedList();

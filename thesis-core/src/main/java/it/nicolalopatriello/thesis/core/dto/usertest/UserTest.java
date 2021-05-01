@@ -21,7 +21,8 @@ import java.util.List;
 public class UserTest extends DTO {
 
     private Long id;
-    private String url;
+    private String gitRepoUrl;
+    private GitProvider gitProvider;
     private String description;
     private String username;
     private Timestamp createdAt;
@@ -29,7 +30,8 @@ public class UserTest extends DTO {
     public UserTestEntity to() {
         UserTestEntity userTestEntity = new UserTestEntity();
         userTestEntity.setId(id);
-        userTestEntity.setUrl(url);
+        userTestEntity.setGitRepoUrl(gitRepoUrl);
+        userTestEntity.setGitProvider(gitProvider);
         userTestEntity.setDescription(description);
         userTestEntity.setUsername(username);
         userTestEntity.setCreatedAt(createdAt);
@@ -40,7 +42,8 @@ public class UserTest extends DTO {
     public static UserTest from(UserTestEntity userTestEntity) {
         UserTest dto = new UserTest();
         dto.setId(userTestEntity.getId());
-        dto.setUrl(userTestEntity.getUrl());
+        dto.setGitRepoUrl(userTestEntity.getGitRepoUrl());
+        dto.setGitProvider(userTestEntity.getGitProvider());
         dto.setDescription(userTestEntity.getDescription());
         dto.setUsername(userTestEntity.getUsername());
         dto.setCreatedAt(userTestEntity.getCreatedAt());

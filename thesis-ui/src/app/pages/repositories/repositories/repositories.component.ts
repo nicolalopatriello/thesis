@@ -19,7 +19,7 @@ export class RepositoriesComponent implements OnInit {
   settings = {
     columns: {
       gitRepoUrl: {
-        title: 'URL',
+        title: 'Repository',
         type: 'string',
       },
       gitDescription: {
@@ -80,6 +80,7 @@ export class RepositoriesComponent implements OnInit {
     this.gitraceService.create(this.newGitraceFormGroup.getRawValue()).pipe(
       catchError(err => {
         this.toastr.error('Cannot create repository');
+        this.newGitraceFormGroup.reset();
         return of(null);
       })
     ).subscribe(t => {

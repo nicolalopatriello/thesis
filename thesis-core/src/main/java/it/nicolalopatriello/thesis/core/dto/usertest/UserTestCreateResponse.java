@@ -11,6 +11,6 @@ import java.util.List;
 @Setter
 public class UserTestCreateResponse {
     @NotNull
-    private String url;
+    private String gitRepoUrl;
     private String description;
 }

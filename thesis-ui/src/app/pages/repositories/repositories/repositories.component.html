@@ -10,7 +10,7 @@
             <nb-option disabled [value]="GitProvider.GITLAB">GITLAB</nb-option>
           </nb-select>
 
-          <div>
+          <div class="col-md-6">
             <input
               type="text"
               nbInput fullWidth
@@ -24,19 +24,21 @@
             </div>
           </div>
 
-          <input
+      <!--    <input
             type="text"
             nbInput fullWidth
             class="form-control"
             placeholder="Repository token (if private)..."
-            name="token">
+            name="token">-->
 
+          <div class="col-md-3">
           <input
             type="text"
             nbInput fullWidth
             class="form-control"
             placeholder="Notes/Description"
             name="gitDescription">
+          </div>
 
           <button
             type="submit"

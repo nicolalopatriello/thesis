@@ -13,5 +13,5 @@ import java.util.Optional;
 @Repository
 public interface UserTestRepository extends PagingAndSortingWithSpecificationRepository<UserTestEntity, Long> {
     List<UserTest> findByUsername(String username);
-    Optional<UserTest> findByUrl(String url);
+    Optional<UserTest> findByGitRepoUrl(String url);
 }

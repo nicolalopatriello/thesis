@@ -1,6 +1,7 @@
 package it.nicolalopatriello.thesis.core.controller;
 
 import it.nicolalopatriello.thesis.common.annotations.roles.ThesisAuthorization;
+import it.nicolalopatriello.thesis.common.exception.BadRequestException;
 import it.nicolalopatriello.thesis.common.exception.DuplicateEntityException;
 import it.nicolalopatriello.thesis.common.exception.UnauthorizedException;
 import it.nicolalopatriello.thesis.common.spring.security.jwt.JwtUser;
@@ -31,7 +32,7 @@ public class UserTestController {
     @ThesisAuthorization
     @PostMapping(value = "/")
     @ResponseBody
-    public UserTestCreateResponse create(JwtUser user, @Valid @RequestBody UserTestCreateRequest request) throws DuplicateEntityException, UnauthorizedException, IOException {
+    public UserTestCreateResponse create(JwtUser user, @Valid @RequestBody UserTestCreateRequest request) throws DuplicateEntityException, BadRequestException, UnauthorizedException, IOException {
         return userTestService.create(user, request);
     }
 
