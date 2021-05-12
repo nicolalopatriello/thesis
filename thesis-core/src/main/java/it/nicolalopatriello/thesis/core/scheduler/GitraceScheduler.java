@@ -19,6 +19,7 @@ import it.nicolalopatriello.thesis.core.service.GitraceService;
 import it.nicolalopatriello.thesis.core.service.MailService;
 import it.nicolalopatriello.thesis.core.service.SchedulerHistoryService;
 import org.apache.log4j.Logger;
+import org.gitlab4j.api.GitLabApiException;
 import org.kohsuke.github.HttpException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -57,7 +58,7 @@ public class GitraceScheduler {
 
 
     @Scheduled(fixedDelayString = "${app.gitrace.scheduledTime}")
-    public void fetchGitrace() throws IOException, HttpException {
+    public void fetchGitrace() throws IOException, HttpException, GitLabApiException {
         SchedulerHistoryCreateRequest s = new SchedulerHistoryCreateRequest();
         s.setType(DepType.GITRACE);
         schedulerHistoryService.create(s);

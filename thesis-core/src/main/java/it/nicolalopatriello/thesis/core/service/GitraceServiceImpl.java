@@ -9,6 +9,7 @@ import it.nicolalopatriello.thesis.core.dto.gitrace.GitraceCreateRequest;
 import it.nicolalopatriello.thesis.core.entities.GitraceEntity;
 import it.nicolalopatriello.thesis.core.repos.GitraceRepository;
 import lombok.extern.log4j.Log4j;
+import org.gitlab4j.api.GitLabApiException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +27,7 @@ public class GitraceServiceImpl implements GitraceService {
 
 
     @Override
-    public Gitrace create(GitraceCreateRequest gitraceCreateRequest) throws UnauthorizedException, DuplicateEntityException, IOException, BadRequestException {
+    public Gitrace create(GitraceCreateRequest gitraceCreateRequest) throws UnauthorizedException, DuplicateEntityException, IOException, BadRequestException, GitLabApiException {
         if (repository.findByGitRepoUrl(gitraceCreateRequest.getGitRepoUrl()).isPresent())
             throw new DuplicateEntityException(gitraceCreateRequest.getGitRepoUrl());
 

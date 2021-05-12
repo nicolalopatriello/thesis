@@ -1,24 +1,32 @@
 package it.nicolalopatriello.thesis.core.dto;
 
+import it.nicolalopatriello.thesis.core.dto.connection.Connection;
 import it.nicolalopatriello.thesis.core.dto.gitrace.Gitrace;
+import it.nicolalopatriello.thesis.core.entities.ConnectionEntity;
+import it.nicolalopatriello.thesis.core.repos.ConnectionRepository;
 import it.nicolalopatriello.thesis.core.utils.Utility;
 import lombok.Getter;
+import org.gitlab4j.api.GitLabApi;
+import org.gitlab4j.api.GitLabApiException;
+import org.gitlab4j.api.models.Project;
 import org.kohsuke.github.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Optional;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Getter
 public class LastRepoUpdate {
 
     private Timestamp timestamp;
 
+    @Autowired
+    ConnectionRepository connectionRepository;
 
-    public LastRepoUpdate(Gitrace gitrace) throws IOException {
+
+    public LastRepoUpdate(Gitrace gitrace) throws IOException, GitLabApiException {
         switch (gitrace.getGitProvider()) {
             case GITHUB:
                 GitHub github = GitHub.connect();
@@ -37,6 +45,13 @@ public class LastRepoUpdate {
                 }
                 break;
             case GITLAB:
+                Optional<ConnectionEntity> c = connectionRepository.findById(gitrace.getConnectionId());
+                if (c.isPresent()) {
+                    Connection conn = c.get().dto();
+                    GitLabApi gitLabApi = new GitLabApi(conn.getEndpoint(), conn.getToken());
+                    Project t = gitLabApi.getProjectApi().getProject(gitrace.getGitRepoUrl());
+                    System.err.println(t.toString());
+                }
                 break;
         }
     }

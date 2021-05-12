@@ -9,6 +9,7 @@ import it.nicolalopatriello.thesis.core.dto.gitrace.Gitrace;
 import it.nicolalopatriello.thesis.core.dto.gitrace.GitraceCreateRequest;
 import it.nicolalopatriello.thesis.core.dto.notification.Notification;
 import it.nicolalopatriello.thesis.core.service.GitraceService;
+import org.gitlab4j.api.GitLabApiException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +28,7 @@ public class GitraceController {
     @ThesisAuthorization
     @PostMapping(value = "/")
     @ResponseBody
-    public Gitrace create(JwtUser user, @Valid @RequestBody GitraceCreateRequest request) throws DuplicateEntityException, BadRequestException, UnauthorizedException, IOException {
+    public Gitrace create(JwtUser user, @Valid @RequestBody GitraceCreateRequest request) throws DuplicateEntityException, BadRequestException, UnauthorizedException, IOException, GitLabApiException {
         return gitraceService.create(request);
     }
 
