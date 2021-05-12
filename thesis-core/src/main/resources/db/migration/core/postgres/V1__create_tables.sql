@@ -20,13 +20,22 @@ create table IF NOT EXISTS ${schema}.test_vector(
   last_update TIMESTAMPTZ
 );
 
+create sequence IF NOT EXISTS ${schema}.connection_seq;
+create table IF NOT EXISTS ${schema}.connection(
+  id bigint default nextval('${schema}.connection_seq') PRIMARY KEY,
+  git_provider VARCHAR(255) not null,
+  endpoint VARCHAR(255) not null,
+  token VARCHAR(255) not null,
+  username VARCHAR(255) references ${schema}.user_
+);
+
 create sequence IF NOT EXISTS ${schema}.gitrace_seq;
 create table IF NOT EXISTS ${schema}.gitrace(
   id bigint default nextval('${schema}.gitrace_seq') PRIMARY KEY,
   git_repo_url VARCHAR(255),
   git_description VARCHAR(255),
   git_provider VARCHAR(255) not null,
-  token VARCHAR(255),
+  connection_id bigint references ${schema}.connection,
   last_repo_update TIMESTAMPTZ,
   registration_time TIMESTAMPTZ
 );
@@ -82,3 +91,4 @@ create table IF NOT EXISTS ${schema}.scheduler_history(
   type VARCHAR(255),
   timestamp TIMESTAMPTZ
 );
+

@@ -33,8 +33,8 @@ public class GitraceEntity implements WithDTO<Gitrace> {
     @Column(name = "git_provider")
     private GitProvider gitProvider;
 
-    @Column
-    private String token;
+    @Column(name = "connection_id")
+    private Long connectionId;
 
     @Column(name = "last_repo_update")
     private Timestamp lastRepoUpdate;
@@ -49,7 +49,7 @@ public class GitraceEntity implements WithDTO<Gitrace> {
         gitrace.setId(id);
         gitrace.setGitRepoUrl(gitRepoUrl);
         gitrace.setGitProvider(gitProvider);
-        gitrace.setToken(token);
+        gitrace.setConnectionId(connectionId);
         gitrace.setLastRepoUpdate(lastRepoUpdate);
         gitrace.setRegistrationTime(registrationTime);
         return gitrace;

@@ -22,7 +22,7 @@ public class Gitrace extends DTO {
     private String gitRepoUrl;
     private String gitDescription;
     private GitProvider gitProvider;
-    private String token;
+    private Long connectionId;
     private Timestamp lastRepoUpdate;
     private Timestamp registrationTime;
 
@@ -32,7 +32,7 @@ public class Gitrace extends DTO {
         gitraceEntity.setGitRepoUrl(gitRepoUrl);
         gitraceEntity.setGitDescription(gitDescription);
         gitraceEntity.setGitProvider(gitProvider);
-        gitraceEntity.setToken(token);
+        gitraceEntity.setConnectionId(connectionId);
         gitraceEntity.setLastRepoUpdate(lastRepoUpdate);
         gitraceEntity.setRegistrationTime(registrationTime);
         return gitraceEntity;
@@ -45,7 +45,7 @@ public class Gitrace extends DTO {
         dto.setGitRepoUrl(gitraceEntity.getGitRepoUrl());
         dto.setGitDescription(gitraceEntity.getGitDescription());
         dto.setGitProvider(gitraceEntity.getGitProvider());
-        dto.setToken(gitraceEntity.getToken());
+        dto.setConnectionId(gitraceEntity.getConnectionId());
         dto.setLastRepoUpdate(gitraceEntity.getLastRepoUpdate());
         dto.setRegistrationTime(gitraceEntity.getRegistrationTime());
         return dto;
