@@ -66,8 +66,10 @@ public class GitraceScheduler {
         for (Gitrace git : gitraces) {
             Timestamp curr = git.getLastRepoUpdate();
           //  Timestamp lastRepoUpdate = new LastRepoUpdate(git).getTimestamp();
+
             Timestamp lastRepoUpdate = null;
-            if (lastRepoUpdate.after(curr)) { //todo replace with lastRepoUpdate.after(curr)
+
+            if (lastRepoUpdate.after(curr)) {
                 List<UserTestDepGitrace> t = userTestDepGitraceRepository.findByGitraceId(git.getId());
                 t.forEach(userTest -> {
                     Optional<UserTest> userTestEntityOpt = userTestRepository.findByGitRepoUrl(userTest.getUrl());
