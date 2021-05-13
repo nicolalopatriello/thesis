@@ -11,8 +11,11 @@ public class GitraceCreateRequest {
     @NotNull
     private String gitRepoUrl;
 
-    private String gitDescription;
-
     @NotNull
     private GitProvider gitProvider;
+
+    private Long connectionId;
+
+    private String gitDescription;
+
 }

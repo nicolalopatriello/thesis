@@ -51,8 +51,5 @@ public class MailService {
                                         .put("notificationUuid", notification.getUuid()))));
 
         response = client.post(request);
-        System.err.println(response.getStatus());
-        System.err.println(response.getData());
-
     }
 }

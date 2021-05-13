@@ -28,8 +28,15 @@ import java.util.regex.Pattern;
 public class Utility {
 
     private final static Logger log = Logger.getLogger(Utility.class);
-    private final static Pattern REPO_NAME_PATTERN = Pattern.compile("http+s?://github.com\\/(?<REPO>.*)\\..*");
+    private final static Pattern GITHUB_REPO_NAME_PATTERN = Pattern.compile("http+s?://github.com\\/(?<REPO>.*)\\..*");
 
+
+    public static String getProjectPath(String gitlabEndpoint, String gitRepoUrl) {
+        return gitRepoUrl
+                .replace(gitlabEndpoint, "")
+                .replace(".git", "")
+                .substring(1);
+    }
 
     public static boolean downloadFile(String source, File destination) throws IOException {
         ReadableByteChannel rbc = null;
@@ -79,61 +86,28 @@ public class Utility {
         return httpClient.execute(request);
     }
 
-//    //TODO lasciare newline tra vari round
+    //    //TODO lasciare newline tra vari round
     public static String normalize(String extractedText) {
         StringBuilder tmp = new StringBuilder();
         String[] s = extractedText.split("[\\r\\n]+");
-        for(int i = 0; i < s.length; i++)
-        {
-           if(!s[i].trim().isEmpty()) {
+        for (int i = 0; i < s.length; i++) {
+            if (!s[i].trim().isEmpty()) {
                 tmp.append(s[i].trim());
                 tmp.append('\n');
-           }
-       }
-       return tmp.toString();
+            }
+        }
+        return tmp.toString();
 
-   }
-
+    }
 
 
     public static Optional<String> getGitHubRepoName(String completeUrl) {
-        Matcher matcher = REPO_NAME_PATTERN.matcher(completeUrl.toLowerCase());
+        Matcher matcher = GITHUB_REPO_NAME_PATTERN.matcher(completeUrl.toLowerCase());
         String filename = null;
         if (matcher.find()) {
             filename = matcher.group("REPO");
         }
         return Optional.ofNullable(filename);
     }
-
-
-
-
- /*   public static String normalize(String extractedText) {
-        StringBuilder tmp = new StringBuilder();
-        boolean whiteSpace = false;
-        boolean emptyFile = true;
-        String[] array = extractedText.split("\n");
-        for (String s : array) {
-            String line = s.trim();
-            if (line.isEmpty()) {
-                if (!emptyFile) {
-                    whiteSpace = true;
-                }
-            } else {
-                if (whiteSpace) {
-                    tmp.append("\n");
-                    whiteSpace = false;
-                }
-                if(!emptyFile)
-                    tmp.append("\n");
-                tmp.append(line);
-
-                emptyFile = false;
-            }
-        }
-        return tmp.toString();
-
-    }*/
-
 }
 

@@ -2,7 +2,6 @@ package it.nicolalopatriello.thesis.core.scheduler;
 
 import com.mailjet.client.errors.MailjetException;
 import it.nicolalopatriello.thesis.common.utils.BooleanUtils;
-import it.nicolalopatriello.thesis.core.dto.LastRepoUpdate;
 import it.nicolalopatriello.thesis.core.dto.UserTestDepGitrace;
 import it.nicolalopatriello.thesis.core.dto.gitrace.Gitrace;
 import it.nicolalopatriello.thesis.core.dto.schedulerhistory.SchedulerHistoryCreateRequest;
@@ -66,7 +65,8 @@ public class GitraceScheduler {
         List<Gitrace> gitraces = gitraceService.findAll();
         for (Gitrace git : gitraces) {
             Timestamp curr = git.getLastRepoUpdate();
-            Timestamp lastRepoUpdate = new LastRepoUpdate(git).getTimestamp();
+          //  Timestamp lastRepoUpdate = new LastRepoUpdate(git).getTimestamp();
+            Timestamp lastRepoUpdate = null;
             if (lastRepoUpdate.after(curr)) { //todo replace with lastRepoUpdate.after(curr)
                 List<UserTestDepGitrace> t = userTestDepGitraceRepository.findByGitraceId(git.getId());
                 t.forEach(userTest -> {

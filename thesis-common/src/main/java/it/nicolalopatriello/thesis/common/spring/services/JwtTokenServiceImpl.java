@@ -15,7 +15,6 @@ import java.util.Map;
 import static it.nicolalopatriello.thesis.common.spring.services.JwtTokenServiceExt.CLAIM_KEY_CREATED;
 
 @Log4j
-
 public class JwtTokenServiceImpl implements JwtTokenService {
     LoggerUtils loggerUtils = new LoggerUtils(log);
 
