@@ -16,6 +16,7 @@ public class Connection extends DTO {
     private GitProvider gitProvider;
     private String endpoint;
     private String token;
+    private String name;
     private String username;
 
     public ConnectionEntity to() {
@@ -24,6 +25,7 @@ public class Connection extends DTO {
         connectionEntity.setGitProvider(gitProvider);
         connectionEntity.setEndpoint(endpoint);
         connectionEntity.setToken(token);
+        connectionEntity.setName(name);
         connectionEntity.setUsername(username);
         return connectionEntity;
     }
@@ -35,6 +37,7 @@ public class Connection extends DTO {
         dto.setGitProvider(connectionEntity.getGitProvider());
         dto.setEndpoint(connectionEntity.getEndpoint());
         dto.setToken(connectionEntity.getToken());
+        dto.setName(connectionEntity.getName());
         dto.setUsername(connectionEntity.getUsername());
         return dto;
     }

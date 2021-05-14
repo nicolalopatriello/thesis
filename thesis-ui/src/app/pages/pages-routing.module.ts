@@ -33,6 +33,11 @@ const routes: Routes = [{
         .then(m => m.NotificationsModule),
     },
     {
+      path: 'connections',
+      loadChildren: () => import('./connections/connections.module')
+        .then(m => m.ConnectionsModule),
+    },
+    {
       path: '',
       redirectTo: 'dashboard',
       pathMatch: 'full',

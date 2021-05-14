@@ -5,17 +5,19 @@
       <nb-card-body>
         <form [formGroup]="newGitraceFormGroup" class="form-inline">
 
-          <nb-select formControlName="gitProvider">
-            <nb-option [value]="GitProvider.GITHUB">GITHUB</nb-option>
-            <nb-option disabled [value]="GitProvider.GITLAB">GITLAB</nb-option>
-          </nb-select>
+          <div class="col-md-1">
+            <nb-select formControlName="gitProvider">
+              <nb-option [value]="GitProvider.GITHUB">GITHUB</nb-option>
+              <nb-option [value]="GitProvider.GITLAB">GITLAB</nb-option>
+            </nb-select>
+          </div>
 
-          <div class="col-md-6">
+          <div class="col-md-3">
             <input
               type="text"
               nbInput fullWidth
               class="form-control full-width"
-              placeholder="Repository link..."
+              placeholder="Repository link"
               formControlName="gitRepoUrl"
               required>
             <div class="position-absolute text-danger small" *ngIf="newGitraceFormGroup.controls.gitRepoUrl.dirty &&
@@ -24,29 +26,31 @@
             </div>
           </div>
 
-      <!--    <input
-            type="text"
-            nbInput fullWidth
-            class="form-control"
-            placeholder="Repository token (if private)..."
-            name="token">-->
-
-          <div class="col-md-3">
-          <input
-            type="text"
-            nbInput fullWidth
-            class="form-control"
-            placeholder="Notes/Description"
-            name="gitDescription">
+          <div class="col-md-2">
+            <nb-select class="w-100" placeholder="Connection" formControlName="connectionId">
+              <nb-option [value]="null">None</nb-option>
+              <nb-option *ngFor="let c of connections" [value]="c.id">{{c.name}}</nb-option>
+            </nb-select>
           </div>
 
-          <button
-            type="submit"
-            nbButton
-            status="primary"
-            (click)="createNewGitrace()"
-            [disabled]="newGitraceFormGroup.invalid || pendingRequest">Create
-          </button>
+          <div class="col-md-3">
+            <input
+              type="text"
+              nbInput fullWidth
+              class="form-control"
+              placeholder="Description"
+              name="gitDescription">
+          </div>
+
+          <div class="col-md-2">
+            <button
+              type="submit"
+              nbButton
+              status="primary"
+              (click)="createNewGitrace()"
+              [disabled]="newGitraceFormGroup.invalid || pendingRequest">Create
+            </button>
+          </div>
         </form>
       </nb-card-body>
     </nb-card>

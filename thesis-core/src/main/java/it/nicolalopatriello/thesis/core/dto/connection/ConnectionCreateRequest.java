@@ -16,5 +16,8 @@ public class ConnectionCreateRequest {
     private String endpoint;
 
     @NotNull
+    private String name;
+
+    @NotNull
     private String token;
 }

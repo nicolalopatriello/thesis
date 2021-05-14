@@ -2,7 +2,7 @@ export interface Gitrace {
   id?: number;
   gitRepoUrl: string;
   gitProvider: GitProvider;
-  token?: string;
+  connectionId?: number;
   gitDescription: string;
 }
 

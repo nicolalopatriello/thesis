@@ -32,6 +32,9 @@ public class ConnectionEntity implements WithDTO<Connection> {
     private String token;
 
     @Column
+    private String name;
+
+    @Column
     private String username;
 
 
@@ -42,6 +45,7 @@ public class ConnectionEntity implements WithDTO<Connection> {
         connection.setGitProvider(gitProvider);
         connection.setEndpoint(endpoint);
         connection.setToken(token);
+        connection.setName(name);
         connection.setUsername(username);
         return connection;
     }

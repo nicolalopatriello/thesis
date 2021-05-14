@@ -63,6 +63,7 @@ public class GitraceServiceImpl implements GitraceService {
         return repository.findAll().stream().map(GitraceEntity::dto).collect(Collectors.toList());
     }
 
+    @Override
     public Optional<Date> getLatestCommit(Gitrace gitrace) throws IOException, GitLabApiException {
         switch (gitrace.getGitProvider()) {
             case GITHUB:

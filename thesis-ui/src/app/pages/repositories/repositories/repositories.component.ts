@@ -6,6 +6,8 @@ import {LocalDataSource} from 'ng2-smart-table';
 import {ToastrService} from 'ngx-toastr';
 import {catchError} from 'rxjs/operators';
 import {of} from 'rxjs';
+import {ConnectionsService} from '../../../@core/services/connections.service';
+import {Connection} from '../../../@core/models/connection';
 
 @Component({
   selector: 'ngx-repositories',
@@ -51,16 +53,24 @@ export class RepositoriesComponent implements OnInit {
 
   GitProvider = GitProvider;
   pendingRequest = false;
+  public connections: Array<Connection>;
 
-  constructor(private gitraceService: GitraceService, private toastr: ToastrService) {
+  constructor(private gitraceService: GitraceService,
+              private connectionsService: ConnectionsService,
+              private toastr: ToastrService) {
   }
 
   ngOnInit(): void {
+
+    this.connectionsService.findAll().subscribe(conn => {
+      this.connections = conn;
+    });
+
     this.newGitraceFormGroup = new FormGroup(
       {
         gitProvider: new FormControl(GitProvider.GITHUB, [Validators.required]),
         gitRepoUrl: new FormControl(null, [Validators.required, githubUrlValidation]),
-        token: new FormControl(null, []),
+        connectionId: new FormControl(null, []),
         gitDescription: new FormControl(null, [])
       }
     );

@@ -26,5 +26,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
     title: 'Notifications',
     icon: 'bell-outline',
     link: '/pages/notifications',
+  },
+  {
+    title: 'Connections',
+    icon: 'link-2-outline',
+    link: '/pages/connections',
   }
 ];

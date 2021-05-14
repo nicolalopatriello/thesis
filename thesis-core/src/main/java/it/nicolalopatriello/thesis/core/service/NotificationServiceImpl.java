@@ -2,6 +2,8 @@ package it.nicolalopatriello.thesis.core.service;
 
 import it.nicolalopatriello.thesis.common.exception.DuplicateEntityException;
 import it.nicolalopatriello.thesis.common.exception.UnauthorizedException;
+import it.nicolalopatriello.thesis.common.utils.BooleanUtils;
+import it.nicolalopatriello.thesis.core.dto.DepType;
 import it.nicolalopatriello.thesis.core.dto.gitrace.Gitrace;
 import it.nicolalopatriello.thesis.core.dto.gitrace.GitraceCreateRequest;
 import it.nicolalopatriello.thesis.core.dto.notification.Notification;
@@ -28,5 +30,16 @@ public class NotificationServiceImpl implements NotificationService {
     @Override
     public List<Notification> findByUsername(String username) {
         return notificationRepository.findByUsername(username);
+    }
+
+    @Override
+    public boolean notificationAlreadyExist(String username, Long userTestId, DepType depType, Long changedDepId) {
+        List<Notification> notifications = notificationRepository.findByUsernameAndUserTestIdAndChangedDepTypeAndChangedDepId(username, userTestId, depType, changedDepId);
+        for (Notification notification : notifications) {
+            if (!BooleanUtils.toBool(notification.getChecked())) {
+                return true;
+            }
+        }
+        return false;
     }
 }

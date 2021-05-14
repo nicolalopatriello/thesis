@@ -26,6 +26,7 @@ create table IF NOT EXISTS ${schema}.connection(
   git_provider VARCHAR(255) not null,
   endpoint VARCHAR(255) not null,
   token VARCHAR(255) not null,
+  name VARCHAR(255) not null,
   username VARCHAR(255) references ${schema}.user_
 );
 

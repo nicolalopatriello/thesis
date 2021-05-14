@@ -20,6 +20,7 @@ import it.nicolalopatriello.thesis.core.repos.UserRepository;
 import it.nicolalopatriello.thesis.core.repos.UserTestDepTestVectorRepository;
 import it.nicolalopatriello.thesis.core.repos.UserTestRepository;
 import it.nicolalopatriello.thesis.core.service.MailService;
+import it.nicolalopatriello.thesis.core.service.NotificationService;
 import it.nicolalopatriello.thesis.core.service.SchedulerHistoryService;
 import it.nicolalopatriello.thesis.core.service.TestVectorService;
 import it.nicolalopatriello.thesis.core.utils.Utility;
@@ -70,6 +71,11 @@ public class TestVectorScheduler {
 
     @Autowired
     private MailService mailService;
+
+    @Autowired
+    private NotificationService notificationService;
+
+
 
     @Value("${app.testVectors.serviceurl}")
     private String serviceUrl;
@@ -147,7 +153,8 @@ public class TestVectorScheduler {
                                 Optional<UserTest> userTestEntityOpt = userTestRepository.findByGitRepoUrl(userTest.getUrl());
                                 if (userTestEntityOpt.isPresent()) {
                                     Optional<UserEntity> userEntityOpt = userRepository.findByUsername(userTestEntityOpt.get().getUsername());
-                                    if (userEntityOpt.isPresent()) {
+                                    if (userEntityOpt.isPresent() && !notificationService.notificationAlreadyExist(userEntityOpt.get().getUsername(),
+                                            userTestEntityOpt.get().getId(), DepType.TEST_VECTOR, tsUpdate.getId())) {
                                         NotificationEntity n = new NotificationEntity();
                                         n.setUuid(UUID.randomUUID().toString());
                                         n.setCreatedAt(new Timestamp(System.currentTimeMillis()));
@@ -166,7 +173,6 @@ public class TestVectorScheduler {
                                     }
                                 }
                             });
-
                         }
                     } else {
                         log.debug("New Test Vector found with hash: " + ts.getHash());
