@@ -25,5 +25,7 @@ public class UserTestCreateRequest {
     @NotNull
     private List<Long> gitraceDep = Lists.newLinkedList();
 
+    private Long connectionId;
+
     private String description;
 }

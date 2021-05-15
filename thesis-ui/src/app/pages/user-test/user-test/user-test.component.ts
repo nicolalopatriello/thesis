@@ -14,6 +14,8 @@ import {ToastrService} from 'ngx-toastr';
 import {catchError} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {githubUrlValidation} from '../../repositories/repositories/repositories.component';
+import {ConnectionsService} from '../../../@core/services/connections.service';
+import {Connection} from '../../../@core/models/connection';
 
 @Component({
   selector: 'ngx-user-test',
@@ -34,6 +36,7 @@ export class UserTestComponent implements OnInit {
   public createNewUserTestDialogRef: NbDialogRef<any>;
   public currentUserTestDetails: UserTestWithDeps;
   public userTestDetailsDialogRef: NbDialogRef<any>;
+  public connections: Array<Connection>;
 
   get createEnabled() {
     return this.createUserTestFormGroup.valid && (this.selectedTestVectors.length > 0 || this.selectedGitraces.length > 0);
@@ -81,6 +84,7 @@ export class UserTestComponent implements OnInit {
 
   constructor(private gitraceService: GitraceService,
               private toastr: ToastrService,
+              private connectionsService: ConnectionsService,
               private dialogService: NbDialogService,
               private testVectorsService: TestVectorsService,
               private userTestService: UserTestService,
@@ -99,13 +103,20 @@ export class UserTestComponent implements OnInit {
     });
 
     this.createUserTestFormGroup = new FormGroup({
-      gitProvider: new FormControl(GitProvider.GITHUB, [Validators.required]),
-      gitRepoUrl: new FormControl(null, [Validators.required, githubUrlValidation]),
+      gitProvider: new FormControl(GitProvider.GITLAB, [Validators.required]),
+      gitRepoUrl: new FormControl(null, [Validators.required]),
+      connectionId: new FormControl(null),
       description: new FormControl(null, [])
     });
 
     this.findAllUserTests();
+  }
 
+
+  findAllConnections() {
+    this.connectionsService.findAll().subscribe(conn => {
+      this.connections = conn;
+    });
   }
 
   findAllUserTests() {
@@ -116,6 +127,7 @@ export class UserTestComponent implements OnInit {
   }
 
   openCreateNewUserTest(dialog: TemplateRef<any>) {
+    this.findAllConnections();
     this.createNewUserTestDialogRef = this.dialogService.open(
       dialog,
       {

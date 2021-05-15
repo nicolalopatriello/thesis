@@ -51,6 +51,7 @@ public class GitraceEntity implements WithDTO<Gitrace> {
         gitrace.setGitProvider(gitProvider);
         gitrace.setConnectionId(connectionId);
         gitrace.setLastRepoUpdate(lastRepoUpdate);
+        gitrace.setGitDescription(gitDescription);
         gitrace.setRegistrationTime(registrationTime);
         return gitrace;
     }

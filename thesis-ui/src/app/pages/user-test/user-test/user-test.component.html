@@ -2,7 +2,7 @@
   <nb-card-header>
     <div class="w-100 d-flex flex-row justify-content-between">
       <div>
-        Test vectors
+        Moon Cloud Probes
       </div>
       <div>
         <button status="primary" nbButton (click)="openCreateNewUserTest(addNewDepDialog)">Add</button>
@@ -47,25 +47,32 @@
 
 <ng-template #addNewDepDialog let-data let-ref="addNewDepDialog">
   <nb-card>
-    <nb-card-header>Create</nb-card-header>
+    <nb-card-header>Add new Moon Cloud Probes</nb-card-header>
     <nb-card-body>
       <div class="w-100">
         <div class="row d-flex flex-row mb-4" [formGroup]="createUserTestFormGroup">
 
           <div class="row w-100 d-flex flex-row">
             <div class="col-md-2">
-            <nb-select formControlName="gitProvider">
-              <nb-option [value]="GitProvider.GITHUB">GITHUB</nb-option>
-              <nb-option disabled [value]="GitProvider.GITLAB">GITLAB</nb-option>
-            </nb-select>
+              <nb-select class="w-100" formControlName="gitProvider">
+                <nb-option [value]="GitProvider.GITLAB">GITLAB</nb-option>
+                <nb-option [value]="GitProvider.GITHUB">GITHUB</nb-option>
+              </nb-select>
             </div>
 
-            <div class="col-md-10">
-            <input
+            <div class="col-md-3">
+              <nb-select class="w-100" formControlName="connectionId" placeholder="Connection">
+                <nb-option [value]="null">None</nb-option>
+                <nb-option *ngFor="let c of connections" [value]="c.id">{{c.name}}</nb-option>
+              </nb-select>
+            </div>
+
+            <div class="col-md-7">
+              <input
                 type="text"
                 nbInput fullWidth
                 class="form-control full-width"
-                placeholder="Repository link..."
+                placeholder="Repository Url"
                 formControlName="gitRepoUrl"
                 required>
               <div class="position-absolute text-danger small" *ngIf="createUserTestFormGroup.controls.gitRepoUrl.dirty &&
@@ -74,6 +81,8 @@
               </div>
             </div>
           </div>
+
+
           <div class="row w-100 d-flex flex-row mt-4">
             <div class="col-md-12">
               <input
@@ -85,8 +94,6 @@
                 required>
             </div>
           </div>
-
-
 
 
         </div>

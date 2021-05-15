@@ -24,6 +24,7 @@ public class UserTest extends DTO {
     private String gitRepoUrl;
     private GitProvider gitProvider;
     private String description;
+    private Long connectionId;
     private String username;
     private Timestamp createdAt;
 
@@ -33,6 +34,7 @@ public class UserTest extends DTO {
         userTestEntity.setGitRepoUrl(gitRepoUrl);
         userTestEntity.setGitProvider(gitProvider);
         userTestEntity.setDescription(description);
+        userTestEntity.setConnectionId(connectionId);
         userTestEntity.setUsername(username);
         userTestEntity.setCreatedAt(createdAt);
         return userTestEntity;
@@ -45,6 +47,7 @@ public class UserTest extends DTO {
         dto.setGitRepoUrl(userTestEntity.getGitRepoUrl());
         dto.setGitProvider(userTestEntity.getGitProvider());
         dto.setDescription(userTestEntity.getDescription());
+        dto.setConnectionId(userTestEntity.getConnectionId());
         dto.setUsername(userTestEntity.getUsername());
         dto.setCreatedAt(userTestEntity.getCreatedAt());
         return dto;

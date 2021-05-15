@@ -5,11 +5,13 @@ import it.nicolalopatriello.thesis.common.spring.dto.DTO;
 import it.nicolalopatriello.thesis.core.dto.gitrace.GitProvider;
 import it.nicolalopatriello.thesis.core.entities.ConnectionEntity;
 import lombok.Data;
+import lombok.ToString;
 import lombok.extern.log4j.Log4j;
 
 
 @Log4j
 @Data
+@ToString
 public class Connection extends DTO {
 
     private Long id;

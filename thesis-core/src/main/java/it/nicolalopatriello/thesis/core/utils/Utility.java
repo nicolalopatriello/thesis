@@ -1,6 +1,7 @@
 package it.nicolalopatriello.thesis.core.utils;
 
 
+import it.nicolalopatriello.thesis.core.dto.usertest.UserTestCreateRequest;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -32,10 +33,12 @@ public class Utility {
 
 
     public static String getProjectPath(String gitlabEndpoint, String gitRepoUrl) {
-        return gitRepoUrl
+        String t = gitRepoUrl
                 .replace(gitlabEndpoint, "")
-                .replace(".git", "")
-                .substring(1);
+                .replace(".git", "");
+        if (t.startsWith("/"))
+            return t.substring(1);
+        return t;
     }
 
     public static boolean downloadFile(String source, File destination) throws IOException {

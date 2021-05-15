@@ -6,8 +6,8 @@
         <form [formGroup]="newConnectionFormGroup" class="form-inline">
 
           <nb-select formControlName="gitProvider">
-            <nb-option [value]="GitProvider.GITHUB">GITHUB</nb-option>
             <nb-option [value]="GitProvider.GITLAB">GITLAB</nb-option>
+            <nb-option [value]="GitProvider.GITHUB">GITHUB</nb-option>
           </nb-select>
 
           <div class="col-md-3">
@@ -32,10 +32,10 @@
 
           <input
             type="text"
+            formControlName="token"
             nbInput fullWidth
             class="form-control"
-            placeholder="Api key"
-            name="token">
+            placeholder="Personal Access Token">
 
           <button
             type="submit"

@@ -6,6 +6,7 @@ export interface UserTest {
   gitRepoUrl: string;
   gitProvider: GitProvider;
   description: string;
+  connectionId?: number;
   gitraceDep: number[];
   testVectorsDep: number[];
 }

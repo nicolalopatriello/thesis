@@ -8,6 +8,7 @@ import it.nicolalopatriello.thesis.common.spring.security.jwt.JwtUser;
 import it.nicolalopatriello.thesis.common.spring.services.JwtTokenServiceExt;
 import it.nicolalopatriello.thesis.core.dto.UserTestDepGitrace;
 import it.nicolalopatriello.thesis.core.dto.UserTestDepTestVector;
+import it.nicolalopatriello.thesis.core.dto.gitrace.GitProvider;
 import it.nicolalopatriello.thesis.core.dto.gitrace.Gitrace;
 import it.nicolalopatriello.thesis.core.dto.testvector.TestVector;
 import it.nicolalopatriello.thesis.core.dto.usertest.UserTest;
@@ -84,7 +85,8 @@ public class UserTestServiceImpl implements UserTestService {
     @Override
     public UserTestCreateResponse create(JwtUser user, UserTestCreateRequest userTestCreateRequest) throws UnauthorizedException, BadRequestException, DuplicateEntityException {
 
-        Optional<String> repoNameOpt = Utility.getGitHubRepoName(userTestCreateRequest.getGitRepoUrl());
+        Optional<String> repoNameOpt = userTestCreateRequest.getGitProvider() == GitProvider.GITHUB ?
+                Utility.getGitHubRepoName(userTestCreateRequest.getGitRepoUrl()) : Optional.of(userTestCreateRequest.getGitRepoUrl());
 
         if (!repoNameOpt.isPresent())
             throw new BadRequestException();

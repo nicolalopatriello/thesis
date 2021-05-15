@@ -68,8 +68,8 @@ export class RepositoriesComponent implements OnInit {
 
     this.newGitraceFormGroup = new FormGroup(
       {
-        gitProvider: new FormControl(GitProvider.GITHUB, [Validators.required]),
-        gitRepoUrl: new FormControl(null, [Validators.required, githubUrlValidation]),
+        gitProvider: new FormControl(GitProvider.GITLAB, [Validators.required]),
+        gitRepoUrl: new FormControl(null, [Validators.required]),
         connectionId: new FormControl(null, []),
         gitDescription: new FormControl(null, [])
       }

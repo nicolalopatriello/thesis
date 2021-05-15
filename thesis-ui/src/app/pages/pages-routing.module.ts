@@ -23,7 +23,7 @@ const routes: Routes = [{
         .then(m => m.RepositoriesModule),
     },
     {
-      path: 'moon-cloud-tests',
+      path: 'moon-cloud-probes',
       loadChildren: () => import('./user-test/user-test.module')
         .then(m => m.UserTestModule),
     },

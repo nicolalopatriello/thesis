@@ -47,6 +47,7 @@ create table IF NOT EXISTS ${schema}.user_test(
   git_provider VARCHAR(255) not null,
   git_repo_url varchar(255) not null,
   description VARCHAR(255),
+  connection_id bigint references ${schema}.connection,
   username VARCHAR(255) references ${schema}.user_,
   created_at TIMESTAMPTZ,
   unique(git_repo_url, username)

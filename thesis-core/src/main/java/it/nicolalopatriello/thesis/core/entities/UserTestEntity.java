@@ -41,6 +41,9 @@ public class UserTestEntity implements WithDTO<UserTest> {
     @Column
     private String description;
 
+    @Column(name = "connection_id")
+    private Long connectionId;
+
     @Column
     private String username;
 
@@ -53,6 +56,7 @@ public class UserTestEntity implements WithDTO<UserTest> {
         userTest.setGitRepoUrl(gitRepoUrl);
         userTest.setGitProvider(gitProvider);
         userTest.setDescription(description);
+        userTest.setConnectionId(connectionId);
         userTest.setUsername(username);
         userTest.setCreatedAt(createdAt);
         userTest.setId(id);

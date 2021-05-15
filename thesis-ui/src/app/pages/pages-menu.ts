@@ -1,4 +1,4 @@
-import { NbMenuItem } from '@nebular/theme';
+import {NbMenuItem} from '@nebular/theme';
 
 export const MENU_ITEMS: NbMenuItem[] = [
   {
@@ -8,19 +8,25 @@ export const MENU_ITEMS: NbMenuItem[] = [
     home: true,
   },
   {
-    title: 'Test vectors',
-    icon: 'layers-outline',
-    link: '/pages/test-vectors',
-  },
-  {
-    title: 'Repositories',
-    icon: 'code-outline',
-    link: '/pages/repositories',
-  },
-  {
-    title: 'Moon Cloud tests',
+    title: 'Moon Cloud Probes',
     icon: 'moon-outline',
-    link: '/pages/moon-cloud-tests',
+    link: '/pages/moon-cloud-probes',
+  },
+  {
+    title: 'Probes dependencies',
+    icon: 'repeat-outline',
+    children: [
+      {
+        title: 'Repositories',
+        icon: 'code-outline',
+        link: '/pages/repositories',
+      },
+      {
+        title: 'Test vectors',
+        icon: 'layers-outline',
+        link: '/pages/test-vectors',
+      },
+    ]
   },
   {
     title: 'Notifications',

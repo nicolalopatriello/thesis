@@ -50,7 +50,7 @@ export class ConnectionsComponent implements OnInit {
   ngOnInit(): void {
     this.newConnectionFormGroup = new FormGroup(
       {
-        gitProvider: new FormControl(GitProvider.GITHUB, [Validators.required]),
+        gitProvider: new FormControl(GitProvider.GITLAB, [Validators.required]),
         endpoint: new FormControl(null, [Validators.required]),
         name: new FormControl(null, [Validators.required]),
         token: new FormControl(null, [])
