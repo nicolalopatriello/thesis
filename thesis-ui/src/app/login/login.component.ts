@@ -23,7 +23,6 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    console.log(this.loginFormGroup.getRawValue());
     this.authService.login(this.loginFormGroup.getRawValue()).subscribe(t => {
       localStorage.setItem(LOCALSTORAGE_KEY_TOKEN, t.token);
       this.loginFormGroup.reset();
