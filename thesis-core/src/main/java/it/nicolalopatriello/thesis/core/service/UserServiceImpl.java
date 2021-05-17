@@ -37,6 +37,7 @@ public class UserServiceImpl implements UserService {
         return passwordEncoder.matches(p, u.getPassword());
     }
 
+
     protected UserEntity getUserEntityOrThrowsException(LoginRequest loginRequest, UserRepository repository) throws UnauthorizedException {
         Optional<UserEntity> user = repository.findById(loginRequest.getUsername());
         if (!user.isPresent()) throw new UnauthorizedException();
