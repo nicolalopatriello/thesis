@@ -1,6 +1,7 @@
 package it.nicolalopatriello.thesis.core.utils;
 
 
+import it.nicolalopatriello.thesis.core.dto.dependecy.PythonDependency;
 import it.nicolalopatriello.thesis.core.dto.usertest.UserTestCreateRequest;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.http.HttpResponse;
@@ -30,6 +31,7 @@ public class Utility {
 
     private final static Logger log = Logger.getLogger(Utility.class);
     private final static Pattern GITHUB_REPO_NAME_PATTERN = Pattern.compile("http+s?://github.com\\/(?<REPO>.*)\\..*");
+    private final static Pattern PYTHON_DEPENDENCY_PARSER_PATTERN = Pattern.compile("(?<NAME>.*)(?<TYPE>==|>=|<=)(?<VERSION>.*)");
 
 
     public static String getProjectPath(String gitlabEndpoint, String gitRepoUrl) {
@@ -112,5 +114,18 @@ public class Utility {
         }
         return Optional.ofNullable(filename);
     }
+
+
+    public static Optional<PythonDependency> parsePythonDependency(String dependency) {
+        Matcher matcher = PYTHON_DEPENDENCY_PARSER_PATTERN.matcher(dependency.toLowerCase());
+        String name = null;
+        String version = null;
+        if (matcher.find()) {
+            name = matcher.group("NAME");
+            version = matcher.group("VERSION");
+        }
+        return Optional.of(new PythonDependency(name, version));
+    }
+
 }
 
