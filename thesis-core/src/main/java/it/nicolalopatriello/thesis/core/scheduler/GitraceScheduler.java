@@ -62,7 +62,7 @@ public class GitraceScheduler {
     private NotificationService notificationService;
 
 
-    @Scheduled(fixedDelayString = "${app.gitrace.scheduledTime}")
+    //@Scheduled(fixedDelayString = "${app.gitrace.scheduledTime}")
     public void fetchGitrace() throws IOException, HttpException, GitLabApiException {
         SchedulerHistoryCreateRequest s = new SchedulerHistoryCreateRequest();
         s.setType(DepType.GITRACE);

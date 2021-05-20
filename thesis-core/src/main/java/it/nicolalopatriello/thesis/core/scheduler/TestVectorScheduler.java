@@ -93,7 +93,7 @@ public class TestVectorScheduler {
         return Optional.ofNullable(filename);
     }
 
-    @Scheduled(fixedDelayString = "${app.testVectors.scheduledTime}")
+   // @Scheduled(fixedDelayString = "${app.testVectors.scheduledTime}")
     public void fetchTestVectors() throws IOException {
         SchedulerHistoryCreateRequest s = new SchedulerHistoryCreateRequest();
         s.setType(DepType.TEST_VECTOR);
