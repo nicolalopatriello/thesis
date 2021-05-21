@@ -20,5 +20,3 @@ create table IF NOT EXISTS ${schema}.repository(
   last_commit_sha VARCHAR(255),
   owner VARCHAR(255) references ${schema}.user_
 );
-
-

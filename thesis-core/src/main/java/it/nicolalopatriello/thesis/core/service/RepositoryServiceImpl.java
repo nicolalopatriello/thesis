@@ -1,14 +1,11 @@
 package it.nicolalopatriello.thesis.core.service;
 
-import it.nicolalopatriello.thesis.common.exception.BadRequestException;
-import it.nicolalopatriello.thesis.common.exception.DuplicateEntityException;
-import it.nicolalopatriello.thesis.common.exception.UnauthorizedException;
 import it.nicolalopatriello.thesis.common.spring.security.jwt.JwtUser;
 import it.nicolalopatriello.thesis.core.dto.repository.RepositoryCreateRequest;
 import it.nicolalopatriello.thesis.core.dto.repository.RepositoryCreateResponse;
+import it.nicolalopatriello.thesis.core.entities.RepositoryEntity;
 import it.nicolalopatriello.thesis.core.repos.ThesisRepositoryRepository;
 import lombok.extern.log4j.Log4j;
-import org.eclipse.jgit.api.errors.GitAPIException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,10 +18,14 @@ public class RepositoryServiceImpl implements RepositoryService {
 
 
     @Override
-    public RepositoryCreateResponse create(JwtUser user, RepositoryCreateRequest repositoryCreateRequest) throws UnauthorizedException, BadRequestException,
-            DuplicateEntityException, GitAPIException {
-        return null;
-
+    public RepositoryCreateResponse create(JwtUser user, RepositoryCreateRequest repositoryCreateRequest) {
+        RepositoryEntity repositoryEntity = new RepositoryEntity();
+        repositoryEntity.setUrl(repositoryCreateRequest.getUrl());
+        repositoryEntity.setUsername(repositoryCreateRequest.getUsername());
+        repositoryEntity.setPassword(repositoryCreateRequest.getPassword());
+        repositoryEntity.setBranch(repositoryCreateRequest.getBranch());
+        repositoryEntity.setOwner(user.getUsername());
+        return RepositoryCreateResponse.from(thesisRepositoryRepository.save(repositoryEntity));
     }
 
 

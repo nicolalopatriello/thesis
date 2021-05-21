@@ -13,7 +13,9 @@
     <inceptionYear>2021</inceptionYear>
     <licenses/>
 
-    <modules/>
+    <modules>
+        <module>thesis-worker</module>
+    </modules>
 
     <scm/>
 

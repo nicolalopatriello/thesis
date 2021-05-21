@@ -15,5 +15,5 @@ import org.eclipse.jgit.api.errors.GitAPIException;
 import java.util.List;
 
 public interface RepositoryService {
-    RepositoryCreateResponse create(JwtUser user, RepositoryCreateRequest repositoryCreateRequest) throws UnauthorizedException, BadRequestException, DuplicateEntityException, GitAPIException;
+    RepositoryCreateResponse create(JwtUser user, RepositoryCreateRequest repositoryCreateRequest) throws BadRequestException;
 }
