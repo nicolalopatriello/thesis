@@ -145,6 +145,12 @@
             <artifactId>mailjet-client</artifactId>
             <version>5.1.1</version>
         </dependency>
+        <dependency>
+            <groupId>it.nicolalopatriello</groupId>
+            <artifactId>thesis-common</artifactId>
+            <version>1.0.0...</version>
+            <scope>compile</scope>
+        </dependency>
 
 
     </dependencies>

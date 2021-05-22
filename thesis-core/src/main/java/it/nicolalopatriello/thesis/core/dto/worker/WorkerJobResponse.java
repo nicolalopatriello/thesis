@@ -3,11 +3,13 @@ package it.nicolalopatriello.thesis.core.dto.worker;
 import it.nicolalopatriello.thesis.core.entities.RepositoryEntity;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 public class WorkerJobResponse {
-    WatcherType watcherType;
+     WatcherType watcherType;
     String repositoryUrl;
     String repositoryUsername;
     String repositoryPassword;
