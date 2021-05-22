@@ -8,15 +8,16 @@ import lombok.ToString;
 @Setter
 @ToString
 public class WorkerJobResponse {
-    private Repository repository;
+    private Long repositoryId;
+    private String repositoryUrl;
+    private String repositoryBranch;
+    private RepositoryCredentials credentials;
     private Recipe recipe;
 
     @Getter
     @Setter
-    public static class Repository {
-        private String repositoryUrl;
+    public static class RepositoryCredentials {
         private String repositoryUsername;
         private String repositoryPassword;
-        private String repositoryBranch;
     }
 }

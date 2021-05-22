@@ -9,12 +9,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class WatcherFactory {
 
-    public static Watcher get(WatcherType type) {
+    public static Watcher<?> get(WatcherType type) {
         switch (type) {
             case PYTHON_DEPENDENCY:
                 return new PythonWatcherImpl();
+            default:
+                throw new WatcherTypeNotFoundException(type);
         }
-        throw new WatcherTypeNotFoundException(type);
+
     }
 
 }

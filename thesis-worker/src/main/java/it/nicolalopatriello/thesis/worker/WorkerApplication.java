@@ -1,43 +1,50 @@
 package it.nicolalopatriello.thesis.worker;
 
+import it.nicolalopatriello.thesis.common.dto.RunnerResponse;
 import it.nicolalopatriello.thesis.common.dto.WorkerJobResponse;
 import it.nicolalopatriello.thesis.worker.client.ThesisCoreHttpClient;
-import it.nicolalopatriello.thesis.worker.exception.HttpRequestException;
+import lombok.extern.log4j.Log4j;
 
 import java.util.Optional;
 
+@Log4j
 public class WorkerApplication {
 
-    public static void main(String[] args) throws HttpRequestException, InterruptedException {
-        ThesisCoreHttpClient thesisCoreHttpClient = new ThesisCoreHttpClient();
+    public static void main(String[] args) {
+        ThesisCoreHttpClient client = new ThesisCoreHttpClient();
         WorkerEngine workerEngine = new WorkerEngine();
-
-        // workerEngine.accept();
-
+        boolean inAwait = false;
         while (true) {
-            Thread.sleep(5000);
-
-            Optional<WorkerJobResponse> optionalWorkerJobResponse = thesisCoreHttpClient.findJob();
-            if (optionalWorkerJobResponse.isPresent()) {
-
+            try {
+                Optional<WorkerJobResponse> job = client.findJob();
+                if (job.isPresent()) {
+                    WorkerJobResponse j = job.get();
+                    log.info("Job for " + j.getRepositoryUrl());
+                    inAwait = false;
+                    RunnerResponse response = workerEngine.accept(j);
+                    client.send(response);
+                } else {
+                    log.debug("No job available");
+                    if (!inAwait)
+                        log.info("No job available retry on each " + (RunnerProperties.awaitInterval() / 1000) + " sec");
+                    inAwait = true;
+                }
+            } catch (Exception e) {
+                log.error("Cannot fetch job. Retry in " + (RunnerProperties.awaitInterval() / 1000) + " sec");
+                log.error(e.getMessage(), e);
             }
 
-          /*  if (optionalWorkerJobResponse.isPresent()) {
-                WorkerJobResponse wj = optionalWorkerJobResponse.get();
-                LocalRepoHandler localRepoHandler = new LocalRepoHandler();
-                try {
-                    String path = localRepoHandler.getLocalPath(
-                            wj.getRepositoryUrl(),
-                            wj.getRepositoryUsername(),
-                            wj.getRepositoryPassword(),
-                            wj.getRepositoryBranch()
-                    );
-                    System.err.println(path);
-                } catch (Exception e) {
-                    System.err.println("Error " + e);
-                }
-
-            }*/
+            awaitFor();
         }
     }
+
+
+    private static void awaitFor() {
+        try {
+            Thread.sleep(RunnerProperties.awaitInterval());
+        } catch (InterruptedException e) {
+            log.error(e.getMessage(), e);
+        }
+    }
+
 }

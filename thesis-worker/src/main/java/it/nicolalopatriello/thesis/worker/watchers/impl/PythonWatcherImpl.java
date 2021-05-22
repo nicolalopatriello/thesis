@@ -1,31 +1,20 @@
 package it.nicolalopatriello.thesis.worker.watchers.impl;
 
-import it.nicolalopatriello.thesis.common.dto.Recipe;
+import it.nicolalopatriello.thesis.common.dto.WatcherResponse;
 import it.nicolalopatriello.thesis.worker.watchers.Watcher;
 
 import java.io.File;
-import java.util.List;
 
-public class PythonWatcherImpl implements Watcher {
+public class PythonWatcherImpl implements Watcher<PythonWatcherArgs> {
+
     @Override
-    public WatcherResponse run(File folder, Recipe.Item item) {
+    public WatcherResponse run(File folder, PythonWatcherArgs args) {
+        System.err.println("[PYTHON] Folder: "+folder +" args: "+args);
         return null;
     }
 
-    public static class WatcherResponse {
-        private boolean success;
-        private String commitSha;
-        private List<Dependency> dependencies;
-        private List<Metric> metrics;
-    }
-
-    public static class Dependency {
-        private String name;
-        private String version;
-    }
-
-    public static class Metric {
-        private String key;
-        private Object value;
+    @Override
+    public PythonWatcherArgs convert(Object args) {
+        return null;
     }
 }
