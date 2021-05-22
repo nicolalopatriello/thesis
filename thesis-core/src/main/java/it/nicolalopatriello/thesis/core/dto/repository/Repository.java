@@ -1,6 +1,6 @@
 package it.nicolalopatriello.thesis.core.dto.repository;
 
-import it.nicolalopatriello.thesis.common.spring.dto.DTO;
+import it.nicolalopatriello.thesis.core.dto.DTO;
 import it.nicolalopatriello.thesis.core.entities.RepositoryEntity;
 import lombok.Getter;
 import lombok.Setter;

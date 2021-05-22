@@ -31,10 +31,9 @@ create table IF NOT EXISTS ${schema}.worker(
 create sequence IF NOT EXISTS ${schema}.watcher_seq;
 create table IF NOT EXISTS ${schema}.watcher(
   id bigint default nextval('${schema}.watcher_seq') PRIMARY KEY,
-  name VARCHAR(255),
-  description VARCHAR(255),
-  type VARCHAR(255),
+  type VARCHAR(255) not null,
   enabled bool not null default true,
+  minutes_interval bigint not null,
   repository_id bigint references ${schema}.repository,
   last_update TIMESTAMPTZ
 );

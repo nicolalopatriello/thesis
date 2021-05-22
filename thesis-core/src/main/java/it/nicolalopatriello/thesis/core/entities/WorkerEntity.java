@@ -1,8 +1,8 @@
 package it.nicolalopatriello.thesis.core.entities;
 
-import it.nicolalopatriello.thesis.common.spring.dto.WithDTO;
-import it.nicolalopatriello.thesis.common.spring.jpa.SearchCriteria;
-import it.nicolalopatriello.thesis.common.spring.jpa.SimpleSearchSpecification;
+import it.nicolalopatriello.thesis.core.dto.WithDTO;
+import it.nicolalopatriello.thesis.core.jpa.SearchCriteria;
+import it.nicolalopatriello.thesis.core.jpa.SimpleSearchSpecification;
 import it.nicolalopatriello.thesis.core.Schema;
 import it.nicolalopatriello.thesis.core.Worker;
 import lombok.Data;

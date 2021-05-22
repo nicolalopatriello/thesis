@@ -1,7 +1,7 @@
 package it.nicolalopatriello.thesis.core.service;
 
+import it.nicolalopatriello.thesis.common.dto.WorkerJobResponse;
 import it.nicolalopatriello.thesis.core.Worker;
-import it.nicolalopatriello.thesis.core.dto.worker.WorkerJobResponse;
 import it.nicolalopatriello.thesis.core.entities.WorkerEntity;
 import it.nicolalopatriello.thesis.core.repos.ThesisRepositoryRepository;
 import it.nicolalopatriello.thesis.core.repos.WorkerRepository;

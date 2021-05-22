@@ -1,10 +1,10 @@
 package it.nicolalopatriello.thesis.core.entities;
 
-import it.nicolalopatriello.thesis.common.spring.dto.WithDTO;
-import it.nicolalopatriello.thesis.common.spring.jpa.SearchCriteria;
-import it.nicolalopatriello.thesis.common.spring.jpa.SimpleSearchSpecification;
 import it.nicolalopatriello.thesis.core.Schema;
+import it.nicolalopatriello.thesis.core.dto.WithDTO;
 import it.nicolalopatriello.thesis.core.dto.repository.Repository;
+import it.nicolalopatriello.thesis.core.jpa.SearchCriteria;
+import it.nicolalopatriello.thesis.core.jpa.SimpleSearchSpecification;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -60,7 +60,7 @@ public class RepositoryEntity implements WithDTO<Repository> {
         return repository;
     }
 
-    public static class Specification extends SimpleSearchSpecification<GitraceEntity> {
+    public static class Specification extends SimpleSearchSpecification<RepositoryEntity> {
         public Specification(SearchCriteria criteria) {
             super(criteria);
         }

@@ -1,9 +1,9 @@
 package it.nicolalopatriello.thesis.core.interceptors;
 
 
-import it.nicolalopatriello.thesis.common.spring.contexts.ThesisSecurityContext;
-import it.nicolalopatriello.thesis.common.spring.security.jwt.JwtUser;
-import it.nicolalopatriello.thesis.common.spring.services.JwtTokenServiceExt;
+import it.nicolalopatriello.thesis.core.utils.ThesisSecurityContext;
+import it.nicolalopatriello.thesis.core.utils.JwtUser;
+import it.nicolalopatriello.thesis.core.service.JwtTokenServiceExt;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

@@ -1,6 +1,6 @@
 package it.nicolalopatriello.thesis.core;
 
-import it.nicolalopatriello.thesis.common.spring.dto.DTO;
+import it.nicolalopatriello.thesis.core.dto.DTO;
 import it.nicolalopatriello.thesis.core.entities.WorkerEntity;
 import lombok.Data;
 import lombok.ToString;

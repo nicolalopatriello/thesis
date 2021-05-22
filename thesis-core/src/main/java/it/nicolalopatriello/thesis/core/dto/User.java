@@ -1,7 +1,6 @@
 package it.nicolalopatriello.thesis.core.dto;
 
 
-import it.nicolalopatriello.thesis.common.spring.dto.DTO;
 import it.nicolalopatriello.thesis.core.entities.UserEntity;
 import lombok.Getter;
 import lombok.Setter;

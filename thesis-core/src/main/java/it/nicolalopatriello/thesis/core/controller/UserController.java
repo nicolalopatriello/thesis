@@ -2,11 +2,8 @@ package it.nicolalopatriello.thesis.core.controller;
 
 import it.nicolalopatriello.thesis.common.annotations.roles.ThesisPublicApi;
 import it.nicolalopatriello.thesis.common.exception.NotFoundException;
-import it.nicolalopatriello.thesis.common.exception.UnauthorizedException;
-import it.nicolalopatriello.thesis.common.spring.security.jwt.JwtUser;
+import it.nicolalopatriello.thesis.core.utils.JwtUser;
 import it.nicolalopatriello.thesis.core.dto.User;
-import it.nicolalopatriello.thesis.core.dto.users.LoginRequest;
-import it.nicolalopatriello.thesis.core.dto.users.LoginResponse;
 import it.nicolalopatriello.thesis.core.dto.users.UserCreateRequest;
 import it.nicolalopatriello.thesis.core.dto.users.UserCreateResponse;
 import it.nicolalopatriello.thesis.core.exception.BadUserCreationException;

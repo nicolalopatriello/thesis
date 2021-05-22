@@ -1,17 +1,13 @@
 package it.nicolalopatriello.thesis.core.dto.notification;
 
 
-import it.nicolalopatriello.thesis.common.spring.dto.DTO;
+import it.nicolalopatriello.thesis.core.dto.DTO;
 import it.nicolalopatriello.thesis.core.dto.DepType;
-import it.nicolalopatriello.thesis.core.dto.gitrace.GitProvider;
-import it.nicolalopatriello.thesis.core.entities.GitraceEntity;
 import it.nicolalopatriello.thesis.core.entities.NotificationEntity;
 import lombok.Data;
 import lombok.ToString;
 import lombok.extern.log4j.Log4j;
 
-import javax.persistence.Column;
-import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 
 @Log4j

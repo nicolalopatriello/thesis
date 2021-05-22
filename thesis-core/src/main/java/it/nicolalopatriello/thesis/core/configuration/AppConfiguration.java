@@ -1,8 +1,8 @@
 package it.nicolalopatriello.thesis.core.configuration;
 
 
-import it.nicolalopatriello.thesis.common.spring.services.JwtTokenService;
-import it.nicolalopatriello.thesis.common.spring.services.JwtTokenServiceImpl;
+import it.nicolalopatriello.thesis.core.service.JwtTokenService;
+import it.nicolalopatriello.thesis.core.service.JwtTokenServiceImpl;
 import it.nicolalopatriello.thesis.common.utils.rsa.PrivateKeyReader;
 import it.nicolalopatriello.thesis.common.utils.rsa.PublicKeyReader;
 import it.nicolalopatriello.thesis.core.security.KirkBCryptPasswordEncoder;

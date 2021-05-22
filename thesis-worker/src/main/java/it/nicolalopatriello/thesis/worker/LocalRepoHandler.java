@@ -1,6 +1,6 @@
 package it.nicolalopatriello.thesis.worker;
 
-import it.nicolalopatriello.thesis.exception.LocalRepoHandlerException;
+import it.nicolalopatriello.thesis.worker.exception.LocalRepoHandlerException;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Repository;

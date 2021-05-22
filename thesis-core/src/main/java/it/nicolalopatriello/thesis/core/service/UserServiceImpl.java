@@ -1,7 +1,6 @@
 package it.nicolalopatriello.thesis.core.service;
 
 import it.nicolalopatriello.thesis.common.exception.UnauthorizedException;
-import it.nicolalopatriello.thesis.common.spring.services.JwtTokenServiceExt;
 import it.nicolalopatriello.thesis.core.dto.User;
 import it.nicolalopatriello.thesis.core.dto.users.LoginRequest;
 import it.nicolalopatriello.thesis.core.dto.users.LoginResponse;

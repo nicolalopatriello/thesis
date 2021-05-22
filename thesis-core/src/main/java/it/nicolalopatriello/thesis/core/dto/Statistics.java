@@ -1,6 +1,5 @@
 package it.nicolalopatriello.thesis.core.dto;
 
-import it.nicolalopatriello.thesis.common.spring.dto.DTO;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;

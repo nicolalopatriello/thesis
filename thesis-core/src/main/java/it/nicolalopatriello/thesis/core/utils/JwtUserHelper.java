@@ -1,6 +1,5 @@
 package it.nicolalopatriello.thesis.core.utils;
 
-import it.nicolalopatriello.thesis.common.spring.security.jwt.JwtUser;
 import it.nicolalopatriello.thesis.core.dto.User;
 import it.nicolalopatriello.thesis.core.entities.UserEntity;
 import lombok.AccessLevel;

@@ -1,9 +1,8 @@
 package it.nicolalopatriello.thesis.core;
 
 
-import it.nicolalopatriello.thesis.common.spring.jpa.JpaSpecificationExecutorWithProjectionImpl;
+import it.nicolalopatriello.thesis.core.jpa.JpaSpecificationExecutorWithProjectionImpl;
 import lombok.extern.log4j.Log4j;
-import org.eclipse.jgit.api.errors.GitAPIException;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -14,7 +13,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @Log4j
 @EnableScheduling
 public class CoreApplication {
-    public static void main(String[] args) throws GitAPIException {
+    public static void main(String[] args) {
         SpringApplication springApplication = new SpringApplication(CoreApplication.class);
         springApplication.run();
 

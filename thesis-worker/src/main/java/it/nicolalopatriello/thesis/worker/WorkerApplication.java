@@ -1,8 +1,8 @@
 package it.nicolalopatriello.thesis.worker;
 
-import it.nicolalopatriello.thesis.core.dto.worker.WorkerJobResponse;
-import it.nicolalopatriello.thesis.exception.HttpRequestException;
+import it.nicolalopatriello.thesis.common.dto.WorkerJobResponse;
 import it.nicolalopatriello.thesis.worker.client.ThesisCoreHttpClient;
+import it.nicolalopatriello.thesis.worker.exception.HttpRequestException;
 
 import java.util.Optional;
 
@@ -10,10 +10,19 @@ public class WorkerApplication {
 
     public static void main(String[] args) throws HttpRequestException, InterruptedException {
         ThesisCoreHttpClient thesisCoreHttpClient = new ThesisCoreHttpClient();
+        WorkerEngine workerEngine = new WorkerEngine();
+
+        // workerEngine.accept();
+
         while (true) {
             Thread.sleep(5000);
+
             Optional<WorkerJobResponse> optionalWorkerJobResponse = thesisCoreHttpClient.findJob();
             if (optionalWorkerJobResponse.isPresent()) {
+
+            }
+
+          /*  if (optionalWorkerJobResponse.isPresent()) {
                 WorkerJobResponse wj = optionalWorkerJobResponse.get();
                 LocalRepoHandler localRepoHandler = new LocalRepoHandler();
                 try {
@@ -28,7 +37,7 @@ public class WorkerApplication {
                     System.err.println("Error " + e);
                 }
 
-            }
+            }*/
         }
     }
 }

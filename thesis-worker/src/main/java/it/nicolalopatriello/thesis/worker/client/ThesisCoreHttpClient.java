@@ -2,15 +2,14 @@ package it.nicolalopatriello.thesis.worker.client;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import it.nicolalopatriello.thesis.core.dto.worker.WorkerJobResponse;
-import it.nicolalopatriello.thesis.exception.HttpRequestException;
+import it.nicolalopatriello.thesis.common.dto.WorkerJobResponse;
 import org.apache.hc.client5.http.classic.methods.HttpGet;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
 import org.apache.hc.client5.http.impl.classic.HttpClients;
 import org.apache.hc.core5.http.HttpEntity;
 import org.apache.hc.core5.http.io.entity.EntityUtils;
-
+import it.nicolalopatriello.thesis.worker.exception.HttpRequestException;
 import java.util.Optional;
 
 public class ThesisCoreHttpClient {

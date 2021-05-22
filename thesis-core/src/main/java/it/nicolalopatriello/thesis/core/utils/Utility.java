@@ -2,27 +2,14 @@ package it.nicolalopatriello.thesis.core.utils;
 
 
 import it.nicolalopatriello.thesis.core.dto.dependecy.PythonDependency;
-import it.nicolalopatriello.thesis.core.dto.usertest.UserTestCreateRequest;
-import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.log4j.Logger;
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.PDDocumentInformation;
-import org.apache.pdfbox.text.PDFTextStripper;
-import org.h2.util.json.JSONObject;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
-import java.sql.Timestamp;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -61,35 +48,35 @@ public class Utility {
         }
         return success;
     }
-
-    public static String getMD5(File file) throws IOException {
-        return DigestUtils.md5Hex(new FileInputStream(file));
-    }
-
-    public static String getText(File pdfFile) throws IOException {
-        PDDocument pdDocument = PDDocument.load(pdfFile);
-        try {
-            return new PDFTextStripper().getText(pdDocument);
-        } finally {
-            pdDocument.close();
-        }
-    }
-
-    public static Timestamp getLastChanged(File pdfFile) throws IOException {
-        PDDocumentInformation info = PDDocument.load(pdfFile).getDocumentInformation();
-        return new Timestamp(info.getModificationDate().getTimeInMillis());
-    }
-
-    public static HttpResponse postRequestJson(String destinationUrl, JSONObject json) throws Exception {
-        String payload = String.valueOf(json);
-        System.out.println(payload);
-        StringEntity entity = new StringEntity(json.toString());
-        HttpClient httpClient = HttpClientBuilder.create().build();
-        HttpPost request = new HttpPost(destinationUrl);
-        request.addHeader("content-type", "application/json");
-        request.setEntity(entity);
-        return httpClient.execute(request);
-    }
+//
+//    public static String getMD5(File file) throws IOException {
+//        return DigestUtils.md5Hex(new FileInputStream(file));
+//    }
+//
+//    public static String getText(File pdfFile) throws IOException {
+//        PDDocument pdDocument = PDDocument.load(pdfFile);
+//        try {
+//            return new PDFTextStripper().getText(pdDocument);
+//        } finally {
+//            pdDocument.close();
+//        }
+//    }
+//
+//    public static Timestamp getLastChanged(File pdfFile) throws IOException {
+//        PDDocumentInformation info = PDDocument.load(pdfFile).getDocumentInformation();
+//        return new Timestamp(info.getModificationDate().getTimeInMillis());
+//    }
+//
+//    public static HttpResponse postRequestJson(String destinationUrl, JSONObject json) throws Exception {
+//        String payload = String.valueOf(json);
+//        System.out.println(payload);
+//        StringEntity entity = new StringEntity(json.toString());
+//        HttpClient httpClient = HttpClientBuilder.create().build();
+//        HttpPost request = new HttpPost(destinationUrl);
+//        request.addHeader("content-type", "application/json");
+//        request.setEntity(entity);
+//        return httpClient.execute(request);
+//    }
 
     //    //TODO lasciare newline tra vari round
     public static String normalize(String extractedText) {

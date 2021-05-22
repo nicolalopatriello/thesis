@@ -15,6 +15,8 @@
 
     <modules>
         <module>thesis-worker</module>
+        <module>thesis-common</module>
+        <module>thesis-core</module>
     </modules>
 
     <scm/>
@@ -47,68 +49,6 @@
             <url>https://mvn.gfm.cloud/artifactory/gfmi-snapshot-maven</url>
         </snapshotRepository>
     </distributionManagement>
-
-    <profiles>
-
-
-        <profile>
-            <id>unit-test</id>
-            <properties>
-                <dockerfile.skip>true</dockerfile.skip>
-                <jacoco.skip>false</jacoco.skip>
-                <skipTests>false</skipTests>
-            </properties>
-            <modules>
-                <module>thesis-common</module>
-                <module>thesis-core</module>
-            </modules>
-        </profile>
-
-
-        <profile>
-            <id>build</id>
-            <properties>
-                <dockerfile.skip>false</dockerfile.skip>
-                <jacoco.skip>false</jacoco.skip>
-                <skipTests>false</skipTests>
-            </properties>
-            <modules>
-                <module>thesis-core</module>
-                <module>thesis-common</module>
-            <!--    <module>thesis-ui</module>-->
-            </modules>
-        </profile>
-
-        <profile>
-            <id>default</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <properties>
-                <dockerfile.skip>true</dockerfile.skip>
-                <jacoco.skip>true</jacoco.skip>
-                <skipTests>false</skipTests>
-            </properties>
-            <modules>
-                <module>thesis-core</module>
-                <module>thesis-common</module>
-            </modules>
-        </profile>
-
-        <profile>
-            <id>release</id>
-            <properties>
-                <dockerfile.skip>false</dockerfile.skip>
-                <jacoco.skip>true</jacoco.skip>
-                <skipTests>true</skipTests>
-            </properties>
-            <modules>
-                <module>thesis-core</module>
-                <module>thesis-common</module>
-            </modules>
-        </profile>
-
-    </profiles>
 
     <properties>
 
@@ -233,6 +173,13 @@
             <groupId>io.swagger</groupId>
             <artifactId>swagger-servlet</artifactId>
             <version>1.5.21</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.6</version>
+            <scope>provided</scope>
         </dependency>
 
 
