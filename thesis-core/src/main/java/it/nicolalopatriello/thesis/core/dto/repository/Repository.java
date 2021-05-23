@@ -1,5 +1,6 @@
 package it.nicolalopatriello.thesis.core.dto.repository;
 
+import it.nicolalopatriello.thesis.common.Jsonizable;
 import it.nicolalopatriello.thesis.core.dto.DTO;
 import it.nicolalopatriello.thesis.core.entities.RepositoryEntity;
 import lombok.Getter;
@@ -15,8 +16,12 @@ public class Repository extends DTO {
     private String username;
     private String password;
     private String branch;
-    private Timestamp lastPullTimestamp;
     private String lastCommitSha;
+    private Long workerId;
+    private Long workerStartedAt;
+    private Long workerFinishedAt;
+    private Object recipe;
+    private Long minutesWatchersInterval;
     private String owner;
 
     public RepositoryEntity to() {
@@ -26,8 +31,15 @@ public class Repository extends DTO {
         repositoryEntity.setUsername(username);
         repositoryEntity.setPassword(password);
         repositoryEntity.setBranch(branch);
-        repositoryEntity.setLastPullTimestamp(lastPullTimestamp);
         repositoryEntity.setLastCommitSha(lastCommitSha);
+        repositoryEntity.setWorkerId(workerId);
+        if (workerStartedAt != null)
+            repositoryEntity.setWorkerStartedAt(new Timestamp(workerStartedAt));
+        if (workerFinishedAt != null)
+            repositoryEntity.setWorkerFinishedAt(new Timestamp(workerFinishedAt));
+        if (recipe != null)
+            repositoryEntity.setRecipe(recipe.toString());
+        repositoryEntity.setMinutesWatchersInterval(minutesWatchersInterval);
         repositoryEntity.setOwner(owner);
         return repositoryEntity;
     }
@@ -40,7 +52,14 @@ public class Repository extends DTO {
         dto.setUsername(repositoryEntity.getUsername());
         dto.setPassword(repositoryEntity.getPassword());
         dto.setBranch(repositoryEntity.getBranch());
-        dto.setLastPullTimestamp(repositoryEntity.getLastPullTimestamp());
+        dto.setLastCommitSha(repositoryEntity.getLastCommitSha());
+        dto.setWorkerId(repositoryEntity.getWorkerId());
+        if (repositoryEntity.getWorkerStartedAt() != null)
+            dto.setWorkerStartedAt(repositoryEntity.getWorkerStartedAt().getTime());
+        if (repositoryEntity.getWorkerFinishedAt() != null)
+            dto.setWorkerFinishedAt(repositoryEntity.getWorkerFinishedAt().getTime());
+        dto.setRecipe(repositoryEntity.getRecipe());
+        dto.setMinutesWatchersInterval(repositoryEntity.getMinutesWatchersInterval());
         dto.setOwner(repositoryEntity.getOwner());
         return dto;
     }

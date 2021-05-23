@@ -1,10 +1,10 @@
 package it.nicolalopatriello.thesis.core.service;
 
-import it.nicolalopatriello.thesis.common.dto.WorkerJobResponse;
-import it.nicolalopatriello.thesis.core.Worker;
-import it.nicolalopatriello.thesis.core.entities.WorkerEntity;
+import it.nicolalopatriello.thesis.common.dto.RunnerJobResponse;
+import it.nicolalopatriello.thesis.core.Runner;
+import it.nicolalopatriello.thesis.core.entities.RunnerEntity;
 import it.nicolalopatriello.thesis.core.repos.ThesisRepositoryRepository;
-import it.nicolalopatriello.thesis.core.repos.WorkerRepository;
+import it.nicolalopatriello.thesis.core.repos.RunnerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,18 +16,18 @@ public class WorkerServiceImpl implements WorkerService {
     @Autowired
     ThesisRepositoryRepository thesisRepositoryRepository;
     @Autowired
-    WorkerRepository workerRepository;
+    RunnerRepository runnerRepository;
 
     @Override
-    public WorkerJobResponse findJob() {
+    public RunnerJobResponse findJob() {
         return null;
     }
 
     @Override
-    public Worker register(String secret) {
-        WorkerEntity workerEntity = new WorkerEntity();
-        workerEntity.setSecret(secret);
-        workerEntity.setRegisteredAt(new Timestamp(System.currentTimeMillis()));
-        return Worker.from(workerRepository.save(workerEntity));
+    public Runner register(String secret) {
+        RunnerEntity runnerEntity = new RunnerEntity();
+        runnerEntity.setSecret(secret);
+        runnerEntity.setRegisteredAt(new Timestamp(System.currentTimeMillis()));
+        return Runner.from(runnerRepository.save(runnerEntity));
     }
 }

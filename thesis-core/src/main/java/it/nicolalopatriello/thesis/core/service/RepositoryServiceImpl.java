@@ -24,20 +24,11 @@ public class RepositoryServiceImpl implements RepositoryService {
         repositoryEntity.setUsername(repositoryCreateRequest.getUsername());
         repositoryEntity.setPassword(repositoryCreateRequest.getPassword());
         repositoryEntity.setBranch(repositoryCreateRequest.getBranch());
+        if (repositoryCreateRequest.getRecipe() != null)
+            repositoryEntity.setRecipe(repositoryCreateRequest.getRecipe().toString());
+        repositoryEntity.setMinutesWatchersInterval(repositoryCreateRequest.getMinutesWatchersInterval());
         repositoryEntity.setOwner(user.getUsername());
-
-//        if (repositoryCreateRequest.getWatchers().size() > 0) {
-//            repositoryCreateRequest.getWatchers().forEach(watcher -> {
-//                WatcherEntity watcherEntity = new WatcherEntity();
-//                watcherEntity.setRepositoryId(repositoryEntity.getId());
-//                watcherEntity.setMinutesInterval(watcher.getMinutesInterval());
-//                watcherEntity.setEnabled(true);
-//                watcherEntity.setType(watcher.getType());
-//                watcherRepository.save(watcherEntity);
-//            });
-//        }
-
-        return RepositoryCreateResponse.from(thesisRepositoryRepository.save(repositoryEntity), repositoryCreateRequest.getWatchers());
+        return RepositoryCreateResponse.from(thesisRepositoryRepository.save(repositoryEntity));
     }
 
 

@@ -29,6 +29,7 @@ public class RepositoryEntity implements WithDTO<Repository> {
     @Column
     private String username;
 
+    @NotNull
     @Column
     private String password;
 
@@ -36,11 +37,24 @@ public class RepositoryEntity implements WithDTO<Repository> {
     @Column
     private String branch;
 
-    @Column(name = "last_pull_timestamp")
-    private Timestamp lastPullTimestamp;
-
     @Column(name = "last_commit_sha")
     private String lastCommitSha;
+
+    @Column(name = "worker_id")
+    private Long workerId;
+
+    @Column(name = "worker_started_at")
+    private Timestamp workerStartedAt;
+
+    @Column(name = "worker_finished_at")
+    private Timestamp workerFinishedAt;
+
+    @Column
+    private String recipe;
+
+    @NotNull
+    @Column(name = "minutes_watchers_interval")
+    private Long minutesWatchersInterval;
 
     @NotNull
     @Column
@@ -54,8 +68,14 @@ public class RepositoryEntity implements WithDTO<Repository> {
         repository.setUsername(username);
         repository.setPassword(password);
         repository.setBranch(branch);
-        repository.setLastPullTimestamp(lastPullTimestamp);
         repository.setLastCommitSha(lastCommitSha);
+        repository.setWorkerId(workerId);
+        if (workerStartedAt != null)
+            repository.setWorkerStartedAt(workerStartedAt.getTime());
+        if (workerFinishedAt != null)
+            repository.setWorkerFinishedAt(workerFinishedAt.getTime());
+        repository.setRecipe(recipe);
+        repository.setMinutesWatchersInterval(minutesWatchersInterval);
         repository.setOwner(owner);
         return repository;
     }

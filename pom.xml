@@ -14,7 +14,7 @@
     <licenses/>
 
     <modules>
-        <module>thesis-worker</module>
+        <module>thesis-runner</module>
         <module>thesis-common</module>
         <module>thesis-core</module>
     </modules>

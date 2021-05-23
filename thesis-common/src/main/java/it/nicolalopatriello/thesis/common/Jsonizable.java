@@ -14,10 +14,6 @@ public class Jsonizable {
     public static final String dateFormat = "dd-MM-yyyy HH:mm:ss:SSS 'Z'";
     private static Gson gson = (new GsonBuilder().setDateFormat(dateFormat)).serializeSpecialFloatingPointValues().create();
 
-
-//    private static Gson gson = (new GsonBuilder()).serializeSpecialFloatingPointValues().create();
-
-
     public static String toJson(Object o) {
         return gson.toJson(o);
     }

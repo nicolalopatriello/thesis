@@ -1,10 +1,10 @@
 package it.nicolalopatriello.thesis.core.service;
 
 
-import it.nicolalopatriello.thesis.common.dto.WorkerJobResponse;
-import it.nicolalopatriello.thesis.core.Worker;
+import it.nicolalopatriello.thesis.common.dto.RunnerJobResponse;
+import it.nicolalopatriello.thesis.core.Runner;
 
 public interface WorkerService {
-    WorkerJobResponse findJob();
-    Worker register(String secret);
+    RunnerJobResponse findJob();
+    Runner register(String secret);
 }
