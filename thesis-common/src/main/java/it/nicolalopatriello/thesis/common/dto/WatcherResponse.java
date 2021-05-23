@@ -18,15 +18,4 @@ public class WatcherResponse {
         return w;
     }
 
-
-    public static class Dependency {
-        private String name;
-        private String version;
-    }
-
-    public static class Metric {
-        private String key;
-        private Object value;
-    }
-
 }

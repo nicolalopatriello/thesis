@@ -2,11 +2,12 @@ package it.nicolalopatriello.thesis.runner;
 
 
 import com.google.common.collect.Lists;
+import it.nicolalopatriello.thesis.common.GitRepoHandler;
 import it.nicolalopatriello.thesis.common.dto.Recipe;
 import it.nicolalopatriello.thesis.common.dto.RunnerJobResponse;
 import it.nicolalopatriello.thesis.common.dto.RunnerResponse;
 import it.nicolalopatriello.thesis.common.dto.WatcherResponse;
-import it.nicolalopatriello.thesis.runner.exception.FolderCreationException;
+import it.nicolalopatriello.thesis.common.exception.FolderCreationException;
 import it.nicolalopatriello.thesis.runner.exception.InvalidUrlException;
 import it.nicolalopatriello.thesis.runner.watchers.Watcher;
 import it.nicolalopatriello.thesis.runner.watchers.WatcherFactory;
@@ -19,9 +20,10 @@ import java.util.List;
 public class RunnerEngine {
     public static final String GIT = ".git";
     private final File basePath = RunnerProperties.basePath();
+    private final GitRepoHandler handler = new GitRepoHandler();
 
-    public RunnerResponse accept(RunnerJobResponse job) {
-        String sha = updateCode(job);
+    public RunnerResponse accept(RunnerJobResponse job) throws Exception {
+        String sha = fetch(job);
         List<WatcherResponse> output = Lists.newLinkedList();
 
         if (!job.getLastCommitSha().equals(sha)) {
@@ -29,7 +31,7 @@ public class RunnerEngine {
                 try {
                     Watcher<?> w = WatcherFactory.get(item.getWatcherType());
                     File folder = folder(job);
-                    WatcherResponse response = w.run(new File(folder, extractName(job.getRepositoryUrl())), item);
+                    WatcherResponse response = w.run(folder, item);
                     output.add(response);
                 } catch (Exception e) {
                     log.error(e.getMessage(), e);
@@ -54,16 +56,20 @@ public class RunnerEngine {
         return url.substring(s + 1, url.length() - GIT.length());
     }
 
-    private String updateCode(RunnerJobResponse worker) {
+    /**
+     * @param worker
+     * @return sha
+     * @throws InvalidUrlException
+     */
+    private String fetch(RunnerJobResponse worker) throws InvalidUrlException {
         File f = folder(worker);
         if (!f.exists() && !f.mkdirs())
             throw new FolderCreationException(f);
-        String latestSha = LocalRepoHandler.getSha(f, worker.getRepositoryUrl(), worker.getRepositoryBranch(), worker.getCredentials());
-        return latestSha;
+        return handler.fetch(f, worker.getRepositoryUrl(), worker.getRepositoryBranch(), worker.getCredentials());
     }
 
-    private File folder(RunnerJobResponse worker) {
-        return new File(basePath, "repo-" + worker.getRepositoryId());
+    private File folder(RunnerJobResponse worker) throws InvalidUrlException {
+        return new File(basePath, "repo-" + worker.getRepositoryId() + "-" + extractName(worker.getRepositoryUrl()));
     }
 
 

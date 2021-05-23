@@ -17,7 +17,7 @@ public class RunnerProperties {
 
     private RunnerProperties() {
         this.basePath = new File(getOrElse("RUNNER_BASE_PATH", "/tmp/runner"));
-        this.awaitInterval = Long.parseLong(getOrElse("RUNNER_WAIT_INTERVAL", "5000"));
+        this.awaitInterval = Long.parseLong(getOrElse("RUNNER_WAIT_INTERVAL", "500000"));
     }
 
     public static File basePath() {

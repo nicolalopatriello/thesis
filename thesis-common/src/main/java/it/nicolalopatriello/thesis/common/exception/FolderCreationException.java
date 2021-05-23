@@ -1,4 +1,4 @@
-package it.nicolalopatriello.thesis.runner.exception;
+package it.nicolalopatriello.thesis.common.exception;
 
 import java.io.File;
 
