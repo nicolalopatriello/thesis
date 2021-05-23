@@ -1,58 +1,51 @@
 package it.nicolalopatriello.thesis.runner;
 
-import it.nicolalopatriello.thesis.runner.exception.LocalRepoHandlerException;
+import it.nicolalopatriello.thesis.common.dto.RunnerJobResponse;
+import it.nicolalopatriello.thesis.runner.exception.GetLatestShaException;
+import lombok.extern.log4j.Log4j;
 import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryBuilder;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 
 import java.io.File;
-import java.util.stream.Collectors;
 
+@Log4j
 public class LocalRepoHandler {
 
-    //todo from props
-    private final static String LOCAL_FOLDER = "/tmp/";
-
-    public String getLocalPath(String repositoryUrl, String username, String password, String branchName) throws LocalRepoHandlerException {
-        sanitizeUrl(repositoryUrl);
-        if (localRepoAlreadyExist(new File(LOCAL_FOLDER + sanitizeUrl(repositoryUrl)))) {
-            try {
+    public static String getSha(File f, String url, String branch, RunnerJobResponse.RepositoryCredentials credentials) {
+        String[] list = f.list();
+        boolean isFolderEmpty = list != null && list.length == 0;
+        try {
+            if (isFolderEmpty) {
+                log.debug("Folder is empty. Clone repository from remote source");
+                Git.cloneRepository()
+                        .setURI(url)
+                        .setBranch(branch)
+                        .setDirectory(f)
+                        .setCredentialsProvider(new UsernamePasswordCredentialsProvider(credentials.getRepositoryUsername(), credentials.getRepositoryPassword()))
+                        .call();
+            } else {
+                log.debug("Folder already exist. Pull new code from remote repository");
                 Repository repository = new RepositoryBuilder()
-                        .setGitDir(new File(LOCAL_FOLDER + sanitizeUrl(repositoryUrl)))
+                        .setGitDir(new File(f, ".git"))
                         .build();
                 Git git = new Git(repository);
                 git.pull()
-                        .setCredentialsProvider(new UsernamePasswordCredentialsProvider(username, password))
-                        .setRemoteBranchName(branchName)
+                        .setCredentialsProvider(new UsernamePasswordCredentialsProvider(credentials.getRepositoryUsername(), credentials.getRepositoryPassword()))
+                        .setRemoteBranchName(branch)
                         .call();
-            } catch (Exception e) {
-                throw new LocalRepoHandlerException(String.format("[Pull] %s", e));
             }
-        } else {
-            try {
-                Git.cloneRepository()
-                        .setURI(repositoryUrl)
-                        .setBranch(branchName)
-                        .setDirectory(new File(LOCAL_FOLDER + sanitizeUrl(repositoryUrl)))
-                        .setCredentialsProvider(new UsernamePasswordCredentialsProvider(username, password))
-                        .call();
-            } catch (GitAPIException e) {
-                throw new LocalRepoHandlerException(String.format("[Clone] %s", e));
-            }
+
+            Repository repository = new RepositoryBuilder()
+                    .setGitDir(new File(f, ".git"))
+                    .build();
+            Ref head = repository.getAllRefs().get("HEAD");
+            return head.getObjectId().getName();
+        } catch (Exception e) {
+            log.error("Cannot clone or pull code from remote source.");
+            throw new GetLatestShaException(e.getMessage());
         }
-        return sanitizeUrl(LOCAL_FOLDER + repositoryUrl);
-    }
-
-    private String sanitizeUrl(String url) {
-        String allowed = "abcdefghijklmnopqrstuvwxyz0123456789";
-        return url.codePoints()
-                .mapToObj(c -> allowed.contains(String.valueOf((char) c)) ? String.valueOf((char) c) : "_")
-                .collect(Collectors.joining());
-    }
-
-    private boolean localRepoAlreadyExist(File folderPath) {
-        return folderPath.exists() && folderPath.isDirectory();
     }
 }

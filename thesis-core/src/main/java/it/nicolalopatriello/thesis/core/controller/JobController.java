@@ -33,9 +33,11 @@ public class JobController {
             runnerJobResponse.setRepositoryId(r.getId());
             runnerJobResponse.setRepositoryUrl(r.getUrl());
             runnerJobResponse.setRepositoryBranch(r.getBranch());
+            runnerJobResponse.setLastCommitSha(r.getLastCommitSha());
             RunnerJobResponse.RepositoryCredentials c = new RunnerJobResponse.RepositoryCredentials();
             c.setRepositoryPassword(r.getPassword());
             c.setRepositoryUsername(r.getUsername());
+            runnerJobResponse.setLastCommitSha(r.getLastCommitSha());
             runnerJobResponse.setCredentials(c);
             runnerJobResponse.setRecipe(Jsonizable.fromJson(r.getRecipe(), Recipe.class));
             return runnerJobResponse;

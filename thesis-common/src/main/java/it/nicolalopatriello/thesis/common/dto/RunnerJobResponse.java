@@ -11,6 +11,7 @@ public class RunnerJobResponse {
     private Long repositoryId;
     private String repositoryUrl;
     private String repositoryBranch;
+    private String lastCommitSha;
     private RepositoryCredentials credentials;
     private Recipe recipe;
 

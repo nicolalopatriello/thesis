@@ -3,9 +3,9 @@ package it.nicolalopatriello.thesis.runner;
 
 import com.google.common.collect.Lists;
 import it.nicolalopatriello.thesis.common.dto.Recipe;
+import it.nicolalopatriello.thesis.common.dto.RunnerJobResponse;
 import it.nicolalopatriello.thesis.common.dto.RunnerResponse;
 import it.nicolalopatriello.thesis.common.dto.WatcherResponse;
-import it.nicolalopatriello.thesis.common.dto.RunnerJobResponse;
 import it.nicolalopatriello.thesis.runner.exception.FolderCreationException;
 import it.nicolalopatriello.thesis.runner.exception.InvalidUrlException;
 import it.nicolalopatriello.thesis.runner.watchers.Watcher;
@@ -20,20 +20,24 @@ public class RunnerEngine {
     public static final String GIT = ".git";
     private final File basePath = RunnerProperties.basePath();
 
-    public RunnerResponse accept(RunnerJobResponse worker) {
-        String sha = updateCode(worker);
+    public RunnerResponse accept(RunnerJobResponse job) {
+        String sha = updateCode(job);
         List<WatcherResponse> output = Lists.newLinkedList();
 
-        for (Recipe.Item item : worker.getRecipe().getItems()) {
-            try {
-                Watcher<?> w = WatcherFactory.get(item.getWatcherType());
-                File folder = folder(worker);
-                WatcherResponse response = w.run(new File(folder, extractName(worker.getRepositoryUrl())), item);
-                output.add(response);
-            } catch (Exception e) {
-                log.error(e.getMessage(), e);
-                output.add(WatcherResponse.fail());
+        if (!job.getLastCommitSha().equals(sha)) {
+            for (Recipe.Item item : job.getRecipe().getItems()) {
+                try {
+                    Watcher<?> w = WatcherFactory.get(item.getWatcherType());
+                    File folder = folder(job);
+                    WatcherResponse response = w.run(new File(folder, extractName(job.getRepositoryUrl())), item);
+                    output.add(response);
+                } catch (Exception e) {
+                    log.error(e.getMessage(), e);
+                    output.add(WatcherResponse.fail());
+                }
             }
+        } else {
+            log.debug("No changes on code base. Skip job");
         }
 
         RunnerResponse r = new RunnerResponse();
@@ -54,9 +58,8 @@ public class RunnerEngine {
         File f = folder(worker);
         if (!f.exists() && !f.mkdirs())
             throw new FolderCreationException(f);
-
-        //return sha;
-        return null;
+        String latestSha = LocalRepoHandler.getSha(f, worker.getRepositoryUrl(), worker.getRepositoryBranch(), worker.getCredentials());
+        return latestSha;
     }
 
     private File folder(RunnerJobResponse worker) {

@@ -3,6 +3,7 @@ package it.nicolalopatriello.thesis.runner.client;
 import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import it.nicolalopatriello.thesis.common.Jsonizable;
 import it.nicolalopatriello.thesis.common.dto.Recipe;
 import it.nicolalopatriello.thesis.common.dto.RunnerResponse;
 import it.nicolalopatriello.thesis.common.dto.RunnerJobResponse;
@@ -23,7 +24,6 @@ import java.util.Optional;
 @Log4j
 public class ThesisCoreHttpClient {
     private CloseableHttpClient httpClient = HttpClients.createDefault();
-    private static final Gson gson = (new GsonBuilder()).serializeSpecialFloatingPointValues().create();
     public Optional<RunnerJobResponse> findJob0() throws HttpRequestException {
         RunnerJobResponse w = new RunnerJobResponse();
         Recipe recipe = new Recipe();
@@ -48,7 +48,7 @@ public class ThesisCoreHttpClient {
             HttpEntity entity = response.getEntity();
             if (entity != null) {
                 String result = EntityUtils.toString(entity);
-                return Optional.of(gson.fromJson(result, RunnerJobResponse.class));
+                return Optional.of(Jsonizable.fromJson(result, RunnerJobResponse.class));
             } else {
                 throw new HttpRequestException("[Find Job] Null response entity");
             }

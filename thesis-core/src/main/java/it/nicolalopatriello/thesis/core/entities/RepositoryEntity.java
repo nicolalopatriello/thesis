@@ -14,6 +14,7 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "repository", schema = Schema.SCHEMA_NAME)
 @Data
+
 public class RepositoryEntity implements WithDTO<Repository> {
 
     @Id
