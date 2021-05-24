@@ -12,7 +12,7 @@ import java.io.IOException;
 
 @Component
 @Log4j
-public class VulnerabilitiesDBScheduler {
+public class VulnerabilitiesDBSync {
 
     private final GitRepoHandler handler = new GitRepoHandler();
 
@@ -35,7 +35,7 @@ public class VulnerabilitiesDBScheduler {
         File pythonVul = new File(pythonVulnerabilitiesDirectory);
         if (!pythonVul.exists() && pythonVul.mkdirs())
             throw new FolderCreationException(pythonVul);
-        String pyt = handler.fetch(pythonVul, "https://github.com/pyupio/safety-db.git", "master", null);
-        log.debug("New Python Database dependencies SHA is " + cveSha);
+        String pythonSha = handler.fetch(pythonVul, "https://github.com/pyupio/safety-db.git", "master", null);
+        log.debug("New Python Database dependencies SHA is " + pythonSha);
     }
 }

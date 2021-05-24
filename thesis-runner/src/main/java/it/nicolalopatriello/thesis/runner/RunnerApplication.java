@@ -1,7 +1,7 @@
 package it.nicolalopatriello.thesis.runner;
 
-import it.nicolalopatriello.thesis.common.dto.RunnerResponse;
 import it.nicolalopatriello.thesis.common.dto.RunnerJobResponse;
+import it.nicolalopatriello.thesis.common.dto.RunnerResponse;
 import it.nicolalopatriello.thesis.runner.client.ThesisCoreHttpClient;
 import lombok.extern.log4j.Log4j;
 
@@ -22,6 +22,7 @@ public class RunnerApplication {
                     log.info("Job for " + j.getRepositoryUrl());
                     inAwait = false;
                     RunnerResponse response = runnerEngine.accept(j);
+                    log.debug("Watcher response ready. Send back...");
                     client.send(response);
                 } else {
                     log.debug("No job available");

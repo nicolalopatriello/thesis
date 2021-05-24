@@ -3,12 +3,15 @@ package it.nicolalopatriello.thesis.runner.watchers.impl;
 import com.google.common.collect.Lists;
 import it.nicolalopatriello.thesis.common.dto.Dependency;
 import it.nicolalopatriello.thesis.common.dto.WatcherResponse;
+import it.nicolalopatriello.thesis.runner.Utility;
 import it.nicolalopatriello.thesis.runner.watchers.Watcher;
+import lombok.extern.log4j.Log4j;
 
-import java.io.File;
-import java.io.FilenameFilter;
+import java.io.*;
 import java.util.List;
+import java.util.Optional;
 
+@Log4j
 public class PythonWatcherImpl implements Watcher<PythonWatcherArgs> {
 
     public static final String REQUIREMENTS_TXT = "requirements.txt";
@@ -17,18 +20,34 @@ public class PythonWatcherImpl implements Watcher<PythonWatcherArgs> {
     public WatcherResponse run(File folder, PythonWatcherArgs args) {
         System.err.println("[PYTHON] Folder: " + folder + " args: " + args);
         WatcherResponse w = new WatcherResponse();
-        List<Dependency> deps = Lists.newLinkedList();
         File[] fileList = folder.listFiles(new FilenameFilter() {
             public boolean accept(File dir, String name) {
                 return name.equals(REQUIREMENTS_TXT);
             }
         });
         if (fileList != null && fileList.length > 0) {
-            //extract dep
-
-            System.err.println(fileList[0].getAbsolutePath());
+            File req = new File(fileList[0].getAbsolutePath());
+            try {
+                w.setDependencies(extract(req));
+                w.setSuccess(true);
+            } catch (Exception e) {
+                log.error("Dependencies extraction failed");
+                w.setSuccess(false);
+            }
         }
         return w;
+    }
+
+    private List<Dependency> extract(File f) throws IOException {
+        List<Dependency> list = Lists.newLinkedList();
+        try (FileReader file = new FileReader(f); BufferedReader br = new BufferedReader(file)) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                Optional<Dependency> parsed = Utility.parsePythonDependency(line);
+                parsed.ifPresent(list::add);
+            }
+        }
+        return list;
     }
 
     @Override
