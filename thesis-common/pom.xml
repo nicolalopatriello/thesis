@@ -36,6 +36,13 @@
             <artifactId>org.eclipse.jgit</artifactId>
             <version>4.6.0.201612231935-r</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.vdurmont</groupId>
+            <artifactId>semver4j</artifactId>
+            <version>3.1.0</version>
+        </dependency>
+
     </dependencies>
 
 </project>

@@ -38,9 +38,11 @@ public class PythonVulnerabilitiesServiceImpl implements PythonVulnerabilitiesSe
         }
         PythonVulnerability vulnerabilities = vulnerabilitiesOpt.get();
         for (Dependency dependency : dependencies) {
+            log.debug("Finding vulnerabilities for dependency: " + dependency.getName() + " v: " + dependency.getVersion());
             Set<String> set = Sets.newHashSet();
             List<PythonVulnerability.Item> obj = vulnerabilities.get(dependency.getName());
             if (obj != null) {
+                log.debug("[Found!] vulnerabilities for dependency: " + dependency.getName());
                 for (PythonVulnerability.Item item : obj) {
                     if (item.match(dependency.getVersion())) {
                         set.add(item.getCve());
@@ -54,26 +56,3 @@ public class PythonVulnerabilitiesServiceImpl implements PythonVulnerabilitiesSe
         return list;
     }
 }
-
-//    public static void main(String[] args) throws FileNotFoundException, UnsopportedProgrammingLanguageException {
-//        CveFinderServiceImpl c = new CveFinderServiceImpl();
-//        List<Dependency> dependencies = Lists.newLinkedList();
-//        Dependency d = new Dependency();
-//        d.setProgrammingLanguage(ProgrammingLanguage.PYTHON);
-//        d.setName("aegea");
-//        d.setVersion("0.0");
-//        dependencies.add(d);
-//        System.err.println(dependencies.toString());
-//        Optional<PythonVulnerability> cve = c.findPythonVulnerabilities(dependencies);
-//        PythonVulnerability obj = cve.get();
-//        System.err.println(obj.get("timetagger").get(0).getAdvisory());
-//
-//
-////        File f = new File( "/var/thesis/vulnerabilities/python/data/insecure_full.json");
-////        Optional<PythonVulnerability> re = PythonVulnerability.from(f);
-////
-////        System.err.println(Jsonizable.toJson(re.get()));
-//
-//
-//    }
-//}
