@@ -45,7 +45,9 @@ public class PythonVulnerabilitiesServiceImpl implements PythonVulnerabilitiesSe
                 log.debug("[Found!] vulnerabilities for dependency: " + dependency.getName());
                 for (PythonVulnerability.Item item : obj) {
                     if (item.match(dependency.getVersion())) {
-                        set.add(item.getCve());
+                        System.err.println(item.getCve());
+                        if (item.getCve() != null)
+                            set.add(item.getCve());
                     }
                 }
                 if (!set.isEmpty()) {

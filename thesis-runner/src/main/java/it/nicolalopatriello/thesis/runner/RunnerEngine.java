@@ -44,6 +44,7 @@ public class RunnerEngine {
 
         RunnerResponse r = new RunnerResponse();
         r.setCommitSha(sha);
+        r.setRepositoryId(job.getRepositoryId());
         r.setWatchers(output);
         return r;
     }
