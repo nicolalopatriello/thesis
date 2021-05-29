@@ -1,7 +1,7 @@
 package it.nicolalopatriello.thesis.runner.watchers.impl;
 
 import com.google.common.collect.Lists;
-import it.nicolalopatriello.thesis.common.dto.Dependency;
+import it.nicolalopatriello.thesis.common.dto.DependencyLight;
 import it.nicolalopatriello.thesis.common.dto.WatcherResponse;
 import it.nicolalopatriello.thesis.runner.Utility;
 import it.nicolalopatriello.thesis.runner.watchers.Watcher;
@@ -38,12 +38,12 @@ public class PythonWatcherImpl implements Watcher<PythonWatcherArgs> {
         return w;
     }
 
-    private List<Dependency> extract(File f) throws IOException {
-        List<Dependency> list = Lists.newLinkedList();
+    private List<DependencyLight> extract(File f) throws IOException {
+        List<DependencyLight> list = Lists.newLinkedList();
         try (FileReader file = new FileReader(f); BufferedReader br = new BufferedReader(file)) {
             String line;
             while ((line = br.readLine()) != null) {
-                Optional<Dependency> parsed = Utility.parsePythonDependency(line);
+                Optional<DependencyLight> parsed = Utility.parsePythonDependency(line);
                 parsed.ifPresent(list::add);
             }
         }

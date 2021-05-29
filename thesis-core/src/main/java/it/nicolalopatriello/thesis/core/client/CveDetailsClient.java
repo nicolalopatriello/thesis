@@ -18,7 +18,6 @@ public class CveDetailsClient extends AbstractClient {
         this.httpClient = httpClient;
     }
 
-
     public CVEDetails getCve(String cve) throws CveDetailsClientException {
         try {
             return get(baseUrl, "/cve/" + cve, CVEDetails.class, null);

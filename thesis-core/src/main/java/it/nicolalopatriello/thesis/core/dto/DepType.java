@@ -5,6 +5,7 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
+@Deprecated
 public enum DepType {
     TEST_VECTOR,
     GITRACE

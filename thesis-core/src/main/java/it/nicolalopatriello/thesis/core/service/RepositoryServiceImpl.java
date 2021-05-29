@@ -9,6 +9,9 @@ import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
 @Log4j
 public class RepositoryServiceImpl implements RepositoryService {
@@ -29,6 +32,22 @@ public class RepositoryServiceImpl implements RepositoryService {
         repositoryEntity.setMinutesWatchersInterval(repositoryCreateRequest.getMinutesWatchersInterval());
         repositoryEntity.setOwner(user.getUsername());
         return RepositoryCreateResponse.from(thesisRepositoryRepository.save(repositoryEntity));
+    }
+
+    @Override
+    public List<RepositoryEntity> findByRunnerIdIsNull() {
+        return thesisRepositoryRepository.findByRunnerIdIsNull();
+    }
+
+    @Override
+    public void save(RepositoryEntity r) {
+        thesisRepositoryRepository.save(r);
+    }
+
+
+    @Override
+    public Optional<RepositoryEntity> findById(Long repositoryId) {
+        return thesisRepositoryRepository.findById(repositoryId);
     }
 
 

@@ -1,8 +1,7 @@
 package it.nicolalopatriello.thesis.core.service;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import it.nicolalopatriello.thesis.common.dto.Dependency;
+import it.nicolalopatriello.thesis.common.dto.DependencyLight;
 import it.nicolalopatriello.thesis.core.dto.DependencyVulnerability;
 import it.nicolalopatriello.thesis.core.dto.dependecy.PythonVulnerability;
 import lombok.extern.log4j.Log4j;
@@ -26,35 +25,31 @@ public class PythonVulnerabilitiesServiceImpl implements PythonVulnerabilitiesSe
     private String jsonPath;
 
     @Override
-    public List<DependencyVulnerability> find(List<Dependency> dependencies) {
-        List<DependencyVulnerability> list = Lists.newLinkedList();
+    public Optional<DependencyVulnerability> find(DependencyLight dependency) {
         File f = new File(pythonVulnerabilitiesDirectory, jsonPath);
         if (!f.exists()) {
-            return list;
+            return Optional.empty();
         }
         Optional<PythonVulnerability> vulnerabilitiesOpt = PythonVulnerability.from(f);
         if (!vulnerabilitiesOpt.isPresent()) {
-            return list;
+            return Optional.empty();
         }
         PythonVulnerability vulnerabilities = vulnerabilitiesOpt.get();
-        for (Dependency dependency : dependencies) {
-            log.debug("Finding vulnerabilities for dependency: " + dependency.getName() + " v: " + dependency.getVersion());
-            Set<String> set = Sets.newHashSet();
-            List<PythonVulnerability.Item> obj = vulnerabilities.get(dependency.getName());
-            if (obj != null) {
-                log.debug("[Found!] vulnerabilities for dependency: " + dependency.getName());
-                for (PythonVulnerability.Item item : obj) {
-                    if (item.match(dependency.getVersion())) {
-                        System.err.println(item.getCve());
-                        if (item.getCve() != null)
-                            set.add(item.getCve());
-                    }
-                }
-                if (!set.isEmpty()) {
-                    list.add(new DependencyVulnerability(dependency.getName(), set));
+        log.debug("Finding vulnerabilities for dependency: " + dependency.getName() + " v: " + dependency.getVersion());
+        Set<String> set = Sets.newHashSet();
+        List<PythonVulnerability.Item> obj = vulnerabilities.get(dependency.getName());
+        if (obj != null) {
+            log.debug("[Found!] vulnerabilities for dependency: " + dependency.getName());
+            for (PythonVulnerability.Item item : obj) {
+                if (item.match(dependency.getVersion())) {
+                    if (item.getCve() != null)
+                        set.add(item.getCve());
                 }
             }
+            if (!set.isEmpty()) {
+                return Optional.of(new DependencyVulnerability(dependency.getName(), dependency.getVersion(), set));
+            }
         }
-        return list;
+        return Optional.empty();
     }
 }

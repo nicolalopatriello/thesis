@@ -13,7 +13,7 @@ public class CVEDetails {
     private String Published;
     private Access access;
     private String assigner;
-    private List<String> capec;
+   // private List<Object> capec;
     private Double cvss;
     @SerializedName("cvss-time")
     private String cvssTime;
@@ -55,4 +55,11 @@ public class CVEDetails {
         private String id;
         private String title;
     }
+
+
+    public String availablePatch() {
+        //try to check if refMap is not empty or...
+        return null;
+    }
+
 }

@@ -1,7 +1,7 @@
 package it.nicolalopatriello.thesis.runner;
 
 
-import it.nicolalopatriello.thesis.common.dto.Dependency;
+import it.nicolalopatriello.thesis.common.dto.DependencyLight;
 import it.nicolalopatriello.thesis.common.dto.ProgrammingLanguage;
 import lombok.extern.log4j.Log4j;
 
@@ -13,12 +13,12 @@ import java.util.regex.Pattern;
 public class Utility {
     private final static Pattern PYTHON_DEPENDENCY_PARSER_PATTERN = Pattern.compile("(?<NAME>.*)(?<TYPE>==|>=|<=)(?<VERSION>.*)");
 
-    public static Optional<Dependency> parsePythonDependency(String dependency) {
+    public static Optional<DependencyLight> parsePythonDependency(String dependency) {
         Matcher matcher = PYTHON_DEPENDENCY_PARSER_PATTERN.matcher(dependency.toLowerCase().replaceAll("\\s", ""));
         if (matcher.find()) {
             String name = matcher.group("NAME");
             String version = matcher.group("VERSION");
-            return Optional.of(new Dependency(name, version, ProgrammingLanguage.PYTHON));
+            return Optional.of(new DependencyLight(name, version, ProgrammingLanguage.PYTHON));
         }
         return Optional.empty();
     }

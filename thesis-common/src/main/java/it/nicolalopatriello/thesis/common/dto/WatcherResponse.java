@@ -2,7 +2,6 @@ package it.nicolalopatriello.thesis.common.dto;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 import java.util.List;
 
@@ -10,7 +9,7 @@ import java.util.List;
 @Setter
 public class WatcherResponse {
     private boolean success;
-    private List<Dependency> dependencies;
+    private List<DependencyLight> dependencies;
     private List<Metric> metrics;
 
     public static WatcherResponse fail() {

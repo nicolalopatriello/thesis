@@ -9,8 +9,9 @@ import lombok.ToString;
 @Setter
 @ToString
 @AllArgsConstructor
-public class Dependency {
+public class DependencyLight {
     private String name;
     private String version;
     private String programmingLanguage;
+
 }
