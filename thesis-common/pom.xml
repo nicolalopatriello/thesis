@@ -13,6 +13,17 @@
     <name>Thesis Common Library</name>
 
     <dependencies>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.5</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.gfmi</groupId>
+            <artifactId>net</artifactId>
+            <version>0.1.2</version>
+        </dependency>
 
         <dependency>
             <groupId>com.google.code.gson</groupId>

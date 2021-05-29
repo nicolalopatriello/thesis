@@ -9,6 +9,14 @@ create table IF NOT EXISTS ${schema}.user_(
   registration_time TIMESTAMPTZ
 );
 
+create sequence IF NOT EXISTS ${schema}.runner_seq;
+create table IF NOT EXISTS ${schema}.runner(
+  id bigint default nextval('${schema}.runner_seq') PRIMARY KEY,
+  secret VARCHAR(255),
+  registered_at TIMESTAMPTZ,
+  UNIQUE(secret)
+);
+
 create sequence IF NOT EXISTS ${schema}.repository_seq;
 create table IF NOT EXISTS ${schema}.repository(
   id bigint default nextval('${schema}.repository_seq') PRIMARY KEY,
@@ -17,17 +25,12 @@ create table IF NOT EXISTS ${schema}.repository(
   password VARCHAR(255) not null,
   branch VARCHAR(255) not null,
   last_commit_sha VARCHAR(255),
-  worker_id bigint,
-  worker_started_at TIMESTAMPTZ,
-  worker_finished_at TIMESTAMPTZ,
+  runner_id bigint references ${schema}.runner,
+  runner_started_at TIMESTAMPTZ,
+  runner_finished_at TIMESTAMPTZ,
   recipe TEXT,
   minutes_watchers_interval bigint not null,
   owner VARCHAR(255) references ${schema}.user_
 );
 
-create sequence IF NOT EXISTS ${schema}.runner_seq;
-create table IF NOT EXISTS ${schema}.runner(
-  id bigint default nextval('${schema}.runner_seq') PRIMARY KEY,
-  secret VARCHAR(255),
-  registered_at TIMESTAMPTZ
-);
+

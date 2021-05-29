@@ -103,12 +103,6 @@
             </dependency>
 
             <dependency>
-                <groupId>com.gfmi</groupId>
-                <artifactId>net</artifactId>
-                <version>0.1.2</version>
-            </dependency>
-
-            <dependency>
                 <groupId>net.objecthunter</groupId>
                 <artifactId>exp4j</artifactId>
                 <version>0.4.8</version>
@@ -127,19 +121,7 @@
             </dependency>
 
 
-            <dependency>
-                <groupId>it.nicolalopatriello</groupId>
-                <artifactId>thesis-core</artifactId>
-                <version>1.0.0...</version>
-            </dependency>
-
             <!-- Databases -->
-            <dependency>
-                <groupId>com.h2database</groupId>
-                <artifactId>h2</artifactId>
-                <!--            <version>1.4.193</version>-->
-                <version>1.4.200</version>
-            </dependency>
             <dependency>
                 <groupId>org.postgresql</groupId>
                 <artifactId>postgresql</artifactId>

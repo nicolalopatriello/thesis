@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface ThesisRepositoryRepository extends PagingAndSortingWithSpecificationRepository<RepositoryEntity, Long> {
-    List<RepositoryEntity> findByWorkerIdIsNull();
+    List<RepositoryEntity> findByRunnerIdIsNull();
 }

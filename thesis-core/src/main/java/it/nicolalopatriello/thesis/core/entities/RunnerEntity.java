@@ -11,7 +11,7 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "worker", schema = Schema.SCHEMA_NAME)
+@Table(name = "runner", schema = Schema.SCHEMA_NAME)
 @Data
 public class RunnerEntity implements WithDTO<Runner> {
 

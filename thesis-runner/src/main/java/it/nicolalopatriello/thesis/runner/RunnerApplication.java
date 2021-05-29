@@ -2,17 +2,17 @@ package it.nicolalopatriello.thesis.runner;
 
 import it.nicolalopatriello.thesis.common.dto.RunnerJobResponse;
 import it.nicolalopatriello.thesis.common.dto.RunnerResponse;
-import it.nicolalopatriello.thesis.runner.client.ThesisCoreHttpClient;
+import it.nicolalopatriello.thesis.runner.client.CoreHttpClient;
 import lombok.extern.log4j.Log4j;
-
 import java.util.Optional;
 
 @Log4j
 public class RunnerApplication {
 
     public static void main(String[] args) {
-        ThesisCoreHttpClient client = new ThesisCoreHttpClient();
         RunnerEngine runnerEngine = new RunnerEngine();
+        CoreHttpClient client = new CoreHttpClient();
+
         boolean inAwait = false;
         while (true) {
             try {

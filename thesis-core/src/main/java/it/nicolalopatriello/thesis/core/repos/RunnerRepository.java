@@ -9,5 +9,5 @@ import java.util.Optional;
 
 @Repository
 public interface RunnerRepository extends PagingAndSortingWithSpecificationRepository<RunnerEntity, Long> {
-    Optional<Runner> findBySecret(String secret);
+    Optional<RunnerEntity> findBySecret(String secret);
 }

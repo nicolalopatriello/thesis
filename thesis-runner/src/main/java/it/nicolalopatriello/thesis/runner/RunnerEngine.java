@@ -26,7 +26,7 @@ public class RunnerEngine {
         String sha = fetch(job);
         List<WatcherResponse> output = Lists.newLinkedList();
 
-        if (!job.getLastCommitSha().equals(sha)) {
+        if (job.getLastCommitSha() == null || !job.getLastCommitSha().equals(sha)) {
             for (Recipe.Item item : job.getRecipe().getItems()) {
                 try {
                     Watcher<?> w = WatcherFactory.get(item.getWatcherType());
