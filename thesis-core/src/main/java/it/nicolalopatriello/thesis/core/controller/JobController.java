@@ -1,6 +1,5 @@
 package it.nicolalopatriello.thesis.core.controller;
 
-import com.google.common.collect.Lists;
 import it.nicolalopatriello.thesis.common.Jsonizable;
 import it.nicolalopatriello.thesis.common.annotations.roles.ThesisPublicApi;
 import it.nicolalopatriello.thesis.common.dto.Recipe;
@@ -12,12 +11,10 @@ import it.nicolalopatriello.thesis.common.exception.UnauthorizedException;
 import it.nicolalopatriello.thesis.core.Runner;
 import it.nicolalopatriello.thesis.core.entities.DependencyEntity;
 import it.nicolalopatriello.thesis.core.entities.RepositoryEntity;
-import it.nicolalopatriello.thesis.core.entities.VulnerabilityEntity;
 import it.nicolalopatriello.thesis.core.exception.CveDetailsClientException;
 import it.nicolalopatriello.thesis.core.service.DependencyService;
 import it.nicolalopatriello.thesis.core.service.RepositoryService;
 import it.nicolalopatriello.thesis.core.service.RunnerServiceImpl;
-import it.nicolalopatriello.thesis.core.service.VulnerabilityService;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -46,9 +43,6 @@ public class JobController {
     @Autowired
     private RunnerServiceImpl runnerService;
 
-    @Autowired
-    private VulnerabilityService vulnerabilityService;
-
     @ThesisPublicApi
     @GetMapping(value = "/")
     @ResponseBody
@@ -57,15 +51,16 @@ public class JobController {
         if (runner.isPresent()) {
             List<RepositoryEntity> repositoryEntityList = repositoryService.findByRunnerIdIsNull();
 
+            //find all available jobs
             List<RepositoryEntity> available = repositoryEntityList.stream().filter(repo ->
                     repo.getRunnerFinishedAt() == null ||
-                    (new Date().getTime() -
-                            repo.getRunnerFinishedAt().getTime()) >
-                            repo.getMinutesWatchersInterval() * 60 * 1000)
+                            (new Date().getTime() -
+                                    repo.getRunnerFinishedAt().getTime()) >
+                                    repo.getMinutesWatchersInterval() * 60 * 1000)
                     .collect(Collectors.toList());
 
             if (available.size() > 0) {
-                RepositoryEntity r = repositoryEntityList.get(0); //get first available job
+                RepositoryEntity r = repositoryEntityList.get(0);
                 RunnerJobResponse runnerJobResponse = new RunnerJobResponse();
                 runnerJobResponse.setRepositoryId(r.getId());
                 runnerJobResponse.setRepositoryUrl(r.getUrl());
@@ -102,6 +97,8 @@ public class JobController {
             Optional<RepositoryEntity> optRepository = repositoryService.findById(runnerResponse.getRepositoryId());
             if (optRepository.isPresent()) {
 
+                //TODO clear current vulnerabilities, dependencies and metrics of repository
+
                 //update repository with end runner job
                 RepositoryEntity repositoryEntity = optRepository.get();
                 repositoryEntity.setRunnerId(null);
@@ -111,8 +108,6 @@ public class JobController {
                 repositoryService.save(repositoryEntity);
 
                 for (WatcherResponse watcher : runnerResponse.getWatchers()) {
-                    List<VulnerabilityEntity> vulnerabilities = Lists.newLinkedList();
-
                     //save dependencies of runner response
                     watcher.getDependencies().forEach(d -> {
                         DependencyEntity ent = new DependencyEntity();
@@ -128,7 +123,6 @@ public class JobController {
                     });
                 }
             }
-
         } else {
             throw new UnauthorizedException();
         }

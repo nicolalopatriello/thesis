@@ -13,3 +13,18 @@ nb-checkbox {
 nb-card.inline-form-card nb-card-body {
   padding-bottom: 0;
 }
+
+.add-repository nb-card {
+  /**
+   * This is the max-width value of the Bootstrap giant modal
+   * Using it here ensures the modal will properly adjust it's width to the content
+   */
+  max-width: 900px !important;
+  min-width: 900px !important;
+  /**
+   * This is the height value of NbComponentSize 'giant'
+   * By setting max-height of the modal card to this value, we ensure the modal will properly adjust it's height
+   * to the content
+   */
+  max-height: 44.25rem;
+}

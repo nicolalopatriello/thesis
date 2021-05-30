@@ -1,5 +1,4 @@
 import {Component, OnDestroy} from '@angular/core';
-import {StatisticsService} from '../../@core/services/statistics.service';
 import {Statistics} from '../../@core/models/statistics';
 
 
@@ -11,10 +10,10 @@ import {Statistics} from '../../@core/models/statistics';
 export class DashboardComponent {
   public statistics: Statistics;
 
-  constructor(private statisticsService: StatisticsService) {
+/*  constructor(private statisticsService: StatisticsService) {
     this.statisticsService.find().subscribe(t => {
       this.statistics = t;
     });
-  }
+  }*/
 
 }

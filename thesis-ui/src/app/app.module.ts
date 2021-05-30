@@ -25,6 +25,7 @@ import {LoginComponent} from './login/login.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {TokenInterceptorService} from './@core/interceptors/token-interceptor.service';
 import {ToastrModule} from 'ngx-toastr';
+import {MonacoEditorModule} from 'ngx-monaco-editor';
 
 @NgModule({
   declarations: [AppComponent, LoginComponent],
@@ -44,6 +45,7 @@ import {ToastrModule} from 'ngx-toastr';
     NbWindowModule.forRoot(),
     NbToastrModule.forRoot(),
     ToastrModule.forRoot(),
+    MonacoEditorModule.forRoot(),
     NbChatModule.forRoot({
       messageGoogleMapKey: 'AIzaSyA_wNuCzia92MAmdLRzmqitRGvCF7wCZPY',
     }),

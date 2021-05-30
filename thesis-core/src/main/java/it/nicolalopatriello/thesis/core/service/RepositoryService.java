@@ -2,8 +2,10 @@ package it.nicolalopatriello.thesis.core.service;
 
 
 import it.nicolalopatriello.thesis.common.exception.BadRequestException;
+import it.nicolalopatriello.thesis.common.exception.NotFoundException;
 import it.nicolalopatriello.thesis.core.dto.repository.RepositoryCreateRequest;
 import it.nicolalopatriello.thesis.core.dto.repository.RepositoryCreateResponse;
+import it.nicolalopatriello.thesis.core.dto.repository.RepositoryDetails;
 import it.nicolalopatriello.thesis.core.entities.RepositoryEntity;
 import it.nicolalopatriello.thesis.core.utils.JwtUser;
 
@@ -18,4 +20,6 @@ public interface RepositoryService {
     void save(RepositoryEntity r);
 
     Optional<RepositoryEntity> findById(Long repositoryId);
+
+    RepositoryDetails findByIdWithDetails(Long id) throws NotFoundException;
 }

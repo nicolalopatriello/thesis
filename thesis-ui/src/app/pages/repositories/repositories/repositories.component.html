@@ -1,66 +1,146 @@
 <div class="w-100">
-  <div class="row w-100">
-    <nb-card class="inline-form-card w-100">
-      <nb-card-header>Add new Moon Cloud Probes dependency to monitoring</nb-card-header>
-      <nb-card-body>
-        <form [formGroup]="newGitraceFormGroup" class="form-inline">
+  <div class="row d-flex w-100 flex-row justify-content-end">
+    <button nbButton status="primary" (click)="openAddRepositoryDialog()">Add</button>
+  </div>
+  <!--  <div class="row w-100">
+      <nb-card class="inline-form-card w-100">
+        <nb-card-header>Add new Moon Cloud Probes dependency to monitoring</nb-card-header>
+        <nb-card-body>
+          <form [formGroup]="newGitraceFormGroup" class="form-inline">
 
-          <div class="col-md-1">
-            <nb-select formControlName="gitProvider">
-              <nb-option [value]="GitProvider.GITLAB">GITLAB</nb-option>
-              <nb-option [value]="GitProvider.GITHUB">GITHUB</nb-option>
-            </nb-select>
-          </div>
+            <div class="col-md-1">
+              <nb-select formControlName="gitProvider">
+                <nb-option [value]="GitProvider.GITLAB">GITLAB</nb-option>
+                <nb-option [value]="GitProvider.GITHUB">GITHUB</nb-option>
+              </nb-select>
+            </div>
 
-          <div class="col-md-3">
-            <input
-              type="text"
-              nbInput fullWidth
-              class="form-control full-width"
-              placeholder="Repository link"
-              formControlName="gitRepoUrl"
-              required>
-            <div class="position-absolute text-danger small" *ngIf="newGitraceFormGroup.controls.gitRepoUrl.dirty &&
-            newGitraceFormGroup.controls.gitRepoUrl.hasError('invalidUrl')">
-              GIT url must end with .git extension
+            <div class="col-md-3">
+              <input
+                type="text"
+                nbInput fullWidth
+                class="form-control full-width"
+                placeholder="Repository link"
+                formControlName="gitRepoUrl"
+                required>
+              <div class="position-absolute text-danger small" *ngIf="newGitraceFormGroup.controls.gitRepoUrl.dirty &&
+              newGitraceFormGroup.controls.gitRepoUrl.hasError('invalidUrl')">
+                GIT url must end with .git extension
+              </div>
+            </div>
+
+            <div class="col-md-2">
+              <nb-select class="w-100" placeholder="Connection" formControlName="connectionId">
+                <nb-option [value]="null">None</nb-option>
+                <nb-option *ngFor="let c of connections" [value]="c.id">{{c.name}}</nb-option>
+              </nb-select>
+            </div>
+
+            <div class="col-md-3">
+              <input
+                type="text"
+                nbInput fullWidth
+                class="form-control"
+                placeholder="Description"
+                formControlName="gitDescription">
+            </div>
+
+            <div class="col-md-2">
+              <button
+                type="submit"
+                nbButton
+                status="primary"
+                (click)="createNewGitrace()"
+                [disabled]="newGitraceFormGroup.invalid || pendingRequest">Create
+              </button>
+            </div>
+          </form>
+        </nb-card-body>
+      </nb-card>
+    </div>
+    <div class="row w-100 mt-2">
+      <nb-card class="w-100">
+        <nb-card-body>
+          <ng2-smart-table [settings]="settings" [source]="source">
+          </ng2-smart-table>
+        </nb-card-body>
+      </nb-card>
+    </div>-->
+</div>
+
+<ng-template #addRepositoryDialog>
+  <div class="add-repository w-100">
+    <nb-card>
+      <div class="modal-header">Add repository</div>
+      <div class="modal-body">
+        <form [formGroup]="newRepositoryFormGroup" class="form-inline">
+
+          <div class="row w-100 d-flex flex-row">
+            <div class="col-9">
+              <input
+                type="text"
+                nbInput fullWidth
+                class="form-control"
+                placeholder="Repository URL"
+                formControlName="url">
+            </div>
+            <div class="col-3">
+              <input
+                type="text"
+                nbInput fullWidth
+                class="form-control"
+                placeholder="Repository branch"
+                formControlName="branch">
             </div>
           </div>
 
-          <div class="col-md-2">
-            <nb-select class="w-100" placeholder="Connection" formControlName="connectionId">
-              <nb-option [value]="null">None</nb-option>
-              <nb-option *ngFor="let c of connections" [value]="c.id">{{c.name}}</nb-option>
-            </nb-select>
+          <div class="row w-100 d-flex flex-row">
+            <div class="col-4">
+              <input
+                type="text"
+                nbInput fullWidth
+                class="form-control"
+                placeholder="Username"
+                formControlName="username">
+            </div>
+
+            <div class="col-5">
+              <input
+                type="password"
+                nbInput fullWidth
+                class="form-control"
+                placeholder="Password"
+                formControlName="password">
+            </div>
+
+            <div class="col-3">
+              <input
+                type="number"
+                [min]="5"
+                nbInput fullWidth
+                class="form-control"
+                placeholder="Interval"
+                formControlName="minutesWatchersInterval">
+            </div>
+
           </div>
 
-          <div class="col-md-3">
-            <input
-              type="text"
-              nbInput fullWidth
-              class="form-control"
-              placeholder="Description"
-              formControlName="gitDescription">
+          <div class="row w-100 d-flex flex-row">
+            <div class="col-12">
+              <div style="height: 300px">
+                <ngx-monaco-editor formControlName="recipe" style="height: 100%" [options]="editorOptions"></ngx-monaco-editor>
+              </div>
+            </div>
           </div>
 
-          <div class="col-md-2">
-            <button
-              type="submit"
-              nbButton
-              status="primary"
-              (click)="createNewGitrace()"
-              [disabled]="newGitraceFormGroup.invalid || pendingRequest">Create
-            </button>
-          </div>
         </form>
-      </nb-card-body>
+      </div>
+      <div class="modal-footer">
+        <div class="w-100 d-flex flex-row justify-content-end">
+          <button nbButton status="basic" class="btn-outline-secondary mr-2" (click)="closeDialog()">Cancel</button>
+          <button [disabled]="newRepositoryFormGroup.invalid" nbButton status="primary" (click)="createNewRepository()">Create</button>
+        </div>
+      </div>
     </nb-card>
   </div>
-  <div class="row w-100 mt-2">
-    <nb-card class="w-100">
-      <nb-card-body>
-        <ng2-smart-table [settings]="settings" [source]="source">
-        </ng2-smart-table>
-      </nb-card-body>
-    </nb-card>
-  </div>
-</div>
+</ng-template>

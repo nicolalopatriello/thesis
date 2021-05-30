@@ -13,29 +13,9 @@ const routes: Routes = [{
         .then(m => m.DashboardModule),
     },
     {
-      path: 'test-vectors',
-      loadChildren: () => import('./test-vectors/test-vectors.module')
-        .then(m => m.TestVectorsModule),
-    },
-    {
       path: 'repositories',
       loadChildren: () => import('./repositories/repositories.module')
         .then(m => m.RepositoriesModule),
-    },
-    {
-      path: 'moon-cloud-probes',
-      loadChildren: () => import('./user-test/user-test.module')
-        .then(m => m.UserTestModule),
-    },
-    {
-      path: 'notifications',
-      loadChildren: () => import('./notifications/notifications.module')
-        .then(m => m.NotificationsModule),
-    },
-    {
-      path: 'connections',
-      loadChildren: () => import('./connections/connections.module')
-        .then(m => m.ConnectionsModule),
     },
     {
       path: '',
