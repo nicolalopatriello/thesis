@@ -11,6 +11,8 @@ import it.nicolalopatriello.thesis.runner.exception.HttpRequestException;
 import java.util.Map;
 import java.util.Optional;
 
+import static it.nicolalopatriello.thesis.common.utils.ThesisConstant.RUNNER_SECRET_KEY;
+
 public class CoreHttpClient extends AbstractClient {
     protected HttpClient httpClient;
 
@@ -47,7 +49,7 @@ public class CoreHttpClient extends AbstractClient {
 
     Map<String, String> header() {
         Map<String, String> s = Maps.newHashMap();
-        s.put("secret", RunnerProperties.secret());
+        s.put(RUNNER_SECRET_KEY, RunnerProperties.secret());
         return s;
     }
 

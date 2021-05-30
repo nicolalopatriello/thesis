@@ -24,8 +24,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
+import static it.nicolalopatriello.thesis.common.utils.ThesisConstant.RUNNER_SECRET_KEY;
 
 
 @RestController
@@ -48,17 +52,24 @@ public class JobController {
     @ThesisPublicApi
     @GetMapping(value = "/")
     @ResponseBody
-    public RunnerJobResponse find(@RequestHeader("secret") String runnerSecret) throws NotFoundException, UnauthorizedException {
+    public RunnerJobResponse find(@RequestHeader(RUNNER_SECRET_KEY) String runnerSecret) throws NotFoundException, UnauthorizedException {
         Optional<Runner> runner = runnerService.allowedRunner(runnerSecret);
         if (runner.isPresent()) {
             List<RepositoryEntity> repositoryEntityList = repositoryService.findByRunnerIdIsNull();
-            if (repositoryEntityList.size() > 0) {
+
+            List<RepositoryEntity> available = repositoryEntityList.stream().filter(repo ->
+                    repo.getRunnerFinishedAt() == null ||
+                    (new Date().getTime() -
+                            repo.getRunnerFinishedAt().getTime()) >
+                            repo.getMinutesWatchersInterval() * 60 * 1000)
+                    .collect(Collectors.toList());
+
+            if (available.size() > 0) {
                 RepositoryEntity r = repositoryEntityList.get(0); //get first available job
                 RunnerJobResponse runnerJobResponse = new RunnerJobResponse();
                 runnerJobResponse.setRepositoryId(r.getId());
                 runnerJobResponse.setRepositoryUrl(r.getUrl());
                 runnerJobResponse.setRepositoryBranch(r.getBranch());
-                runnerJobResponse.setLastCommitSha(r.getLastCommitSha());
                 RunnerJobResponse.RepositoryCredentials c = new RunnerJobResponse.RepositoryCredentials();
                 c.setRepositoryPassword(r.getPassword());
                 c.setRepositoryUsername(r.getUsername());
@@ -69,10 +80,12 @@ public class JobController {
                 //update repository with current runner
                 r.setRunnerId(runner.get().getId());
                 r.setRunnerStartedAt(new Timestamp(System.currentTimeMillis()));
+                r.setRunnerFinishedAt(null);
                 repositoryService.save(r);
 
                 return runnerJobResponse;
             }
+            log.info("No available jobs found");
             throw new NotFoundException();
         }
         throw new UnauthorizedException();
@@ -82,7 +95,7 @@ public class JobController {
     @PostMapping(value = "/")
     @ResponseBody
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void runnerResponse(@RequestBody Object runnerResp, @RequestHeader("secret") String runnerSecret) throws UnauthorizedException {
+    public void runnerResponse(@RequestBody Object runnerResp, @RequestHeader(RUNNER_SECRET_KEY) String runnerSecret) throws UnauthorizedException {
         Optional<Runner> runner = runnerService.allowedRunner(runnerSecret);
         if (runner.isPresent()) {
             RunnerResponse runnerResponse = Jsonizable.fromJson(runnerResp.toString(), RunnerResponse.class);
