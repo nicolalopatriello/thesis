@@ -17,6 +17,8 @@ public interface RepositoryService {
 
     List<RepositoryEntity> findByRunnerIdIsNull();
 
+    List<RepositoryEntity> findByOwner(String username);
+
     void save(RepositoryEntity r);
 
     Optional<RepositoryEntity> findById(Long repositoryId);

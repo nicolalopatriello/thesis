@@ -1,5 +1,4 @@
 import {Component, OnDestroy} from '@angular/core';
-import {Statistics} from '../../@core/models/statistics';
 
 
 @Component({
@@ -8,7 +7,6 @@ import {Statistics} from '../../@core/models/statistics';
   templateUrl: './dashboard.component.html',
 })
 export class DashboardComponent {
-  public statistics: Statistics;
 
 /*  constructor(private statisticsService: StatisticsService) {
     this.statisticsService.find().subscribe(t => {

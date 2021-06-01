@@ -52,6 +52,11 @@ public class RepositoryServiceImpl implements RepositoryService {
     }
 
     @Override
+    public List<RepositoryEntity> findByOwner(String username) {
+        return thesisRepositoryRepository.findByOwner(username);
+    }
+
+    @Override
     public void save(RepositoryEntity r) {
         thesisRepositoryRepository.save(r);
     }

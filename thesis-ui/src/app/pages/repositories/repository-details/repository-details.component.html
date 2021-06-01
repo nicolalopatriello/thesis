@@ -1,0 +1,100 @@
+<div class="w-100">
+  <div class="row d-flex w-100 flex-row justify-content-start px-3">
+    <button nbButton outline status="basic" (click)="back()">Back</button>
+  </div>
+
+  <div class="row mt-2">
+    <div class="col-md-3">
+      <nb-card size="medium">
+        <nb-card-header>
+          Dependencies
+        </nb-card-header>
+        <nb-list>
+          <nb-list-item [ngClass]="{'selected-item': selectedDepIdx == idx}" class="py-1"
+                        *ngFor="let dep of repository?.dependencies; let idx = index">
+            <div class="d-flex flex-row w-100 justify-content-between">
+              <div class="d-flex flex-column">
+                <div class="small">{{dep.name}}</div>
+                <div class="small text-black-50">{{dep.version}}</div>
+              </div>
+              <div class="d-flex flex-column justify-content-center">
+                <button (click)="selectedDepIdx = idx" *ngIf="dep.vulnerabilities.length > 0" nbButton ghost
+                        status="danger">
+                  <nb-icon icon="alert-triangle-outline"></nb-icon>
+                </button>
+              </div>
+            </div>
+          </nb-list-item>
+        </nb-list>
+      </nb-card>
+    </div>
+
+    <div class="col-md-3" *ngIf="selectedDepIdx != null">
+      <nb-card size="medium">
+        <nb-card-header>
+          Vulnerabilities
+        </nb-card-header>
+        <nb-list>
+          <nb-list-item [ngClass]="{'selected-item': selectedVulnIdx == vulIdx}" class="py-1"
+                        *ngFor="let vul of repository?.dependencies[selectedDepIdx].vulnerabilities; let vulIdx = index">
+            <div class="d-flex flex-row w-100 justify-content-between">
+              <div class="d-flex flex-column">
+                <div class="small">{{vul.cveId}}</div>
+                <div class="small text-black-50">{{vul.cvss}}</div>
+              </div>
+              <div class="d-flex flex-column justify-content-center">
+                <button (click)="selectedVulnIdx = vulIdx" nbButton outline status="primary">
+                  Details
+                </button>
+              </div>
+            </div>
+          </nb-list-item>
+        </nb-list>
+      </nb-card>
+    </div>
+
+    <div class="col-md-6" *ngIf="selectedDepIdx != null">
+      <nb-card size="medium" *ngIf="repository?.dependencies[selectedDepIdx].vulnerabilities[selectedVulnIdx] as vulDetails">
+        <nb-card-header>
+          {{vulDetails.cveId}}
+        </nb-card-header>
+        <nb-card-body>
+          <div class="d-flex flex-row justify-content-between">
+            <div class="h2 font-weight-bold">
+              CVSS: {{vulDetails.cvss}}
+            </div>
+            <div class="d-flex flex-column" style="width: 250px">
+              <div class="d-flex flex-row justify-content-between">
+                <div class="small">Published:</div>
+                <div class="small">{{vulDetails.cvePublishedAt | date:'medium'}}</div>
+              </div>
+              <div class="d-flex flex-row justify-content-between">
+                <div class="small">Modified:</div>
+                <div class="small">{{vulDetails.cveModifiedAt | date:'medium'}}</div>
+              </div>
+            </div>
+          </div>
+
+<!--          <chart type="horizontalBar" [data]="data" [options]="options"></chart>-->
+        </nb-card-body>
+<!--        <nb-list>-->
+<!--          <nb-list-item class="py-1" *ngFor="let vul of repository?.dependencies[selectedDepIdx].vulnerabilities; let vulIdx = index">-->
+<!--            <div class="d-flex flex-row w-100 justify-content-between">-->
+<!--              <div class="d-flex flex-column">-->
+<!--                <div class="small">{{vul.cveId}}</div>-->
+<!--                <div class="small text-black-50">{{vul.cvss}}</div>-->
+<!--              </div>-->
+<!--              <div class="d-flex flex-column justify-content-center">-->
+<!--                <button (click)="selectedVulnIdx = vulIdx" nbButton outline status="primary">-->
+<!--                  Details-->
+<!--                </button>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </nb-list-item>-->
+<!--        </nb-list>-->
+      </nb-card>
+    </div>
+
+  </div>
+</div>
+

@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 import {Observable} from 'rxjs';
-import {User} from '../models/user';
-import {TestVector} from '../models/test-vector';
 import {LOCALSTORAGE_KEY_TOKEN} from '../../../constants';
-import {Gitrace} from '../models/gitrace';
+import {RepositoryLight} from '../models/repository-light';
+import {RepositoryDetails} from '../models/repository-details';
+import {map} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -17,19 +17,27 @@ export class RepositoryService {
     this.endpoint = environment.endpoint;
   }
 
-  findAll(): Observable<Array<Gitrace>> {
-    return this.httpClient.get<Array<Gitrace>>(`${this.endpoint}/repository/`, {
+  findAll(): Observable<Array<RepositoryLight>> {
+    return this.httpClient.get<Array<RepositoryLight>>(`${this.endpoint}/repository/`, {
       headers: {
         'Authorization': localStorage.getItem(LOCALSTORAGE_KEY_TOKEN)
       }
     });
   }
 
-  create(gitrace: Gitrace): Observable<Gitrace> {
-    return this.httpClient.post<Gitrace>(`${this.endpoint}/repository/`, gitrace, {
+  findById(repositoryId: number): Observable<RepositoryDetails> {
+    return this.httpClient.get<RepositoryDetails>(`${this.endpoint}/repository/${repositoryId}/`, {
       headers: {
         'Authorization': localStorage.getItem(LOCALSTORAGE_KEY_TOKEN)
       }
-    });
+    }).pipe(
+      map(resp => {
+        return {
+          ...resp,
+          dependencies: resp.dependencies.sort((a, b) => a.vulnerabilities.length > b.vulnerabilities.length ? -1 : 1)
+        };
+      })
+    );
   }
+
 }

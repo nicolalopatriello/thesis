@@ -2,23 +2,39 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RepositoriesComponent } from './repositories/repositories.component';
 import {RouterModule} from '@angular/router';
-import {NbButtonModule, NbCardModule, NbDialogModule, NbInputModule, NbSelectModule} from '@nebular/theme';
+import {
+  NbButtonModule,
+  NbCardModule,
+  NbDialogModule,
+  NbIconModule,
+  NbInputModule, NbListModule,
+  NbSelectModule
+} from '@nebular/theme';
 import {ReactiveFormsModule} from '@angular/forms';
 import {Ng2SmartTableModule} from 'ng2-smart-table';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ToastrModule} from 'ngx-toastr';
 import {MonacoEditorModule} from 'ngx-monaco-editor';
+import { RepositoryDetailsComponent } from './repository-details/repository-details.component';
+import {RepositoryDetailsResolve} from './services/repository-details-resolve';
+import {ChartModule} from 'angular2-chartjs';
 
 
 
 @NgModule({
-  declarations: [RepositoriesComponent],
+  declarations: [RepositoriesComponent, RepositoryDetailsComponent],
   imports: [
     CommonModule,
     RouterModule.forChild([
       {
         path: '',
         component: RepositoriesComponent
+      },
+      {
+        path: ':repositoryId/details',
+        component: RepositoryDetailsComponent,
+        resolve: {
+          repository: RepositoryDetailsResolve
+        },
       }
     ]),
     NbCardModule,
@@ -30,6 +46,9 @@ import {MonacoEditorModule} from 'ngx-monaco-editor';
     NbDialogModule.forRoot({hasBackdrop: true, closeOnBackdropClick: false}),
     ToastrModule,
     MonacoEditorModule,
+    NbIconModule,
+    NbListModule,
+    ChartModule,
   ]
 })
 export class RepositoriesModule { }

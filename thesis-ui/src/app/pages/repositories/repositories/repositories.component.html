@@ -1,6 +1,42 @@
 <div class="w-100">
   <div class="row d-flex w-100 flex-row justify-content-end">
-    <button nbButton status="primary" (click)="openAddRepositoryDialog()">Add</button>
+    <button nbButton outline status="primary" (click)="openAddRepositoryDialog()">Add</button>
+  </div>
+
+  <div class="row">
+    <div class="col-md-3" *ngFor="let r of repositories">
+      <nb-card>
+        <nb-card-body>
+          <div class="d-flex flex-row justify-content-between">
+            <div class="d-flex flex-column">
+              <div class="font-weight-bold h4 m-0">probe-dep.git</div>
+              <div class="font-weight-light">master - every 5 minutes</div>
+            </div>
+            <div>
+              <nb-icon style="margin-top: 6px; font-size: 1.5rem"
+                       [icon]="'settings-2-outline'" pack="eva"></nb-icon>
+            </div>
+          </div>
+
+          <div class="w-100 mt-1" style="border-bottom: 1px solid gray"></div>
+
+          <div class="d-flex pl-1 flex-row mt-4 justify-content-between">
+            <ul>
+              <li>
+                <div class="h6 font-weight-bold">PYTHON_DEP</div>
+              </li>
+              <li>
+                <div class="h6 font-weight-bold">DOCKERfILE_NMAP</div>
+              </li>
+            </ul>
+          </div>
+
+          <div class="d-flex flex-row mt-2 justify-content-center">
+            <button (click)="repositoryDetails(r)" nbButton status="primary">Details</button>
+          </div>
+        </nb-card-body>
+      </nb-card>
+    </div>
   </div>
   <!--  <div class="row w-100">
       <nb-card class="inline-form-card w-100">
@@ -68,6 +104,7 @@
     </div>-->
 </div>
 
+{{repositories  |json}}
 <ng-template #addRepositoryDialog>
   <div class="add-repository w-100">
     <nb-card>
@@ -128,7 +165,8 @@
           <div class="row w-100 d-flex flex-row">
             <div class="col-12">
               <div style="height: 300px">
-                <ngx-monaco-editor formControlName="recipe" style="height: 100%" [options]="editorOptions"></ngx-monaco-editor>
+                <ngx-monaco-editor formControlName="recipe" style="height: 100%"
+                                   [options]="editorOptions"></ngx-monaco-editor>
               </div>
             </div>
           </div>
@@ -138,7 +176,9 @@
       <div class="modal-footer">
         <div class="w-100 d-flex flex-row justify-content-end">
           <button nbButton status="basic" class="btn-outline-secondary mr-2" (click)="closeDialog()">Cancel</button>
-          <button [disabled]="newRepositoryFormGroup.invalid" nbButton status="primary" (click)="createNewRepository()">Create</button>
+          <button [disabled]="newRepositoryFormGroup.invalid" nbButton status="primary" (click)="createNewRepository()">
+            Create
+          </button>
         </div>
       </div>
     </nb-card>

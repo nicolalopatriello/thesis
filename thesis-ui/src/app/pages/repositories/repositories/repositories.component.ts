@@ -1,9 +1,10 @@
 import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {ToastrService} from 'ngx-toastr';
-import {Connection} from '../../../@core/models/connection';
 import {RepositoryService} from '../../../@core/services/repository.service';
 import {NbDialogRef, NbDialogService} from '@nebular/theme';
+import {RepositoryLight} from '../../../@core/models/repository-light';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'ngx-repositories',
@@ -17,12 +18,14 @@ export class RepositoriesComponent implements OnInit {
   public newRepositoryFormGroup: FormGroup;
 
   pendingRequest = false;
-  public connections: Array<Connection>;
   private addRepoDialogRef: NbDialogRef<any>;
   editorOptions = {theme: 'vs-dark', language: 'json'};
+  public repositories: Array<RepositoryLight> = [];
 
   constructor(private repositoryService: RepositoryService,
               private dialogService: NbDialogService,
+              private activatedRoute: ActivatedRoute,
+              private router: Router,
               private toastrService: ToastrService) {
   }
 
@@ -56,7 +59,7 @@ export class RepositoriesComponent implements OnInit {
 
   findAll() {
     this.repositoryService.findAll().subscribe(t => {
-      console.log(t);
+      this.repositories = t;
     });
   }
 
@@ -84,5 +87,9 @@ export class RepositoriesComponent implements OnInit {
 
   closeDialog() {
     this.addRepoDialogRef.close();
+  }
+
+  repositoryDetails(r: RepositoryLight) {
+    this.router.navigate([r.id, 'details'], {relativeTo: this.activatedRoute});
   }
 }

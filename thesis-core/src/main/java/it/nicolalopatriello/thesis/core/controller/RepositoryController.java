@@ -6,12 +6,15 @@ import it.nicolalopatriello.thesis.common.exception.NotFoundException;
 import it.nicolalopatriello.thesis.core.dto.repository.RepositoryCreateRequest;
 import it.nicolalopatriello.thesis.core.dto.repository.RepositoryCreateResponse;
 import it.nicolalopatriello.thesis.core.dto.repository.RepositoryDetails;
+import it.nicolalopatriello.thesis.core.dto.repository.RepositoryLight;
 import it.nicolalopatriello.thesis.core.service.RepositoryService;
 import it.nicolalopatriello.thesis.core.utils.JwtUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -27,6 +30,17 @@ public class RepositoryController {
     public RepositoryCreateResponse create(JwtUser user, @Valid @RequestBody RepositoryCreateRequest request) throws BadRequestException {
         return repositoryService.create(user, request);
     }
+
+    @ThesisAuthorization
+    @GetMapping(value = "/")
+    @ResponseBody
+    public List<RepositoryLight> findAll(JwtUser user) {
+        return repositoryService.findByOwner(user.getUsername())
+                .stream()
+                .map(RepositoryLight::from)
+                .collect(Collectors.toList());
+    }
+
 
     @ThesisAuthorization
     @GetMapping(value = "/{id}/")

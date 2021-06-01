@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface ThesisRepositoryRepository extends PagingAndSortingWithSpecificationRepository<RepositoryEntity, Long> {
     List<RepositoryEntity> findByRunnerIdIsNull();
+    List<RepositoryEntity> findByOwner(String username);
 }
