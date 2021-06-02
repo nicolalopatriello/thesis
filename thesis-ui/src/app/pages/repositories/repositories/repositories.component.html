@@ -4,12 +4,16 @@
   </div>
 
   <div class="row">
-    <div class="col-md-3" *ngFor="let r of repositories">
+    <div class="col-md-4" *ngFor="let r of repositories">
       <nb-card>
         <nb-card-body>
           <div class="d-flex flex-row justify-content-between">
             <div class="d-flex flex-column">
-              <div class="font-weight-bold h4 m-0">probe-dep.git</div>
+              <div class="font-weight-bold h4 m-0">{{r.url | repoNameExtract}}</div>
+              <div class="small">{{r.url}}</div>
+              <div class="small">
+                <img [src]="'images/branch_git.svg'" style="font-size: 10px">
+              </div>
               <div class="font-weight-light">master - every 5 minutes</div>
             </div>
             <div>

@@ -6,6 +6,6 @@ export interface RepositoryLight {
   runnerId: number;
   runnerStartedAt: number;
   runnerFinishedAt: number;
-  reciepe: any;
+  recipe: any;
   minutesWatchersInterval: number;
 }

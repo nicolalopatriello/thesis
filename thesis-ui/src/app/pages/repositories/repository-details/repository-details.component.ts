@@ -11,26 +11,6 @@ export class RepositoryDetailsComponent implements OnInit {
   public repository: RepositoryDetails;
   selectedDepIdx = 0;
   selectedVulnIdx = 0;
-   data = {
-    datasets: [{
-      label: 'CVE Score',
-      data: [65],
-      backgroundColor: [
-        'rgba(255, 99, 132, 0.2)'
-      ],
-      borderColor: [
-        'rgb(255, 99, 132)'
-      ],
-      borderWidth: 1
-    }]
-  };
-  options: {
-    scales: {
-      c: {
-        beginAtZero: true
-      }
-    }
-  }
 
   constructor(private activatedRoute: ActivatedRoute, private router: Router) {
   }

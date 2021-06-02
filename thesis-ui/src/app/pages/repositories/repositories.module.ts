@@ -17,6 +17,8 @@ import {MonacoEditorModule} from 'ngx-monaco-editor';
 import { RepositoryDetailsComponent } from './repository-details/repository-details.component';
 import {RepositoryDetailsResolve} from './services/repository-details-resolve';
 import {ChartModule} from 'angular2-chartjs';
+import {CoreModule} from '../../@core/core.module';
+import {ThemeModule} from '../../@theme/theme.module';
 
 
 
@@ -48,7 +50,7 @@ import {ChartModule} from 'angular2-chartjs';
     MonacoEditorModule,
     NbIconModule,
     NbListModule,
-    ChartModule,
+    ThemeModule
   ]
 })
 export class RepositoriesModule { }

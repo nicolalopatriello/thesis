@@ -26,6 +26,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {TokenInterceptorService} from './@core/interceptors/token-interceptor.service';
 import {ToastrModule} from 'ngx-toastr';
 import {MonacoEditorModule} from 'ngx-monaco-editor';
+import {TimeagoModule} from 'ngx-timeago';
 
 @NgModule({
   declarations: [AppComponent, LoginComponent],
@@ -46,6 +47,7 @@ import {MonacoEditorModule} from 'ngx-monaco-editor';
     NbToastrModule.forRoot(),
     ToastrModule.forRoot(),
     MonacoEditorModule.forRoot(),
+    TimeagoModule.forRoot(),
     NbChatModule.forRoot({
       messageGoogleMapKey: 'AIzaSyA_wNuCzia92MAmdLRzmqitRGvCF7wCZPY',
     }),
