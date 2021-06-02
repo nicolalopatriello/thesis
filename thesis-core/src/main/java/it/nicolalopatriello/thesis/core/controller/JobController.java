@@ -96,11 +96,15 @@ public class JobController {
             RunnerResponse runnerResponse = Jsonizable.fromJson(runnerResp.toString(), RunnerResponse.class);
             Optional<RepositoryEntity> optRepository = repositoryService.findById(runnerResponse.getRepositoryId());
             if (optRepository.isPresent()) {
-
-                //TODO clear current vulnerabilities, dependencies and metrics of repository
-
-                //update repository with end runner job
                 RepositoryEntity repositoryEntity = optRepository.get();
+
+                /*
+                 * Remove all already found vulns, deps and metrics.
+                 * Only if code has changed
+                 * */
+                if (repositoryEntity.getLastCommitSha() != null && (!repositoryEntity.getLastCommitSha().equals(runnerResponse.getCommitSha())))
+                    repositoryService.clearReferences(optRepository.get().getId());
+
                 repositoryEntity.setRunnerId(null);
                 repositoryEntity.setRunnerStartedAt(null);
                 repositoryEntity.setRunnerFinishedAt(new Timestamp(System.currentTimeMillis()));

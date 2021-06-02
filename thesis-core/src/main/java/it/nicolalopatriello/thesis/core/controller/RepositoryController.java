@@ -9,7 +9,9 @@ import it.nicolalopatriello.thesis.core.dto.repository.RepositoryDetails;
 import it.nicolalopatriello.thesis.core.dto.repository.RepositoryLight;
 import it.nicolalopatriello.thesis.core.service.RepositoryService;
 import it.nicolalopatriello.thesis.core.utils.JwtUser;
+import it.nicolalopatriello.thesis.core.utils.ResponseEntityFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -29,6 +31,14 @@ public class RepositoryController {
     @ResponseBody
     public RepositoryCreateResponse create(JwtUser user, @Valid @RequestBody RepositoryCreateRequest request) throws BadRequestException {
         return repositoryService.create(user, request);
+    }
+
+    @ThesisAuthorization
+    @DeleteMapping(path = "/{repositoryId}/")
+    @ResponseBody
+    public ResponseEntity<Object> delete(@PathVariable Long repositoryId) throws NotFoundException, BadRequestException {
+        repositoryService.delete(repositoryId);
+        return ResponseEntityFactory.noContent();
     }
 
     @ThesisAuthorization

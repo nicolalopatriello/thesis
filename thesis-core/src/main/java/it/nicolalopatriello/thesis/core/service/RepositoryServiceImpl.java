@@ -1,5 +1,6 @@
 package it.nicolalopatriello.thesis.core.service;
 
+import it.nicolalopatriello.thesis.common.exception.BadRequestException;
 import it.nicolalopatriello.thesis.common.exception.NotFoundException;
 import it.nicolalopatriello.thesis.core.dto.Vulnerability;
 import it.nicolalopatriello.thesis.core.dto.repository.RepositoryCreateRequest;
@@ -15,6 +16,7 @@ import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -92,11 +94,49 @@ public class RepositoryServiceImpl implements RepositoryService {
             details.setId(repositoryEntity.getId());
             details.setLastCommitSha(repositoryEntity.getLastCommitSha());
             details.setUrl(repositoryEntity.getUrl());
+            if (repositoryEntity.getRunnerFinishedAt() != null)
+                details.setRunnerFinishedAt(repositoryEntity.getRunnerFinishedAt().getTime());
+            details.setMinutesWatchersInterval(repositoryEntity.getMinutesWatchersInterval());
             details.setDependencies(list);
 
             return details;
         }
         throw new NotFoundException();
+    }
+
+    @Override
+    @Transactional
+    public void delete(Long repositoryId) throws NotFoundException, BadRequestException {
+        Optional<RepositoryEntity> byId = thesisRepositoryRepository.findById(repositoryId);
+        if (byId.isPresent()) {
+            if (byId.get().getRunnerStartedAt() != null)
+                throw new BadRequestException();
+            List<DependencyEntity> dependencies = dependencyRepository.findByRepositoryId(repositoryId);
+            for (DependencyEntity d : dependencies) {
+                vulnerabilityRepository.deleteByDependencyId(d.getId());
+            }
+            for (DependencyEntity d : dependencies) {
+                dependencyRepository.deleteById(d.getId());
+            }
+            thesisRepositoryRepository.deleteById(repositoryId);
+        } else {
+            throw new NotFoundException();
+        }
+    }
+
+    @Override
+    @Transactional
+    public void clearReferences(Long repositoryId) {
+        Optional<RepositoryEntity> byId = thesisRepositoryRepository.findById(repositoryId);
+        if (byId.isPresent()) {
+            List<DependencyEntity> dependencies = dependencyRepository.findByRepositoryId(repositoryId);
+            for (DependencyEntity d : dependencies) {
+                vulnerabilityRepository.deleteByDependencyId(d.getId());
+            }
+            for (DependencyEntity d : dependencies) {
+                dependencyRepository.deleteById(d.getId());
+            }
+        }
     }
 
 

@@ -1,7 +1,24 @@
 <div class="w-100">
   <div class="row d-flex w-100 flex-row justify-content-between px-3">
     <button nbButton outline status="basic" (click)="back()">Back</button>
-    <div class="font-weight-bold">{{repository.url}}</div>
+    <div class="d-flex flex-column">
+      <div class="font-weight-bold">{{repository.url}}</div>
+      <div class="d-flex flex-row justify-content-between w-100">
+        <div class="d-flex flex-row">
+          <div class="small">
+            <img [src]="'assets/images/branch_git.svg'" width="10px">
+            {{repository.branch}} <span *ngIf="repository.lastCommitSha !== null"> - {{repository.lastCommitSha.substr(0, 8)}}</span>
+          </div>
+          <div class="small ml-2">
+            <img [src]="'assets/images/clock.svg'" width="10px">
+            every {{repository.minutesWatchersInterval}} minutes
+          </div>
+        </div>
+        <div class="small" *ngIf="repository.runnerFinishedAt !== null">
+          Last check: {{repository.runnerFinishedAt | timeago}}
+        </div>
+      </div>
+    </div>
   </div>
 
   <div class="row mt-2">
@@ -75,6 +92,9 @@
                 <div class="small">{{vulDetails.cveModifiedAt | date:'medium'}}</div>
               </div>
             </div>
+          </div>
+          <div class="mt-2 w-100">
+            {{vulDetails.summary}}
           </div>
         </nb-card-body>
       </nb-card>

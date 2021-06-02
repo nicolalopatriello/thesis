@@ -3,6 +3,11 @@
     <button nbButton outline status="primary" (click)="openAddRepositoryDialog()">Add</button>
   </div>
 
+  <div *ngIf="repositories?.length == 0" style="height: 300px"
+       class="d-flex w-100 flex-column justify-content-center text-center text-black-50">
+    <p>No repositories found. Please add new one.</p>
+  </div>
+
   <div class="row">
     <div class="col-md-4" *ngFor="let r of repositories">
       <nb-card>
@@ -11,14 +16,27 @@
             <div class="d-flex flex-column">
               <div class="font-weight-bold h4 m-0">{{r.url | repoNameExtract}}</div>
               <div class="small">{{r.url}}</div>
-              <div class="small">
-                <img [src]="'images/branch_git.svg'" style="font-size: 10px">
+              <div class="d-flex flex-row justify-content-between w-100">
+                <div class="d-flex flex-row">
+                  <div class="small">
+                    <img [src]="'assets/images/branch_git.svg'" width="10px">
+                    {{r.branch}} <span *ngIf="r.lastCommitSha !== null"> - {{r.lastCommitSha.substr(0, 8)}}</span>
+                  </div>
+                  <div class="small ml-2">
+                    <img [src]="'assets/images/clock.svg'" width="10px">
+                    every {{r.minutesWatchersInterval}} minutes
+                  </div>
+                </div>
+                <div class="small" *ngIf="r.runnerFinishedAt !== null">
+                  Last check: {{r.runnerFinishedAt | timeago}}
+                </div>
               </div>
-              <div class="font-weight-light">master - every 5 minutes</div>
             </div>
             <div>
-              <nb-icon style="margin-top: 6px; font-size: 1.5rem"
-                       [icon]="'settings-2-outline'" pack="eva"></nb-icon>
+              <button [disabled]="r.runnerStartedAt !== null" (click)="openDeleteRepositoryDialog(r)" nbButton ghost
+                      status="danger">
+                <nb-icon icon="trash-2-outline"></nb-icon>
+              </button>
             </div>
           </div>
 
@@ -26,89 +44,42 @@
 
           <div class="d-flex pl-1 flex-row mt-4 justify-content-between">
             <ul>
-              <li>
-                <div class="h6 font-weight-bold">PYTHON_DEP</div>
-              </li>
-              <li>
-                <div class="h6 font-weight-bold">DOCKERfILE_NMAP</div>
+              <li *ngFor="let i of r.recipe.items">
+                <div class="h6 font-weight-bold">{{i.watcherType}}</div>
               </li>
             </ul>
           </div>
 
           <div class="d-flex flex-row mt-2 justify-content-center">
-            <button (click)="repositoryDetails(r)" nbButton status="primary">Details</button>
+            <button [disabled]="r.runnerFinishedAt == null" (click)="repositoryDetails(r)" nbButton status="primary">
+              Details
+            </button>
           </div>
         </nb-card-body>
       </nb-card>
     </div>
   </div>
-  <!--  <div class="row w-100">
-      <nb-card class="inline-form-card w-100">
-        <nb-card-header>Add new Moon Cloud Probes dependency to monitoring</nb-card-header>
-        <nb-card-body>
-          <form [formGroup]="newGitraceFormGroup" class="form-inline">
-
-            <div class="col-md-1">
-              <nb-select formControlName="gitProvider">
-                <nb-option [value]="GitProvider.GITLAB">GITLAB</nb-option>
-                <nb-option [value]="GitProvider.GITHUB">GITHUB</nb-option>
-              </nb-select>
-            </div>
-
-            <div class="col-md-3">
-              <input
-                type="text"
-                nbInput fullWidth
-                class="form-control full-width"
-                placeholder="Repository link"
-                formControlName="gitRepoUrl"
-                required>
-              <div class="position-absolute text-danger small" *ngIf="newGitraceFormGroup.controls.gitRepoUrl.dirty &&
-              newGitraceFormGroup.controls.gitRepoUrl.hasError('invalidUrl')">
-                GIT url must end with .git extension
-              </div>
-            </div>
-
-            <div class="col-md-2">
-              <nb-select class="w-100" placeholder="Connection" formControlName="connectionId">
-                <nb-option [value]="null">None</nb-option>
-                <nb-option *ngFor="let c of connections" [value]="c.id">{{c.name}}</nb-option>
-              </nb-select>
-            </div>
-
-            <div class="col-md-3">
-              <input
-                type="text"
-                nbInput fullWidth
-                class="form-control"
-                placeholder="Description"
-                formControlName="gitDescription">
-            </div>
-
-            <div class="col-md-2">
-              <button
-                type="submit"
-                nbButton
-                status="primary"
-                (click)="createNewGitrace()"
-                [disabled]="newGitraceFormGroup.invalid || pendingRequest">Create
-              </button>
-            </div>
-          </form>
-        </nb-card-body>
-      </nb-card>
-    </div>
-    <div class="row w-100 mt-2">
-      <nb-card class="w-100">
-        <nb-card-body>
-          <ng2-smart-table [settings]="settings" [source]="source">
-          </ng2-smart-table>
-        </nb-card-body>
-      </nb-card>
-    </div>-->
 </div>
 
-{{repositories  |json}}
+<ng-template #deleteRepositoryDialog>
+  <div class="delete-repository w-100">
+    <nb-card>
+      <nb-card-header>
+        Delete {{currentRepositoryToDelete?.url | repoNameExtract}}
+      </nb-card-header>
+      <nb-card-body>
+        Are you sure?
+      </nb-card-body>
+      <nb-card-footer>
+        <div class="w-100 d-flex flex-row justify-content-end">
+          <button class="mr-2" (click)="closeDeleteRepoDialog()" nbButton status="basic" outline>Cancel</button>
+          <button (click)="deleteRepositoryConfirm()" nbButton status="danger">Delete</button>
+        </div>
+      </nb-card-footer>
+    </nb-card>
+  </div>
+</ng-template>
+
 <ng-template #addRepositoryDialog>
   <div class="add-repository w-100">
     <nb-card>
@@ -118,14 +89,20 @@
 
           <div class="row w-100 d-flex flex-row">
             <div class="col-9">
+              <label class="float-left mb-1" id="url" for="url">Repository URL</label>
               <input
                 type="text"
                 nbInput fullWidth
                 class="form-control"
-                placeholder="Repository URL"
                 formControlName="url">
+              <div style="min-height: 23px;">
+                <i *ngIf="newRepositoryFormGroup.touched
+                && newRepositoryFormGroup.controls.url.hasError('invalidGitUrl')"
+                   class="small text-danger">Repository URL must include .git extension</i>
+              </div>
             </div>
             <div class="col-3">
+              <label class="float-left mb-1" id="branch" for="branch">Branch</label>
               <input
                 type="text"
                 nbInput fullWidth
@@ -137,49 +114,49 @@
 
           <div class="row w-100 d-flex flex-row">
             <div class="col-4">
+              <label class="float-left mb-1" id="username" for="username">Username</label>
               <input
                 type="text"
                 nbInput fullWidth
                 class="form-control"
-                placeholder="Username"
                 formControlName="username">
             </div>
 
             <div class="col-5">
+              <label class="float-left mb-1" id="password" for="password">Password</label>
               <input
                 type="password"
                 nbInput fullWidth
                 class="form-control"
-                placeholder="Password"
                 formControlName="password">
             </div>
 
             <div class="col-3">
+              <label class="float-left mb-1" id="minutesWatchersInterval" for="minutesWatchersInterval">Watchers
+                interval</label>
               <input
                 type="number"
                 [min]="5"
                 nbInput fullWidth
                 class="form-control"
-                placeholder="Interval"
                 formControlName="minutesWatchersInterval">
             </div>
-
           </div>
-
           <div class="row w-100 d-flex flex-row">
             <div class="col-12">
-              <div style="height: 300px">
+              <label class="float-left mb-1" id="recipe" for="recipe">Watchers configuration</label>
+              <div style="height: 300px; margin-top: 30px">
                 <ngx-monaco-editor formControlName="recipe" style="height: 100%"
                                    [options]="editorOptions"></ngx-monaco-editor>
               </div>
             </div>
           </div>
-
         </form>
       </div>
       <div class="modal-footer">
         <div class="w-100 d-flex flex-row justify-content-end">
-          <button nbButton status="basic" class="btn-outline-secondary mr-2" (click)="closeDialog()">Cancel</button>
+          <button nbButton status="basic" class="btn-outline-secondary mr-2" (click)="closeAddRepoDialog()">Cancel
+          </button>
           <button [disabled]="newRepositoryFormGroup.invalid" nbButton status="primary" (click)="createNewRepository()">
             Create
           </button>

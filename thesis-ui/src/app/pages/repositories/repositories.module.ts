@@ -19,6 +19,7 @@ import {RepositoryDetailsResolve} from './services/repository-details-resolve';
 import {ChartModule} from 'angular2-chartjs';
 import {CoreModule} from '../../@core/core.module';
 import {ThemeModule} from '../../@theme/theme.module';
+import {TimeagoModule} from 'ngx-timeago';
 
 
 
@@ -50,7 +51,8 @@ import {ThemeModule} from '../../@theme/theme.module';
     MonacoEditorModule,
     NbIconModule,
     NbListModule,
-    ThemeModule
+    ThemeModule,
+    TimeagoModule
   ]
 })
 export class RepositoriesModule { }

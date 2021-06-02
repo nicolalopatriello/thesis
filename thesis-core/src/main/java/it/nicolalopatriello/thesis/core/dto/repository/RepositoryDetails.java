@@ -13,6 +13,9 @@ public class RepositoryDetails {
     private String url;
     private String branch;
     private String lastCommitSha;
+    private String summary;
+    private Long runnerFinishedAt;
+    private Long minutesWatchersInterval;
     private List<DependencyWithVulnerabilities> dependencies;
 
     @Getter

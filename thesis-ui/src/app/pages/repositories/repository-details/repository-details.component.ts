@@ -9,8 +9,8 @@ import {RepositoryDetails} from '../../../@core/models/repository-details';
 })
 export class RepositoryDetailsComponent implements OnInit {
   public repository: RepositoryDetails;
-  selectedDepIdx = 0;
-  selectedVulnIdx = 0;
+  selectedDepIdx;
+  selectedVulnIdx;
 
   constructor(private activatedRoute: ActivatedRoute, private router: Router) {
   }

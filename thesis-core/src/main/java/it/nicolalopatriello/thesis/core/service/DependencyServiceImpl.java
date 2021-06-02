@@ -71,6 +71,7 @@ public class DependencyServiceImpl implements DependencyService {
                                 v.setCveModifiedAt(new Timestamp(dateFormat.parse(cveDetails.getModified()).getTime()));
                                 v.setCveId(cveDetails.getId());
                                 v.setCvePatch(cveDetails.availablePatch());
+                                v.setSummary(cveDetails.getSummary());
 
                                 Optional<VulnerabilityEntity> vulnerabilityEntity =
                                         vulnerabilityRepository.findByCveIdAndDependencyId(
@@ -81,7 +82,6 @@ public class DependencyServiceImpl implements DependencyService {
                                 vulnerabilityEntity.ifPresent(entity -> v.setId(entity.getId()));
                                 vulnerabilityRepository.save(v);
                             }
-                            //2020-10-14T13:23:00
                         } catch (Exception e) {
                             log.error(e.getMessage());
                         }

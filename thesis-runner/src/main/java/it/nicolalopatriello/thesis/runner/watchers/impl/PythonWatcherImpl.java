@@ -18,7 +18,6 @@ public class PythonWatcherImpl implements Watcher<PythonWatcherArgs> {
 
     @Override
     public WatcherResponse run(File folder, PythonWatcherArgs args) {
-        System.err.println("[PYTHON] Folder: " + folder + " args: " + args);
         WatcherResponse w = new WatcherResponse();
         File[] fileList = folder.listFiles(new FilenameFilter() {
             public boolean accept(File dir, String name) {

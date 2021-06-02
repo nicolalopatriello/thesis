@@ -2,6 +2,7 @@ package it.nicolalopatriello.thesis.runner.watchers;
 
 import it.nicolalopatriello.thesis.common.utils.WatcherType;
 import it.nicolalopatriello.thesis.runner.exception.WatcherTypeNotFoundException;
+import it.nicolalopatriello.thesis.runner.watchers.impl.DockerFileNmapWatcherImpl;
 import it.nicolalopatriello.thesis.runner.watchers.impl.PythonWatcherImpl;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -13,6 +14,8 @@ public class WatcherFactory {
         switch (type) {
             case PYTHON_DEPENDENCY:
                 return new PythonWatcherImpl();
+            case DOCKERFILE_NMAP:
+                return new DockerFileNmapWatcherImpl();
             default:
                 throw new WatcherTypeNotFoundException(type);
         }

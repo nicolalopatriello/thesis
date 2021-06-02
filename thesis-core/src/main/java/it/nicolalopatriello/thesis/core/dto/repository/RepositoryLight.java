@@ -1,5 +1,7 @@
 package it.nicolalopatriello.thesis.core.dto.repository;
 
+import it.nicolalopatriello.thesis.common.Jsonizable;
+import it.nicolalopatriello.thesis.common.dto.Recipe;
 import it.nicolalopatriello.thesis.core.entities.RepositoryEntity;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,7 +16,7 @@ public class RepositoryLight {
     private Long runnerId;
     private Long runnerStartedAt;
     private Long runnerFinishedAt;
-    private Object recipe;
+    private Recipe recipe;
     private Long minutesWatchersInterval;
 
 
@@ -29,7 +31,7 @@ public class RepositoryLight {
             light.setRunnerStartedAt(r.getRunnerStartedAt().getTime());
         if (r.getRunnerFinishedAt() != null)
             light.setRunnerFinishedAt(r.getRunnerFinishedAt().getTime());
-        light.setRecipe(r.getRecipe());
+        light.setRecipe(Jsonizable.fromJson(r.getRecipe(), Recipe.class));
         light.setMinutesWatchersInterval(r.getMinutesWatchersInterval());
         return light;
     }

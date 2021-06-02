@@ -43,6 +43,15 @@ create table IF NOT EXISTS ${schema}.dependency(
   UNIQUE(name, version, programming_language, repository_id)
 );
 
+create sequence IF NOT EXISTS ${schema}.metric_seq;
+create table IF NOT EXISTS ${schema}.metric(
+  id bigint default nextval('${schema}.metric_seq') PRIMARY KEY,
+  severity bigint not null,
+  description TEXT,
+  timestamp TIMESTAMPTZ,
+  watcher_source VARCHAR(255),
+  repository_id bigint references ${schema}.repository
+);
 
 create sequence IF NOT EXISTS ${schema}.vulnerability_seq;
 create table IF NOT EXISTS ${schema}.vulnerability(
@@ -53,5 +62,6 @@ create table IF NOT EXISTS ${schema}.vulnerability(
   cvss bigint,
   cvss_vector VARCHAR(128),
   cve_patch VARCHAR(255),
+  summary TEXT,
   dependency_id bigint references ${schema}.dependency
 );

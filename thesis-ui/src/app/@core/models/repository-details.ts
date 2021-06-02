@@ -3,6 +3,9 @@ export interface RepositoryDetails {
   url: string;
   branch: string;
   lastCommitSha: string;
+  summary: string;
+  runnerFinishedAt: number;
+  minutesWatchersInterval: number;
   dependencies: DependencyWithVulnerabilities[];
 }
 

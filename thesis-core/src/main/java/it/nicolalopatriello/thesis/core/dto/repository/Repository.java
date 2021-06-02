@@ -23,6 +23,7 @@ public class Repository extends DTO {
     private Long minutesWatchersInterval;
     private String owner;
 
+
     public RepositoryEntity to() {
         RepositoryEntity repositoryEntity = new RepositoryEntity();
         repositoryEntity.setId(id);
