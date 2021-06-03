@@ -56,9 +56,13 @@ export class RepositoriesComponent implements OnInit {
     {
         "items": [
              {
-            "watcherType": "PYTHON_DEPENDENCY",
-            "args": {}
-             }
+              "watcherType": "PYTHON_DEPENDENCY",
+              "args": {}
+             },
+             {
+              "watcherType": "DOCKERFILE_NMAP",
+              "args": {}
+              }
         ]
     }
     `;

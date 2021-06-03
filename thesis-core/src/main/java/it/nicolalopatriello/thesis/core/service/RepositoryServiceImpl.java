@@ -1,5 +1,6 @@
 package it.nicolalopatriello.thesis.core.service;
 
+import it.nicolalopatriello.thesis.common.dto.Metric;
 import it.nicolalopatriello.thesis.common.exception.BadRequestException;
 import it.nicolalopatriello.thesis.common.exception.NotFoundException;
 import it.nicolalopatriello.thesis.core.dto.Vulnerability;
@@ -7,8 +8,10 @@ import it.nicolalopatriello.thesis.core.dto.repository.RepositoryCreateRequest;
 import it.nicolalopatriello.thesis.core.dto.repository.RepositoryCreateResponse;
 import it.nicolalopatriello.thesis.core.dto.repository.RepositoryDetails;
 import it.nicolalopatriello.thesis.core.entities.DependencyEntity;
+import it.nicolalopatriello.thesis.core.entities.MetricEntity;
 import it.nicolalopatriello.thesis.core.entities.RepositoryEntity;
 import it.nicolalopatriello.thesis.core.repos.DependencyRepository;
+import it.nicolalopatriello.thesis.core.repos.MetricRepository;
 import it.nicolalopatriello.thesis.core.repos.ThesisRepositoryRepository;
 import it.nicolalopatriello.thesis.core.repos.VulnerabilityRepository;
 import it.nicolalopatriello.thesis.core.utils.JwtUser;
@@ -33,6 +36,9 @@ public class RepositoryServiceImpl implements RepositoryService {
 
     @Autowired
     private VulnerabilityRepository vulnerabilityRepository;
+
+    @Autowired
+    private MetricRepository metricRepository;
 
     @Override
     public RepositoryCreateResponse create(JwtUser user, RepositoryCreateRequest repositoryCreateRequest) {
@@ -75,12 +81,15 @@ public class RepositoryServiceImpl implements RepositoryService {
         if (byId.isPresent()) {
             RepositoryEntity repositoryEntity = byId.get();
             List<DependencyEntity> byRepositoryId = dependencyRepository.findByRepositoryId(id);
+            List<Metric> metrics = metricRepository
+                    .findByRepositoryId(id)
+                    .stream()
+                    .map(MetricEntity::dto)
+                    .collect(Collectors.toList());
 
             List<RepositoryDetails.DependencyWithVulnerabilities> list = byRepositoryId.stream().map(dep -> {
                 vulnerabilityRepository.findByDependencyId(dep.getId());
-
                 RepositoryDetails.DependencyWithVulnerabilities depWithVuln = new RepositoryDetails.DependencyWithVulnerabilities();
-
                 depWithVuln.setId(dep.getId());
                 depWithVuln.setName(dep.getName());
                 depWithVuln.setVersion(dep.getVersion());
@@ -98,6 +107,7 @@ public class RepositoryServiceImpl implements RepositoryService {
                 details.setRunnerFinishedAt(repositoryEntity.getRunnerFinishedAt().getTime());
             details.setMinutesWatchersInterval(repositoryEntity.getMinutesWatchersInterval());
             details.setDependencies(list);
+            details.setMetrics(metrics);
 
             return details;
         }
@@ -130,6 +140,10 @@ public class RepositoryServiceImpl implements RepositoryService {
         Optional<RepositoryEntity> byId = thesisRepositoryRepository.findById(repositoryId);
         if (byId.isPresent()) {
             List<DependencyEntity> dependencies = dependencyRepository.findByRepositoryId(repositoryId);
+            List<MetricEntity> metrics = metricRepository.findByRepositoryId(repositoryId);
+            for (MetricEntity m : metrics) {
+                metricRepository.deleteById(m.getId());
+            }
             for (DependencyEntity d : dependencies) {
                 vulnerabilityRepository.deleteByDependencyId(d.getId());
             }

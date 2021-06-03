@@ -8,11 +8,14 @@ import it.nicolalopatriello.thesis.common.dto.RunnerResponse;
 import it.nicolalopatriello.thesis.common.dto.WatcherResponse;
 import it.nicolalopatriello.thesis.common.exception.NotFoundException;
 import it.nicolalopatriello.thesis.common.exception.UnauthorizedException;
+import it.nicolalopatriello.thesis.common.utils.TimeUtils;
 import it.nicolalopatriello.thesis.core.Runner;
 import it.nicolalopatriello.thesis.core.entities.DependencyEntity;
+import it.nicolalopatriello.thesis.core.entities.MetricEntity;
 import it.nicolalopatriello.thesis.core.entities.RepositoryEntity;
 import it.nicolalopatriello.thesis.core.exception.CveDetailsClientException;
 import it.nicolalopatriello.thesis.core.service.DependencyService;
+import it.nicolalopatriello.thesis.core.service.MetricService;
 import it.nicolalopatriello.thesis.core.service.RepositoryService;
 import it.nicolalopatriello.thesis.core.service.RunnerServiceImpl;
 import lombok.extern.log4j.Log4j;
@@ -39,6 +42,8 @@ public class JobController {
     @Autowired
     private DependencyService dependencyService;
 
+    @Autowired
+    private MetricService metricService;
 
     @Autowired
     private RunnerServiceImpl runnerService;
@@ -125,7 +130,22 @@ public class JobController {
                             log.error("Error during dependency save " + ent.getName());
                         }
                     });
+
+
+                    //save metrics of runner response
+                    watcher.getMetrics().forEach(m -> {
+                        MetricEntity metric = new MetricEntity();
+                        metric.setRepositoryId(repositoryEntity.getId());
+                        metric.setDescription(m.getDescription());
+                        metric.setWatcherSource(m.getWatcherType());
+                        metric.setSeverity(m.getSeverity());
+                        metric.setTimestamp(TimeUtils.nowTimestamp());
+                        metricService.save(metric);
+                    });
+
                 }
+
+
             }
         } else {
             throw new UnauthorizedException();

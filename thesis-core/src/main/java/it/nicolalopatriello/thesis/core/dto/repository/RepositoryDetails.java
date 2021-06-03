@@ -1,5 +1,6 @@
 package it.nicolalopatriello.thesis.core.dto.repository;
 
+import it.nicolalopatriello.thesis.common.dto.Metric;
 import it.nicolalopatriello.thesis.core.dto.Vulnerability;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,6 +18,7 @@ public class RepositoryDetails {
     private Long runnerFinishedAt;
     private Long minutesWatchersInterval;
     private List<DependencyWithVulnerabilities> dependencies;
+    private List<Metric> metrics;
 
     @Getter
     @Setter
