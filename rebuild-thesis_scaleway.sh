@@ -1,6 +1,6 @@
 #!/bin/bash
 
-git pull origin main
+git pull origin watchers
 cd docker-env/develop/services/
 make down
 cd ..
