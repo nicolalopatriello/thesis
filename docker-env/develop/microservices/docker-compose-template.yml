@@ -35,10 +35,14 @@ services:
       - JWT_EXPIRATION=${JWT_EXPIRATION}
       - MJ_APIKEY_PUBLIC=${MJ_APIKEY_PUBLIC}
       - MJ_APIKEY_PRIVATE=${MJ_APIKEY_PRIVATE}
-
     volumes:
       - ${HOST_THESIS_CORE_SARBOX_DIR}:/var/thesis/sarbox/thesis-core/
       - <CURR_DIR>/var/thesis/sarbox/dictionaries:/var/thesis/sarbox/dictionaries
+    restart: always
+
+  thesis-runner:
+    image: nik90/thesis-runner:<REVISION>
+    container_name: thesis-runner
     restart: always
 
   thesis-ui:

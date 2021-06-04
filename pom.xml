@@ -67,7 +67,7 @@
         <!--        The unique id of the current pipeline scoped to project-->
         <ci.pipelineIdProjectScoped/>
 
-        <dockerfile.skip>true</dockerfile.skip>
+        <dockerfile.skip>false</dockerfile.skip>
         <jacoco.skip>true</jacoco.skip>
 
         <docker.repo>nik90</docker.repo>
