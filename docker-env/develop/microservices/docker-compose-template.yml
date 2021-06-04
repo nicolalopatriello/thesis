@@ -43,6 +43,8 @@ services:
   thesis-runner:
     image: nik90/thesis-runner:<REVISION>
     container_name: thesis-runner
+    environment:
+      - CORE_ENDPOINT=thesis-core:8080
     restart: always
 
   thesis-ui:

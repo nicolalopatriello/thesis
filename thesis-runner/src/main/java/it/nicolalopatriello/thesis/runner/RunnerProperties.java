@@ -7,6 +7,7 @@ public class RunnerProperties {
     private final long awaitInterval;
     private final File basePath;
     private final String secret;
+    private final String coreEndpoint;
 
     private static RunnerProperties instance;
 
@@ -20,6 +21,7 @@ public class RunnerProperties {
         this.basePath = new File(getOrElse("RUNNER_BASE_PATH", "/tmp/runner"));
         this.awaitInterval = Long.parseLong(getOrElse("RUNNER_WAIT_INTERVAL", "50000"));
         this.secret = getOrElse("RUNNER_SECRET", "runner-0-secret");
+        this.coreEndpoint = getOrElse("CORE_ENDPOINT", "http://localhost:8080");
     }
 
     public static File basePath() {
@@ -32,6 +34,10 @@ public class RunnerProperties {
 
     public static String secret() {
         return getInstance().secret;
+    }
+
+    public static String coreEndpoint() {
+        return getInstance().coreEndpoint;
     }
 
     private String getOrElse(String key, String value) {

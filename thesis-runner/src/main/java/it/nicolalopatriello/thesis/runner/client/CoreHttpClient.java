@@ -16,7 +16,7 @@ import static it.nicolalopatriello.thesis.common.utils.ThesisConstant.RUNNER_SEC
 public class CoreHttpClient extends AbstractClient {
     protected HttpClient httpClient;
 
-    private final String baseUrl = "http://localhost:8080/api/core";
+    private final String baseUrl =  RunnerProperties.coreEndpoint() + "/api/core";
 
 
     public CoreHttpClient() {

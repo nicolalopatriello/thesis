@@ -11,8 +11,10 @@ cd ..
 cd ..
 docker rmi -f nik90/thesis-ui:1.0.0...
 docker rmi -f nik90/thesis-core:1.0.0...
+docker rmi -f nik90/thesis-runner:1.0.0...
 ./create-dockers.sh
 cd thesis-ui/
+npm i
 ng build --prod && docker build -t nik90/thesis-ui:1.0.0... .
 cd ..
 cd docker-env/develop/services/

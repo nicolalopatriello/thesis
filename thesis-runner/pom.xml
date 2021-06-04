@@ -10,6 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>thesis-runner</artifactId>
+    <name>Thesis Runner</name>
     <dependencies>
         <dependency>
             <groupId>it.nicolalopatriello</groupId>
