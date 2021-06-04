@@ -24,7 +24,8 @@ public class VulnerabilitiesDBSync {
     private String pythonVulnerabilitiesDirectory;
 
 
-    @Scheduled(fixedDelayString = "${app.vulnerabilitiesDB.scheduledTime}")
+    //    @Scheduled(fixedDelayString = "${app.vulnerabilitiesDB.scheduledTime}")
+    @Scheduled(fixedDelay = 60000)
     public void fetch() throws IOException {
         File cvePath = new File(cveListDirectory);
         if (!cvePath.exists() && cvePath.mkdirs())
