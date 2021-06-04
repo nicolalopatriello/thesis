@@ -14,13 +14,6 @@ public class Metric {
     private Long repositoryId;
     private WatcherType watcherType;
 
-    public Metric() {}
-
-    public Metric(String value, Severity severity, String description) {
-        this.severity = severity;
-        this.description = description;
-    }
-
     public static enum Severity {
         LOW,
         MEDIUM,

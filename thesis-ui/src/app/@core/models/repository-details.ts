@@ -7,7 +7,19 @@ export interface RepositoryDetails {
   runnerFinishedAt: number;
   minutesWatchersInterval: number;
   dependencies: DependencyWithVulnerabilities[];
+  metrics: Metric[];
 }
+
+
+export interface Metric {
+  id: number;
+  severity: string;
+  description: string;
+  timestamp: number;
+  repositoryId: number;
+  watcherType: string;
+}
+
 
 export interface DependencyWithVulnerabilities {
   id: number;

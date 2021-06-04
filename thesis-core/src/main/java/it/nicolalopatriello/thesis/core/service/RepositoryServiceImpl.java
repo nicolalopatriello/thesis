@@ -122,6 +122,11 @@ public class RepositoryServiceImpl implements RepositoryService {
             if (byId.get().getRunnerStartedAt() != null)
                 throw new BadRequestException();
             List<DependencyEntity> dependencies = dependencyRepository.findByRepositoryId(repositoryId);
+            List<MetricEntity> metrics = metricRepository.findByRepositoryId(repositoryId);
+            for (MetricEntity m : metrics) {
+                metricRepository.deleteById(m.getId());
+            }
+
             for (DependencyEntity d : dependencies) {
                 vulnerabilityRepository.deleteByDependencyId(d.getId());
             }

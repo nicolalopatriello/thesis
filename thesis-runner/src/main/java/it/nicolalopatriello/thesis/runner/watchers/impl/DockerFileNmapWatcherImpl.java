@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import it.nicolalopatriello.thesis.common.dto.Metric;
 import it.nicolalopatriello.thesis.common.dto.WatcherResponse;
+import it.nicolalopatriello.thesis.common.utils.WatcherType;
 import it.nicolalopatriello.thesis.runner.watchers.Watcher;
 import lombok.extern.log4j.Log4j;
 import org.jsoup.Jsoup;
@@ -83,14 +84,15 @@ public class DockerFileNmapWatcherImpl implements Watcher<DockerFileNmapWatcherA
 
     private Metric buildMetric(int days, String lastVersionName, String detectedVersion) {
         Metric m = new Metric();
-        if (days < 8)
+        if (days < 30)
             m.setSeverity(Metric.Severity.LOW);
-        if (days > 8 && days < 30)
+        if (days > 30 && days < 90)
             m.setSeverity(Metric.Severity.MEDIUM);
-        if (days > 30)
+        if (days > 90)
             m.setSeverity(Metric.Severity.HIGH);
         m.setDescription(String.format("Detected NPM version is (%s) but a new version (%s) is available for %d days. Please update.",
                 detectedVersion, lastVersionName, days));
+        m.setWatcherType(WatcherType.DOCKERFILE_NMAP);
         return m;
     }
 

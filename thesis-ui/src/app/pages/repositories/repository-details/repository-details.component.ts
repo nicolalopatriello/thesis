@@ -11,6 +11,7 @@ export class RepositoryDetailsComponent implements OnInit {
   public repository: RepositoryDetails;
   selectedDepIdx;
   selectedVulnIdx;
+  selectedMetricIdx;
 
   constructor(private activatedRoute: ActivatedRoute, private router: Router) {
   }

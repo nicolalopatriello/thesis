@@ -95,10 +95,9 @@ public class JobController {
     @PostMapping(value = "/")
     @ResponseBody
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void runnerResponse(@RequestBody Object runnerResp, @RequestHeader(RUNNER_SECRET_KEY) String runnerSecret) throws UnauthorizedException {
+    public void runnerResponse(@RequestBody RunnerResponse runnerResponse, @RequestHeader(RUNNER_SECRET_KEY) String runnerSecret) throws UnauthorizedException {
         Optional<Runner> runner = runnerService.allowedRunner(runnerSecret);
         if (runner.isPresent()) {
-            RunnerResponse runnerResponse = Jsonizable.fromJson(runnerResp.toString(), RunnerResponse.class);
             Optional<RepositoryEntity> optRepository = repositoryService.findById(runnerResponse.getRepositoryId());
             if (optRepository.isPresent()) {
                 RepositoryEntity repositoryEntity = optRepository.get();
@@ -118,30 +117,34 @@ public class JobController {
 
                 for (WatcherResponse watcher : runnerResponse.getWatchers()) {
                     //save dependencies of runner response
-                    watcher.getDependencies().forEach(d -> {
-                        DependencyEntity ent = new DependencyEntity();
-                        ent.setRepositoryId(optRepository.get().getId());
-                        ent.setName(d.getName());
-                        ent.setProgrammingLanguage(d.getProgrammingLanguage());
-                        ent.setVersion(d.getVersion());
-                        try {
-                            dependencyService.save(ent);
-                        } catch (CveDetailsClientException e) {
-                            log.error("Error during dependency save " + ent.getName());
-                        }
-                    });
 
+                    if (watcher.getDependencies() != null) {
+                        watcher.getDependencies().forEach(d -> {
+                            DependencyEntity ent = new DependencyEntity();
+                            ent.setRepositoryId(optRepository.get().getId());
+                            ent.setName(d.getName());
+                            ent.setProgrammingLanguage(d.getProgrammingLanguage());
+                            ent.setVersion(d.getVersion());
+                            try {
+                                dependencyService.save(ent);
+                            } catch (CveDetailsClientException e) {
+                                log.error("Error during dependency save " + ent.getName());
+                            }
+                        });
+                    }
 
                     //save metrics of runner response
-                    watcher.getMetrics().forEach(m -> {
-                        MetricEntity metric = new MetricEntity();
-                        metric.setRepositoryId(repositoryEntity.getId());
-                        metric.setDescription(m.getDescription());
-                        metric.setWatcherSource(m.getWatcherType());
-                        metric.setSeverity(m.getSeverity());
-                        metric.setTimestamp(TimeUtils.nowTimestamp());
-                        metricService.save(metric);
-                    });
+                    if (watcher.getMetrics() != null) {
+                        watcher.getMetrics().forEach(m -> {
+                            MetricEntity metric = new MetricEntity();
+                            metric.setRepositoryId(repositoryEntity.getId());
+                            metric.setDescription(m.getDescription());
+                            metric.setWatcherSource(m.getWatcherType());
+                            metric.setSeverity(m.getSeverity());
+                            metric.setTimestamp(TimeUtils.nowTimestamp());
+                            metricService.save(metric);
+                        });
+                    }
 
                 }
 

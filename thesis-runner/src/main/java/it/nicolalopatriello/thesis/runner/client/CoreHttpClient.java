@@ -41,7 +41,7 @@ public class CoreHttpClient extends AbstractClient {
 
     public void send(RunnerResponse r) throws HttpRequestException {
         try {
-            post(baseUrl, "/job/", r, Object.class, header());
+            post(baseUrl, "/job/", r, RunnerResponse.class, header());
         } catch (Exception e) {
             throw new HttpRequestException(e.getMessage());
         }

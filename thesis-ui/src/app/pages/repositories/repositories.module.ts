@@ -3,12 +3,12 @@ import { CommonModule } from '@angular/common';
 import { RepositoriesComponent } from './repositories/repositories.component';
 import {RouterModule} from '@angular/router';
 import {
-  NbButtonModule,
-  NbCardModule,
-  NbDialogModule,
-  NbIconModule,
-  NbInputModule, NbListModule,
-  NbSelectModule
+    NbButtonModule,
+    NbCardModule,
+    NbDialogModule,
+    NbIconModule,
+    NbInputModule, NbListModule,
+    NbSelectModule, NbTabsetModule
 } from '@nebular/theme';
 import {ReactiveFormsModule} from '@angular/forms';
 import {Ng2SmartTableModule} from 'ng2-smart-table';
@@ -25,34 +25,35 @@ import {TimeagoModule} from 'ngx-timeago';
 
 @NgModule({
   declarations: [RepositoriesComponent, RepositoryDetailsComponent],
-  imports: [
-    CommonModule,
-    RouterModule.forChild([
-      {
-        path: '',
-        component: RepositoriesComponent
-      },
-      {
-        path: ':repositoryId/details',
-        component: RepositoryDetailsComponent,
-        resolve: {
-          repository: RepositoryDetailsResolve
-        },
-      }
-    ]),
-    NbCardModule,
-    ReactiveFormsModule,
-    NbButtonModule,
-    NbInputModule,
-    NbSelectModule,
-    Ng2SmartTableModule,
-    NbDialogModule.forRoot({hasBackdrop: true, closeOnBackdropClick: false}),
-    ToastrModule,
-    MonacoEditorModule,
-    NbIconModule,
-    NbListModule,
-    ThemeModule,
-    TimeagoModule
-  ]
+    imports: [
+        CommonModule,
+        RouterModule.forChild([
+            {
+                path: '',
+                component: RepositoriesComponent
+            },
+            {
+                path: ':repositoryId/details',
+                component: RepositoryDetailsComponent,
+                resolve: {
+                    repository: RepositoryDetailsResolve
+                },
+            }
+        ]),
+        NbCardModule,
+        ReactiveFormsModule,
+        NbButtonModule,
+        NbInputModule,
+        NbSelectModule,
+        Ng2SmartTableModule,
+        NbDialogModule.forRoot({hasBackdrop: true, closeOnBackdropClick: false}),
+        ToastrModule,
+        MonacoEditorModule,
+        NbIconModule,
+        NbListModule,
+        ThemeModule,
+        TimeagoModule,
+        NbTabsetModule
+    ]
 })
 export class RepositoriesModule { }
