@@ -16,23 +16,13 @@ public class VulnerabilitiesDBSync {
 
     private final GitRepoHandler handler = new GitRepoHandler();
 
-
-    @Value("${app.cveList.dir}")
-    private String cveListDirectory;
-
     @Value("${app.vulnerabilities.python.dir}")
     private String pythonVulnerabilitiesDirectory;
 
 
-    //    @Scheduled(fixedDelayString = "${app.vulnerabilitiesDB.scheduledTime}")
+    //@Scheduled(fixedDelayString = "${app.vulnerabilitiesDB.scheduledTime}")
     @Scheduled(fixedDelay = 60000)
     public void fetch() throws IOException {
-        File cvePath = new File(cveListDirectory);
-        if (!cvePath.exists() && cvePath.mkdirs())
-            throw new FolderCreationException(cvePath);
-        String cveSha = handler.fetch(cvePath, "https://github.com/CVEProject/cvelist.git", "master", null);
-        log.debug("New CVE Database SHA is " + cveSha);
-
         File pythonVul = new File(pythonVulnerabilitiesDirectory);
         if (!pythonVul.exists() && pythonVul.mkdirs())
             throw new FolderCreationException(pythonVul);
