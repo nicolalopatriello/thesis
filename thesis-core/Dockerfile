@@ -14,7 +14,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
     && adduser -D -S -h /opt/thesis -s /sbin/nologin -G thesis -u 601 thesis \
     && chown thesis.thesis -R /opt
 
-#USER thesis
+RUN mkdir -p /var/thesis/vulnerabilities/python
 
 EXPOSE 8080
 CMD ["/opt/bin/run.sh", "-DFOREGROUND"]

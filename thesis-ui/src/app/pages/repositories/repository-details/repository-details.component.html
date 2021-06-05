@@ -8,7 +8,8 @@
         <div class="d-flex flex-row">
           <div class="small">
             <img [src]="'assets/images/branch_git.svg'" width="10px">
-            {{repository.branch}} <span *ngIf="repository.lastCommitSha !== null"> - {{repository.lastCommitSha.substr(0, 8)}}</span>
+            {{repository.branch}} <span
+            *ngIf="repository.lastCommitSha !== null"> - {{repository.lastCommitSha.substr(0, 8)}}</span>
           </div>
           <div class="small ml-2">
             <img [src]="'assets/images/clock.svg'" width="10px">
@@ -32,6 +33,8 @@
             </nb-card-header>
             <nb-list>
               <nb-list-item [ngClass]="{'selected-item': selectedDepIdx == idx}" class="py-1"
+                            (click)="dep.vulnerabilities.length > 0 ? selectedDepIdx = idx : null"
+                            [ngStyle]="{'cursor': dep.vulnerabilities.length > 0 ? 'pointer' : 'initial'}"
                             *ngFor="let dep of repository?.dependencies; let idx = index">
                 <div class="d-flex flex-row w-100 justify-content-between">
                   <div class="d-flex flex-column">
@@ -39,10 +42,7 @@
                     <div class="small text-black-50">{{dep.version}}</div>
                   </div>
                   <div class="d-flex flex-column justify-content-center">
-                    <button (click)="selectedDepIdx = idx" *ngIf="dep.vulnerabilities.length > 0" nbButton ghost
-                            status="danger">
-                      <nb-icon icon="alert-triangle-outline"></nb-icon>
-                    </button>
+                    <nb-icon class="text-danger" *ngIf="dep.vulnerabilities.length > 0" icon="alert-triangle-outline"></nb-icon>
                   </div>
                 </div>
               </nb-list-item>
@@ -83,7 +83,11 @@
             <nb-card-body>
               <div class="d-flex flex-row justify-content-between">
                 <div class="h2 font-weight-bold">
-                  CVSS: {{vulDetails.cvss}}
+                  <div class="d-flex flex-row">
+                    <div>CVSS:</div>
+                    <div class="ml-2" [ngxCvssColor]="vulDetails.cvss">{{vulDetails.cvss}}</div>
+                  </div>
+                  <div class="cvss-vector">{{vulDetails.cvssVector}}</div>
                 </div>
                 <div class="d-flex flex-column" style="width: 250px">
                   <div class="d-flex flex-row justify-content-between">
@@ -106,7 +110,7 @@
     </nb-tab>
     <nb-tab tabTitle="Metrics">
       <div class="row mt-2">
-        <div class="col-md-3">
+        <div class="col-md-4">
           <nb-card size="medium">
             <nb-card-header>
               Metrics
@@ -116,8 +120,8 @@
                             *ngFor="let metric of repository?.metrics; let idx = index">
                 <div class="d-flex flex-row w-100 justify-content-between">
                   <div class="d-flex flex-column">
-                    <div class="small">{{metric.watcherType}}</div>
-                    <div class="small text-black-50">{{metric.severity}}</div>
+                    <div class="small watcher-type">{{metric.watcherType | watcherTypeFormatter}}</div>
+                    <div class="small text-black-50" [ngxMetricSeverityColor]="metric.severity">{{metric.severity | metricSeverityFormatter}}</div>
                   </div>
                   <div class="d-flex flex-column justify-content-center">
                     <button (click)="selectedMetricIdx = idx" nbButton outline
@@ -131,19 +135,22 @@
           </nb-card>
         </div>
 
-        <div class="col-md-9" *ngIf="selectedMetricIdx != null">
+        <div class="col-md-8" *ngIf="selectedMetricIdx != null">
           <nb-card size="medium"
                    *ngIf="repository?.metrics[selectedMetricIdx] as metricDetails">
-            <nb-card-header>
-              {{metricDetails.watcherType}}
+            <nb-card-header class="watcher-type">
+              {{metricDetails.watcherType  | watcherTypeFormatter}}
             </nb-card-header>
             <nb-card-body>
               <div class="d-flex flex-row justify-content-between">
                 <div class="h2 font-weight-bold">
-                  Severity: {{metricDetails.severity}}
+                  <div class="d-flex flex-row">
+                    <div>Severity:</div>
+                    <div [ngxMetricSeverityColor]="metricDetails.severity" class="ml-2">{{metricDetails.severity | metricSeverityFormatter}}</div>
+                  </div>
                 </div>
               </div>
-              <div class="mt-2 w-100">
+              <div class="mt-2 w-100" style="white-space: pre-line">
                 {{metricDetails.description}}
               </div>
             </nb-card-body>

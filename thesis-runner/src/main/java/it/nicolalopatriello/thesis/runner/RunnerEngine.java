@@ -7,7 +7,10 @@ import it.nicolalopatriello.thesis.common.dto.Recipe;
 import it.nicolalopatriello.thesis.common.dto.RunnerJobResponse;
 import it.nicolalopatriello.thesis.common.dto.RunnerResponse;
 import it.nicolalopatriello.thesis.common.dto.WatcherResponse;
+import it.nicolalopatriello.thesis.common.exception.DecryptionException;
 import it.nicolalopatriello.thesis.common.exception.FolderCreationException;
+import it.nicolalopatriello.thesis.common.utils.DataEncryptor;
+import it.nicolalopatriello.thesis.common.utils.ThesisConstant;
 import it.nicolalopatriello.thesis.runner.exception.InvalidUrlException;
 import it.nicolalopatriello.thesis.runner.watchers.Watcher;
 import it.nicolalopatriello.thesis.runner.watchers.WatcherFactory;
@@ -62,11 +65,20 @@ public class RunnerEngine {
      * @return sha
      * @throws InvalidUrlException
      */
-    private String fetch(RunnerJobResponse worker) throws InvalidUrlException {
+    private String fetch(RunnerJobResponse worker) throws InvalidUrlException, DecryptionException {
         File f = folder(worker);
         if (!f.exists() && !f.mkdirs())
             throw new FolderCreationException(f);
-        return handler.fetch(f, worker.getRepositoryUrl(), worker.getRepositoryBranch(), worker.getCredentials());
+        try {
+            DataEncryptor dataEncryptor = DataEncryptor.from(ThesisConstant.ENCRYPT_SECRET, ThesisConstant.ENCRYPT_SALT);
+            RunnerJobResponse.RepositoryCredentials c = new RunnerJobResponse.RepositoryCredentials();
+            c.setRepositoryUsername(dataEncryptor.decrypt(worker.getCredentials().getRepositoryUsername()));
+            c.setRepositoryPassword(dataEncryptor.decrypt(worker.getCredentials().getRepositoryPassword()));
+            return handler.fetch(f, worker.getRepositoryUrl(), worker.getRepositoryBranch(), c);
+        } catch (Exception e) {
+            throw new DecryptionException();
+        }
+
     }
 
     private File folder(RunnerJobResponse worker) throws InvalidUrlException {

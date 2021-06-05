@@ -1,4 +1,4 @@
-import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
 import {ToastrService} from 'ngx-toastr';
 import {RepositoryService} from '../../../@core/services/repository.service';
@@ -6,15 +6,16 @@ import {NbDialogRef, NbDialogService} from '@nebular/theme';
 import {RepositoryLight} from '../../../@core/models/repository-light';
 import {ActivatedRoute, Router} from '@angular/router';
 import {RepositoryCreateRequest} from '../../../@core/models/repository-create-request';
-import {catchError} from 'rxjs/operators';
-import {of} from 'rxjs';
+import {catchError, takeUntil} from 'rxjs/operators';
+import {interval, of, Subject} from 'rxjs';
+import {environment} from '../../../../environments/environment';
 
 @Component({
   selector: 'ngx-repositories',
   templateUrl: './repositories.component.html',
   styleUrls: ['./repositories.component.scss']
 })
-export class RepositoriesComponent implements OnInit {
+export class RepositoriesComponent implements OnInit, OnDestroy {
 
   @ViewChild('addRepositoryDialog') addRepositoryDialog: TemplateRef<any>;
   @ViewChild('deleteRepositoryDialog') deleteRepositoryDialog: TemplateRef<any>;
@@ -25,6 +26,7 @@ export class RepositoriesComponent implements OnInit {
   private addRepoDialogRef: NbDialogRef<any>;
   public repositories: Array<RepositoryLight> = [];
   private deleteRepoDialogRef: NbDialogRef<any>;
+  private destroy$: Subject<boolean> = new Subject<boolean>();
   public currentRepositoryToDelete: RepositoryLight;
   public newRepositoryFormGroup: FormGroup;
 
@@ -36,7 +38,11 @@ export class RepositoriesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    interval(environment.pollingTime)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.findAll();
+      });
 
     this.newRepositoryFormGroup = new FormGroup(
       {
@@ -76,8 +82,6 @@ export class RepositoriesComponent implements OnInit {
 
   createNewRepository() {
     const r: RepositoryCreateRequest = this.newRepositoryFormGroup.getRawValue();
-
-
     this.repositoryService.create({
       ...r,
       recipe: JSON.parse(r.recipe.replace(/\s/g, ''))
@@ -129,6 +133,10 @@ export class RepositoriesComponent implements OnInit {
         this.toastrService.success('Repository successfully deleted');
       }
     );
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
   }
 }
 

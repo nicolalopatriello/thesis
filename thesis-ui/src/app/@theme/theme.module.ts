@@ -27,7 +27,7 @@ import {
   PluralPipe,
   RoundPipe,
   TimingPipe,
-  NumberWithCommasPipe, RepoNameExtractPipe,
+  NumberWithCommasPipe, RepoNameExtractPipe, WatcherTypeFormatterPipe, MetricSeverityFormatterPipe,
 } from './pipes';
 import {
   OneColumnLayoutComponent,
@@ -38,6 +38,8 @@ import { DEFAULT_THEME } from './styles/theme.default';
 import { COSMIC_THEME } from './styles/theme.cosmic';
 import { CORPORATE_THEME } from './styles/theme.corporate';
 import { DARK_THEME } from './styles/theme.dark';
+import { CvssColorDirective } from './directives/cvss-color.directive';
+import {MetricSeverityColorDirective} from './directives';
 
 const NB_MODULES = [
   NbLayoutModule,
@@ -68,13 +70,20 @@ const PIPES = [
   RoundPipe,
   TimingPipe,
   NumberWithCommasPipe,
-  RepoNameExtractPipe
+  RepoNameExtractPipe,
+  WatcherTypeFormatterPipe,
+  MetricSeverityFormatterPipe
+];
+
+const DIRECTIVES = [
+  CvssColorDirective,
+  MetricSeverityColorDirective
 ];
 
 @NgModule({
   imports: [CommonModule, ...NB_MODULES],
-  exports: [CommonModule, ...PIPES, ...COMPONENTS],
-  declarations: [...COMPONENTS, ...PIPES],
+  exports: [CommonModule, ...PIPES, ...COMPONENTS, ...DIRECTIVES],
+  declarations: [...COMPONENTS, ...PIPES, ...DIRECTIVES],
 })
 export class ThemeModule {
   static forRoot(): ModuleWithProviders<ThemeModule> {

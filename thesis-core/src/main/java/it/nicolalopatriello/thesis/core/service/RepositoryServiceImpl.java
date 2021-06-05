@@ -3,6 +3,8 @@ package it.nicolalopatriello.thesis.core.service;
 import it.nicolalopatriello.thesis.common.dto.Metric;
 import it.nicolalopatriello.thesis.common.exception.BadRequestException;
 import it.nicolalopatriello.thesis.common.exception.NotFoundException;
+import it.nicolalopatriello.thesis.common.utils.DataEncryptor;
+import it.nicolalopatriello.thesis.common.utils.ThesisConstant;
 import it.nicolalopatriello.thesis.core.dto.Vulnerability;
 import it.nicolalopatriello.thesis.core.dto.repository.RepositoryCreateRequest;
 import it.nicolalopatriello.thesis.core.dto.repository.RepositoryCreateResponse;
@@ -40,18 +42,25 @@ public class RepositoryServiceImpl implements RepositoryService {
     @Autowired
     private MetricRepository metricRepository;
 
+
     @Override
-    public RepositoryCreateResponse create(JwtUser user, RepositoryCreateRequest repositoryCreateRequest) {
-        RepositoryEntity repositoryEntity = new RepositoryEntity();
-        repositoryEntity.setUrl(repositoryCreateRequest.getUrl());
-        repositoryEntity.setUsername(repositoryCreateRequest.getUsername());
-        repositoryEntity.setPassword(repositoryCreateRequest.getPassword());
-        repositoryEntity.setBranch(repositoryCreateRequest.getBranch());
-        if (repositoryCreateRequest.getRecipe() != null)
-            repositoryEntity.setRecipe(repositoryCreateRequest.getRecipe().toString());
-        repositoryEntity.setMinutesWatchersInterval(repositoryCreateRequest.getMinutesWatchersInterval());
-        repositoryEntity.setOwner(user.getUsername());
-        return RepositoryCreateResponse.from(thesisRepositoryRepository.save(repositoryEntity));
+    public RepositoryCreateResponse create(JwtUser user, RepositoryCreateRequest repositoryCreateRequest) throws BadRequestException {
+        try {
+            DataEncryptor dataEncryptor = DataEncryptor.from(ThesisConstant.ENCRYPT_SECRET, ThesisConstant.ENCRYPT_SALT);
+            RepositoryEntity repositoryEntity = new RepositoryEntity();
+            repositoryEntity.setUrl(repositoryCreateRequest.getUrl());
+            repositoryEntity.setUsername(dataEncryptor.encrypt(repositoryCreateRequest.getUsername()));
+            repositoryEntity.setPassword(dataEncryptor.encrypt(repositoryCreateRequest.getPassword()));
+            repositoryEntity.setBranch(repositoryCreateRequest.getBranch());
+            if (repositoryCreateRequest.getRecipe() != null)
+                repositoryEntity.setRecipe(repositoryCreateRequest.getRecipe().toString());
+            repositoryEntity.setMinutesWatchersInterval(repositoryCreateRequest.getMinutesWatchersInterval());
+            repositoryEntity.setOwner(user.getUsername());
+            return RepositoryCreateResponse.from(thesisRepositoryRepository.save(repositoryEntity));
+        } catch (Exception e) {
+            throw new BadRequestException();
+        }
+
     }
 
     @Override
@@ -119,8 +128,7 @@ public class RepositoryServiceImpl implements RepositoryService {
     public void delete(Long repositoryId) throws NotFoundException, BadRequestException {
         Optional<RepositoryEntity> byId = thesisRepositoryRepository.findById(repositoryId);
         if (byId.isPresent()) {
-            if (byId.get().getRunnerStartedAt() != null)
-                throw new BadRequestException();
+
             List<DependencyEntity> dependencies = dependencyRepository.findByRepositoryId(repositoryId);
             List<MetricEntity> metrics = metricRepository.findByRepositoryId(repositoryId);
             for (MetricEntity m : metrics) {

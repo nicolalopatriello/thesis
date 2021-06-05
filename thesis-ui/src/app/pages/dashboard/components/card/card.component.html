@@ -1,7 +1,14 @@
 <nb-card size="tiny" style="height: 130px">
   <nb-card-body style="overflow: hidden">
-    <span class="h5 location">{{entity}}
-      <nb-icon  [icon]="icon" pack="eva" class="today-icon"></nb-icon>
+    <span class="h5 location">
+      <div class="d-flex flex-row">
+        <div>
+          <nb-icon style="font-size: 20px" [icon]="icon" pack="eva" class="today-icon"></nb-icon>
+        </div>
+           <div class="ml-2">
+          {{entity}}
+        </div>
+      </div>
     </span>
     <div class="today">
       <span class="text-black-50 mt-0 ml-0 today-temperature h1 w-100 d-flex flex-row justify-content-start">{{value}}

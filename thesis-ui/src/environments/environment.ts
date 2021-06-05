@@ -12,4 +12,5 @@ export const environment = {
   production: false,
   baseEndpoint: 'http://localhost:8080/',
   endpoint: 'http://localhost:8080/api/core',
+  pollingTime: 10000,
 };

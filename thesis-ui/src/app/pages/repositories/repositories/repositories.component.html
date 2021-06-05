@@ -33,7 +33,7 @@
               </div>
             </div>
             <div>
-              <button [disabled]="r.runnerStartedAt !== null" (click)="openDeleteRepositoryDialog(r)" nbButton ghost
+              <button  (click)="openDeleteRepositoryDialog(r)" nbButton ghost
                       status="danger">
                 <nb-icon icon="trash-2-outline"></nb-icon>
               </button>
@@ -45,12 +45,12 @@
           <div class="d-flex pl-1 flex-row mt-4 justify-content-between">
             <ul>
               <li *ngFor="let i of r.recipe.items">
-                <div class="h6 font-weight-bold">{{i.watcherType}}</div>
+                <div class="watcher-type">{{i.watcherType | watcherTypeFormatter}}</div>
               </li>
             </ul>
           </div>
 
-          <div class="d-flex flex-row mt-2 justify-content-center">
+          <div class="d-flex flex-row mt-2 justify-content-end">
             <button [disabled]="r.runnerFinishedAt == null" (click)="repositoryDetails(r)" nbButton status="primary">
               Details
             </button>
