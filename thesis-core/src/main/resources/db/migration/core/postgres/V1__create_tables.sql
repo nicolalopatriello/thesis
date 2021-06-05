@@ -59,7 +59,7 @@ create table IF NOT EXISTS ${schema}.vulnerability(
   cve_id VARCHAR(20) not null,
   cve_published_at TIMESTAMPTZ,
   cve_modified_at TIMESTAMPTZ,
-  cvss bigint,
+  cvss decimal,
   cvss_vector VARCHAR(128),
   cve_patch VARCHAR(255),
   summary TEXT,

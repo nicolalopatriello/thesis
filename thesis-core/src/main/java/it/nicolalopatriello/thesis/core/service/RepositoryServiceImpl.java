@@ -128,13 +128,11 @@ public class RepositoryServiceImpl implements RepositoryService {
     public void delete(Long repositoryId) throws NotFoundException, BadRequestException {
         Optional<RepositoryEntity> byId = thesisRepositoryRepository.findById(repositoryId);
         if (byId.isPresent()) {
-
             List<DependencyEntity> dependencies = dependencyRepository.findByRepositoryId(repositoryId);
             List<MetricEntity> metrics = metricRepository.findByRepositoryId(repositoryId);
             for (MetricEntity m : metrics) {
                 metricRepository.deleteById(m.getId());
             }
-
             for (DependencyEntity d : dependencies) {
                 vulnerabilityRepository.deleteByDependencyId(d.getId());
             }
