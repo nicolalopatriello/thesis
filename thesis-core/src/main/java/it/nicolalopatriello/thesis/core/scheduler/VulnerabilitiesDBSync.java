@@ -20,8 +20,7 @@ public class VulnerabilitiesDBSync {
     private String pythonVulnerabilitiesDirectory;
 
 
-    //@Scheduled(fixedDelayString = "${app.vulnerabilitiesDB.scheduledTime}")
-    @Scheduled(fixedDelay = 60000)
+    @Scheduled(fixedDelayString = "${app.vulnerabilitiesDB.scheduledTime}")
     public void fetch() throws IOException {
         File pythonVul = new File(pythonVulnerabilitiesDirectory);
         if (!pythonVul.exists() && pythonVul.mkdirs())
