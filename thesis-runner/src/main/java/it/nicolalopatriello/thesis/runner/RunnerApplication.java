@@ -1,72 +1,34 @@
 package it.nicolalopatriello.thesis.runner;
 
-import com.github.dockerjava.api.DockerClient;
-import com.github.dockerjava.api.command.CreateContainerResponse;
-import com.github.dockerjava.api.command.ExecCreateCmdResponse;
-import com.github.dockerjava.core.DefaultDockerClientConfig;
-import com.github.dockerjava.core.DockerClientConfig;
-import com.github.dockerjava.core.DockerClientImpl;
-import com.github.dockerjava.core.command.ExecStartResultCallback;
-import com.github.dockerjava.httpclient5.ApacheDockerHttpClient;
-import com.github.dockerjava.transport.DockerHttpClient;
+import com.spotify.docker.client.DefaultDockerClient;
+import com.spotify.docker.client.DockerClient;
+import com.spotify.docker.client.exceptions.DockerCertificateException;
+import com.spotify.docker.client.exceptions.DockerException;
+import com.spotify.docker.client.messages.RegistryAuth;
 import lombok.extern.log4j.Log4j;
-
-import java.io.*;
 
 @Log4j
 public class RunnerApplication {
-    static DockerClientConfig config = DefaultDockerClientConfig.createDefaultConfigBuilder().build();
-    static DockerHttpClient httpClient = new ApacheDockerHttpClient.Builder()
-            .dockerHost(config.getDockerHost())
-            .sslConfig(config.getSSLConfig())
-            .maxConnections(100)
-            .build();
-    static DockerClient dockerClient = DockerClientImpl.getInstance(config, httpClient);
-
-    public static String runExec(String containerId, String... cmd) {
-       String s = null;
-
-        ExecCreateCmdResponse exec = dockerClient.execCreateCmd(containerId)
-                .withCmd(cmd)
-                .withTty(true)
-                .withAttachStdout(true)
-                .withAttachStdin(true)
-                .exec();
+    public static void main(String[] args) throws DockerCertificateException, DockerException, InterruptedException {
+        RegistryAuth registryAuth = RegistryAuth.create(
+                "nlopatriello",
+                "intothewild_90",
+                "nicola.lopatriello@studenti.unimi.it",
+                "repository.v2.moon-cloud.eu:4567",
+                null,
+                null);
+        DefaultDockerClient docker = DefaultDockerClient.fromEnv().dockerAuth(false).registryAuth(registryAuth).build();
+        docker.auth(registryAuth);
         try {
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            OutputStream errorStream = new ByteArrayOutputStream();
-            dockerClient.execStartCmd(exec.getId()).withDetach(false)
-                    .exec(new ExecStartResultCallback(outputStream, errorStream)).awaitCompletion();
-            s = outputStream.toString();
-        } catch (InterruptedException e) {
+            docker.pull("repository.v2.moon-cloud.eu:4567/probes/ssh-scan:latest");
+            String lscmd = "docker run repository.v2.moon-cloud.eu:4567/probes/ssh-scan:latest ls > a.tmp";
+            Process p = Runtime.getRuntime().exec(new String[]{"bash", "-c", lscmd});
+            p.waitFor();
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        return s;
-
     }
 
-
-    public static String runContainer(String... cmd) {
-        CreateContainerResponse docker_image = dockerClient.createContainerCmd("busybox:uclibc")
-                .withCmd(cmd)
-                .exec();
-        String containerId = docker_image.getId();
-        dockerClient.startContainerCmd(containerId).exec();
-        return containerId;
-    }
-
-    public static void main(String[] args) {
-        try {
-
-            String containerId = runContainer("tail", "-f", "/dev/null");
-            System.out.printf("Container %s is running%n", containerId);
-            String resp = runExec(containerId, "ls");
-            System.err.println(resp.substring(0 , 3));
-
-        } catch (Exception e) {
-
-        }
-    }
 //    public static void main(String[] args) {
 //        RunnerEngine runnerEngine = new RunnerEngine();
 //        CoreHttpClient client = new CoreHttpClient();
