@@ -5,7 +5,7 @@ import it.nicolalopatriello.thesis.core.service.JwtTokenService;
 import it.nicolalopatriello.thesis.core.service.JwtTokenServiceImpl;
 import it.nicolalopatriello.thesis.common.utils.rsa.PrivateKeyReader;
 import it.nicolalopatriello.thesis.common.utils.rsa.PublicKeyReader;
-import it.nicolalopatriello.thesis.core.security.KirkBCryptPasswordEncoder;
+import it.nicolalopatriello.thesis.core.security.ThesisBCryptPasswordEncoder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -36,21 +36,16 @@ public class AppConfiguration {
     @Value("${jwt.expiration}")
     private Long expiration;
 
-
-    @Value("${sarbox.bcrypt.strength:12}")
+    @Value("${bcrypt.strength:12}")
     private int bcryptStrength;
 
     @Bean
     PasswordEncoder passwordEncoder() {
-        return new KirkBCryptPasswordEncoder(bcryptStrength);
+        return new ThesisBCryptPasswordEncoder(bcryptStrength);
     }
 
     ClassLoader classLoader = getClass().getClassLoader();
 
- /*  @Bean
-    SarboxDictionaries sarboxDictionaries() throws IOException {
-        return new SarboxDictionaries(dictionariesFiles);
-    }*/
 
     @Bean(name = "publicKey")
     PublicKey getPublicKey() throws NoSuchAlgorithmException, IOException, InvalidKeySpecException {

@@ -16,7 +16,7 @@ import it.nicolalopatriello.thesis.core.repos.DependencyRepository;
 import it.nicolalopatriello.thesis.core.repos.MetricRepository;
 import it.nicolalopatriello.thesis.core.repos.ThesisRepositoryRepository;
 import it.nicolalopatriello.thesis.core.repos.VulnerabilityRepository;
-import it.nicolalopatriello.thesis.core.utils.JwtUser;
+import it.nicolalopatriello.thesis.core.security.JwtUser;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,6 +1,5 @@
-package it.nicolalopatriello.thesis.core.utils;
+package it.nicolalopatriello.thesis.core.security;
 
-import it.nicolalopatriello.thesis.core.utils.JwtUser;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.log4j.Log4j;

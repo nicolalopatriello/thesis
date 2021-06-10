@@ -1,8 +1,8 @@
 package it.nicolalopatriello.thesis.runner.client;
 
-import com.gfmi.net.HttpClient;
 import com.google.common.collect.Maps;
 import it.nicolalopatriello.thesis.common.client.AbstractClient;
+import it.nicolalopatriello.thesis.common.client.http.HttpClient;
 import it.nicolalopatriello.thesis.common.dto.RunnerJobResponse;
 import it.nicolalopatriello.thesis.common.dto.RunnerResponse;
 import it.nicolalopatriello.thesis.runner.RunnerProperties;

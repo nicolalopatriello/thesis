@@ -2,7 +2,7 @@ package it.nicolalopatriello.thesis.core.controller;
 
 import it.nicolalopatriello.thesis.common.annotations.roles.ThesisPublicApi;
 import it.nicolalopatriello.thesis.common.exception.NotFoundException;
-import it.nicolalopatriello.thesis.core.utils.JwtUser;
+import it.nicolalopatriello.thesis.core.security.JwtUser;
 import it.nicolalopatriello.thesis.core.dto.User;
 import it.nicolalopatriello.thesis.core.dto.users.UserCreateRequest;
 import it.nicolalopatriello.thesis.core.dto.users.UserCreateResponse;

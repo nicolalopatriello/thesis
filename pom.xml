@@ -21,11 +21,6 @@
 
     <scm/>
 
-    <issueManagement>
-        <url>https://gitlab.gfm.cloud/vodafone/kirk/kirk/issues</url>
-        <system>GitLab</system>
-    </issueManagement>
-
     <mailingLists/>
 
     <developers>
@@ -289,50 +284,6 @@
                     </execution>
                 </executions>
             </plugin>
-
-
-            <!-- Swagger -->
-            <plugin>
-                <groupId>com.github.kongchen</groupId>
-                <artifactId>swagger-maven-plugin</artifactId>
-                <version>3.1.7</version>
-                <configuration>
-                    <apiSources>
-                        <apiSource>
-                            <springmvc>true</springmvc>
-                            <locations>
-                                <location>it.nicolalopatriello.core</location>
-                            </locations>
-                            <!--                            <schemes>http,https</schemes>-->
-                            <info>
-                                <title>Kirk</title>
-                                <description>
-                                    API REST documentation
-                                </description>
-                                <version>${revision}</version>
-                            </info>
-                            <swaggerApiReader>com.github.kongchen.swagger.docgen.reader.SpringMvcApiReader
-                            </swaggerApiReader>
-                            <!--                            <swaggerExtensions>-->
-                            <!--                                com.github.kongchen.swagger.docgen.spring.SpringSwaggerExtension-->
-                            <!--                            </swaggerExtensions>-->
-                            <swaggerDirectory>${project.basedir}/target/docs-swagger/swagger</swaggerDirectory>
-                            <swaggerFileName>swagger</swaggerFileName>
-                            <outputFormats>yaml</outputFormats>
-                            <attachSwaggerArtifact>true</attachSwaggerArtifact>
-                        </apiSource>
-                    </apiSources>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
         </plugins>
     </build>
 

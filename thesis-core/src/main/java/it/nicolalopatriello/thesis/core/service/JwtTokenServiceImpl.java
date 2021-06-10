@@ -4,7 +4,6 @@ package it.nicolalopatriello.thesis.core.service;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import it.nicolalopatriello.thesis.common.utils.LoggerUtils;
 import lombok.extern.log4j.Log4j;
 
 import java.security.PrivateKey;
@@ -16,7 +15,6 @@ import static it.nicolalopatriello.thesis.core.service.JwtTokenServiceExt.CLAIM_
 
 @Log4j
 public class JwtTokenServiceImpl implements JwtTokenService {
-    LoggerUtils loggerUtils = new LoggerUtils(log);
 
     private final PublicKey publicKey;
 

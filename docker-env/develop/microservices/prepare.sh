@@ -1,7 +1,7 @@
 #!/bin/bash
 ACTUAL_DIR=${PWD}
 INSTALLATION_DIR=$ACTUAL_DIR/compose
-NETWORK_NAME=kirk
+NETWORK_NAME=thesis
 REVISION=$(cd ../../../ && mvn help:evaluate -Dexpression=revision -q -DforceStdout)
 
 function createDockerNetwork(){

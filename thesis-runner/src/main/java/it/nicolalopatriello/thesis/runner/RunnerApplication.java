@@ -1,7 +1,6 @@
 package it.nicolalopatriello.thesis.runner;
 
 import com.spotify.docker.client.DefaultDockerClient;
-import com.spotify.docker.client.DockerClient;
 import com.spotify.docker.client.exceptions.DockerCertificateException;
 import com.spotify.docker.client.exceptions.DockerException;
 import com.spotify.docker.client.messages.RegistryAuth;
@@ -27,6 +26,7 @@ public class RunnerApplication {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 
 //    public static void main(String[] args) {
@@ -55,17 +55,9 @@ public class RunnerApplication {
 //                log.error(e.getMessage(), e);
 //            }
 //
-//            awaitFor();
+//            TimeUtils.awaitFor(RunnerProperties.awaitInterval());
 //        }
 //    }
 
-
-    private static void awaitFor() {
-        try {
-            Thread.sleep(RunnerProperties.awaitInterval());
-        } catch (InterruptedException e) {
-            log.error(e.getMessage(), e);
-        }
-    }
 
 }

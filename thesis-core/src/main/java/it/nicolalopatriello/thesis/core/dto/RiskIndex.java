@@ -66,7 +66,4 @@ public class RiskIndex {
         }
     }
 
-    public static void main(String[] args) {
-        RiskIndex r = new RiskIndex("CVE-2016-3092", new Date(1469019600000L).getTime(), "AV:N/AC:L/Au:N/C:N/I:N/A:C", 7.8, true);
-    }
 }

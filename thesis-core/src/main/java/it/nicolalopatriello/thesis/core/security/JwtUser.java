@@ -1,4 +1,4 @@
-package it.nicolalopatriello.thesis.core.utils;
+package it.nicolalopatriello.thesis.core.security;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,7 +11,4 @@ import lombok.Setter;
 @Setter
 public class JwtUser {
     private String username;
-    private String role;
-    private boolean enabled;
-    private boolean changePasswordRequired;
 }

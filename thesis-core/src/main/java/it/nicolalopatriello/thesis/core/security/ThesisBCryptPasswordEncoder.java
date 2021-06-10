@@ -6,11 +6,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import java.security.SecureRandom;
 
 @Log4j
-public class KirkBCryptPasswordEncoder extends BCryptPasswordEncoder {
+public class ThesisBCryptPasswordEncoder extends BCryptPasswordEncoder {
 
     private static final SecureRandom random = new SecureRandom();
 
-    public KirkBCryptPasswordEncoder(int strength) {
+    public ThesisBCryptPasswordEncoder(int strength) {
         super(validateStrength(strength), secureRandom());
     }
 

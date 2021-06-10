@@ -1,6 +1,7 @@
 package it.nicolalopatriello.thesis.common.exception;
 
-import com.gfmi.net.HttpClientResponse;
+
+import it.nicolalopatriello.thesis.common.client.http.HttpClientResponse;
 
 public class RefusedRequestException extends Exception {
     public RefusedRequestException(HttpClientResponse res) {

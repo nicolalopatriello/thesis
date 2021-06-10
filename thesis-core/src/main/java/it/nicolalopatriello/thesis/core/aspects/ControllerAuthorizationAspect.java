@@ -5,8 +5,8 @@ import it.nicolalopatriello.thesis.common.annotations.roles.ThesisPublicApi;
 import it.nicolalopatriello.thesis.common.exception.BadRequestException;
 import it.nicolalopatriello.thesis.common.exception.ForbiddenException;
 import it.nicolalopatriello.thesis.common.exception.UnauthorizedException;
-import it.nicolalopatriello.thesis.core.utils.ThesisSecurityContext;
-import it.nicolalopatriello.thesis.core.utils.JwtUser;
+import it.nicolalopatriello.thesis.core.security.ThesisSecurityContext;
+import it.nicolalopatriello.thesis.core.security.JwtUser;
 import lombok.extern.log4j.Log4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
@@ -23,7 +23,6 @@ import java.util.Optional;
 @Aspect
 @Log4j
 public class ControllerAuthorizationAspect {
-
 
     @Around("execution(* it.nicolalopatriello.thesis.core.controller..*(..))")
     public Object authorize(ProceedingJoinPoint methodExecution) throws Throwable {

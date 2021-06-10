@@ -1,4 +1,4 @@
-package it.nicolalopatriello.thesis.core.utils;
+package it.nicolalopatriello.thesis.core.security;
 
 import it.nicolalopatriello.thesis.core.dto.User;
 import it.nicolalopatriello.thesis.core.entities.UserEntity;

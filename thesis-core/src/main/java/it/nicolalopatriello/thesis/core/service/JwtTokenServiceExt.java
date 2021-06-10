@@ -3,7 +3,7 @@ package it.nicolalopatriello.thesis.core.service;
 
 import io.jsonwebtoken.Claims;
 import it.nicolalopatriello.thesis.common.exception.JwtExpiredTokenException;
-import it.nicolalopatriello.thesis.core.utils.JwtUser;
+import it.nicolalopatriello.thesis.core.security.JwtUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,9 +16,6 @@ import java.util.Map;
 public class JwtTokenServiceExt {
 
     static final String CLAIM_KEY_USERNAME = "sub";
-    static final String CLAIM_KEY_AUTHORITIES = "role";
-    static final String CLAIM_KEY_IS_ENABLED = "isEnabled";
-    static final String CLAIM_KEY_IS_CHANGE_PSW_REQUIRED = "isChangePswRequired";
     static final String CLAIM_KEY_CREATED = "iat";
 
     @Autowired
@@ -28,9 +25,6 @@ public class JwtTokenServiceExt {
         Map<String, Object> claims = new HashMap<>();
         claims.put(CLAIM_KEY_USERNAME, userDetails.getUsername());
         claims.put(CLAIM_KEY_CREATED, new Date());
-        claims.put(CLAIM_KEY_AUTHORITIES, userDetails.getRole());
-        claims.put(CLAIM_KEY_IS_ENABLED, userDetails.isEnabled());
-        claims.put(CLAIM_KEY_IS_CHANGE_PSW_REQUIRED, userDetails.isChangePasswordRequired());
         return jwtTokenService.generateToken(claims, isRefreshToken);
     }
 
@@ -65,10 +59,7 @@ public class JwtTokenServiceExt {
             throw new JwtExpiredTokenException(claims.getExpiration().toString(), null);
 
         String username = (String) claims.get(CLAIM_KEY_USERNAME);
-        String role = (String) claims.get(CLAIM_KEY_AUTHORITIES);
-        Boolean isEnabled = (Boolean) claims.get(CLAIM_KEY_IS_ENABLED);
-        Boolean isChangePasswordRequired = (Boolean) claims.get(CLAIM_KEY_IS_CHANGE_PSW_REQUIRED);
-        return new JwtUser(username, role, isEnabled, isChangePasswordRequired);
+        return new JwtUser(username);
     }
 
 }

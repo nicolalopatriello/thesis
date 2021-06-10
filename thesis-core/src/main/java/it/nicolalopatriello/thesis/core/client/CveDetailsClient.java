@@ -1,14 +1,14 @@
 package it.nicolalopatriello.thesis.core.client;
 
-import com.gfmi.net.HttpClient;
 import it.nicolalopatriello.thesis.common.client.AbstractClient;
+import it.nicolalopatriello.thesis.common.client.http.HttpClient;
 import it.nicolalopatriello.thesis.common.dto.CVEDetails;
 import it.nicolalopatriello.thesis.core.exception.CveDetailsClientException;
 
 public class CveDetailsClient extends AbstractClient {
     protected HttpClient httpClient;
 
-    private final String baseUrl = "https://cve.circl.lu/api";
+    private final static String CVE_DETAILS_API_ENDPOINT = "https://cve.circl.lu/api";
 
     public CveDetailsClient() {
         this.httpClient = HttpClient.create();
@@ -20,7 +20,7 @@ public class CveDetailsClient extends AbstractClient {
 
     public CVEDetails getCve(String cve) throws CveDetailsClientException {
         try {
-            return get(baseUrl, "/cve/" + cve, CVEDetails.class, null);
+            return get(CVE_DETAILS_API_ENDPOINT, "/cve/" + cve, CVEDetails.class, null);
         } catch (Exception e) {
             throw new CveDetailsClientException(e.getMessage());
         }

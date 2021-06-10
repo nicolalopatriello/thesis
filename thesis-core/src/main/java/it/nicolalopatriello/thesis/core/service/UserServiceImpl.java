@@ -9,7 +9,7 @@ import it.nicolalopatriello.thesis.core.dto.users.UserCreateResponse;
 import it.nicolalopatriello.thesis.core.entities.UserEntity;
 import it.nicolalopatriello.thesis.core.exception.BadUserCreationException;
 import it.nicolalopatriello.thesis.core.repos.UserRepository;
-import it.nicolalopatriello.thesis.core.utils.JwtUserHelper;
+import it.nicolalopatriello.thesis.core.security.JwtUserHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

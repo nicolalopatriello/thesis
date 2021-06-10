@@ -14,6 +14,7 @@ import java.io.IOException;
 @Log4j
 public class VulnerabilitiesDBSync {
 
+    public static final String HTTPS_GITHUB_COM_PYUPIO_SAFETY_DB_GIT = "https://github.com/pyupio/safety-db.git";
     private final GitRepoHandler handler = new GitRepoHandler();
 
     @Value("${app.vulnerabilities.python.dir}")
@@ -25,7 +26,7 @@ public class VulnerabilitiesDBSync {
         File pythonVul = new File(pythonVulnerabilitiesDirectory);
         if (!pythonVul.exists() && pythonVul.mkdirs())
             throw new FolderCreationException(pythonVul);
-        String pythonSha = handler.fetch(pythonVul, "https://github.com/pyupio/safety-db.git", "master", null);
+        String pythonSha = handler.fetch(pythonVul, HTTPS_GITHUB_COM_PYUPIO_SAFETY_DB_GIT, "master", null);
         log.debug("New Python Database dependencies SHA is " + pythonSha);
     }
 }

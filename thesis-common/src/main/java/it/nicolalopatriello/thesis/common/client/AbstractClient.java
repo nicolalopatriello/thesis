@@ -1,8 +1,8 @@
 package it.nicolalopatriello.thesis.common.client;
 
-import com.gfmi.net.HttpClient;
-import com.gfmi.net.HttpClientResponse;
 import it.nicolalopatriello.thesis.common.Jsonizable;
+import it.nicolalopatriello.thesis.common.client.http.HttpClient;
+import it.nicolalopatriello.thesis.common.client.http.HttpClientResponse;
 import it.nicolalopatriello.thesis.common.exception.BadRequestException;
 import it.nicolalopatriello.thesis.common.exception.NotFoundException;
 import it.nicolalopatriello.thesis.common.exception.RefusedRequestException;
