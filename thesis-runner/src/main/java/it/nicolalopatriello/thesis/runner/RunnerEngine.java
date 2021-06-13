@@ -34,7 +34,7 @@ public class RunnerEngine {
                 try {
                     Watcher<?> w = WatcherFactory.get(item.getWatcherType());
                     File folder = folder(job);
-                    WatcherResponse response = w.run(folder, item);
+                    WatcherResponse response = w.run(folder, item, decrypt(job.getCredentials()));
                     output.add(response);
                 } catch (Exception e) {
                     log.error(e.getMessage(), e);
@@ -70,15 +70,23 @@ public class RunnerEngine {
         if (!f.exists() && !f.mkdirs())
             throw new FolderCreationException(f);
         try {
-            DataEncryptor dataEncryptor = DataEncryptor.from(ThesisConstant.ENCRYPT_SECRET, ThesisConstant.ENCRYPT_SALT);
-            RunnerJobResponse.RepositoryCredentials c = new RunnerJobResponse.RepositoryCredentials();
-            c.setRepositoryUsername(dataEncryptor.decrypt(worker.getCredentials().getRepositoryUsername()));
-            c.setRepositoryPassword(dataEncryptor.decrypt(worker.getCredentials().getRepositoryPassword()));
-            return handler.fetch(f, worker.getRepositoryUrl(), worker.getRepositoryBranch(), c);
+
+            return handler.fetch(f, worker.getRepositoryUrl(), worker.getRepositoryBranch(), decrypt(worker.getCredentials()));
         } catch (Exception e) {
             throw new DecryptionException();
         }
+    }
 
+    RunnerJobResponse.RepositoryCredentials decrypt(RunnerJobResponse.RepositoryCredentials credentials) {
+        RunnerJobResponse.RepositoryCredentials c = new RunnerJobResponse.RepositoryCredentials();
+        try {
+            DataEncryptor dataEncryptor = DataEncryptor.from(ThesisConstant.ENCRYPT_SECRET, ThesisConstant.ENCRYPT_SALT);
+            c.setRepositoryUsername(dataEncryptor.decrypt(credentials.getRepositoryUsername()));
+            c.setRepositoryPassword(dataEncryptor.decrypt(credentials.getRepositoryPassword()));
+        } catch (Exception e) {
+            log.error("Cannot decrypt credentials" + e.getMessage());
+        }
+        return c;
     }
 
     private File folder(RunnerJobResponse worker) throws InvalidUrlException {

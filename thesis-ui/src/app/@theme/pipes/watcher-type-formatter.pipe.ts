@@ -11,6 +11,8 @@ export class WatcherTypeFormatterPipe implements PipeTransform {
         return 'Dockerfile NMAP version watcher';
       case WatcherType.PYTHON_DEPENDENCY:
         return 'Requirements.txt vulnerabilities watcher';
+      case WatcherType.SIMPLE_DOCKER_INSPECT:
+        return 'Simple Docker inspect';
       default:
         return null;
     }
@@ -20,5 +22,6 @@ export class WatcherTypeFormatterPipe implements PipeTransform {
 
 export enum WatcherType {
   PYTHON_DEPENDENCY = 'PYTHON_DEPENDENCY',
-  DOCKERFILE_NMAP = 'DOCKERFILE_NMAP'
+  DOCKERFILE_NMAP = 'DOCKERFILE_NMAP',
+  SIMPLE_DOCKER_INSPECT = 'SIMPLE_DOCKER_INSPECT'
 }

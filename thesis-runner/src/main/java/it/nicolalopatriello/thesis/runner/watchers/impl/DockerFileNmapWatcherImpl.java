@@ -2,6 +2,7 @@ package it.nicolalopatriello.thesis.runner.watchers.impl;
 
 import com.google.common.collect.Lists;
 import it.nicolalopatriello.thesis.common.dto.Metric;
+import it.nicolalopatriello.thesis.common.dto.RunnerJobResponse;
 import it.nicolalopatriello.thesis.common.dto.WatcherResponse;
 import it.nicolalopatriello.thesis.common.utils.WatcherType;
 import it.nicolalopatriello.thesis.runner.dto.NmapVersion;
@@ -38,7 +39,7 @@ public class DockerFileNmapWatcherImpl implements Watcher<DockerFileNmapWatcherA
 
 
     @Override
-    public WatcherResponse run(File folder, DockerFileNmapWatcherArgs args) {
+    public WatcherResponse run(File folder, DockerFileNmapWatcherArgs args, RunnerJobResponse.RepositoryCredentials creds) {
         WatcherResponse w = new WatcherResponse();
         File[] fileList = folder.listFiles((dir, name) -> name.equals(DOCKERFILE));
         if (fileList != null && fileList.length > 0) {

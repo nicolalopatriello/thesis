@@ -1,5 +1,7 @@
 package it.nicolalopatriello.thesis.core.service;
 
+import com.google.gson.JsonObject;
+import it.nicolalopatriello.thesis.common.Jsonizable;
 import it.nicolalopatriello.thesis.common.dto.Metric;
 import it.nicolalopatriello.thesis.common.exception.BadRequestException;
 import it.nicolalopatriello.thesis.common.exception.NotFoundException;
@@ -46,6 +48,7 @@ public class RepositoryServiceImpl implements RepositoryService {
     @Override
     public RepositoryCreateResponse create(JwtUser user, RepositoryCreateRequest repositoryCreateRequest) throws BadRequestException {
         try {
+            System.err.println(repositoryCreateRequest.getRecipe());
             DataEncryptor dataEncryptor = DataEncryptor.from(ThesisConstant.ENCRYPT_SECRET, ThesisConstant.ENCRYPT_SALT);
             RepositoryEntity repositoryEntity = new RepositoryEntity();
             repositoryEntity.setUrl(repositoryCreateRequest.getUrl());
@@ -53,7 +56,7 @@ public class RepositoryServiceImpl implements RepositoryService {
             repositoryEntity.setPassword(dataEncryptor.encrypt(repositoryCreateRequest.getPassword()));
             repositoryEntity.setBranch(repositoryCreateRequest.getBranch());
             if (repositoryCreateRequest.getRecipe() != null)
-                repositoryEntity.setRecipe(repositoryCreateRequest.getRecipe().toString());
+                repositoryEntity.setRecipe(Jsonizable.toJson(repositoryCreateRequest.getRecipe()));
             repositoryEntity.setMinutesWatchersInterval(repositoryCreateRequest.getMinutesWatchersInterval());
             repositoryEntity.setOwner(user.getUsername());
             return RepositoryCreateResponse.from(thesisRepositoryRepository.save(repositoryEntity));

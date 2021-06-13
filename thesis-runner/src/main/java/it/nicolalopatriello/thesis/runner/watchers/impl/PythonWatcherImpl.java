@@ -2,6 +2,7 @@ package it.nicolalopatriello.thesis.runner.watchers.impl;
 
 import com.google.common.collect.Lists;
 import it.nicolalopatriello.thesis.common.dto.DependencyLight;
+import it.nicolalopatriello.thesis.common.dto.RunnerJobResponse;
 import it.nicolalopatriello.thesis.common.dto.WatcherResponse;
 import it.nicolalopatriello.thesis.runner.Utility;
 import it.nicolalopatriello.thesis.runner.watchers.Watcher;
@@ -17,7 +18,7 @@ public class PythonWatcherImpl implements Watcher<PythonWatcherArgs> {
     public static final String REQUIREMENTS_TXT = "requirements.txt";
 
     @Override
-    public WatcherResponse run(File folder, PythonWatcherArgs args) {
+    public WatcherResponse run(File folder, PythonWatcherArgs args, RunnerJobResponse.RepositoryCredentials creds) {
         WatcherResponse w = new WatcherResponse();
         File[] fileList = folder.listFiles(new FilenameFilter() {
             public boolean accept(File dir, String name) {
