@@ -9,6 +9,6 @@ import lombok.ToString;
 @ToString
 public class SimpleDockerInspectWatcherArgs implements WatcherArgs {
     private String serverAddress;
-    private String dockerImage;
+    private String dockerImageName;
     private String dockerRunCmd;
 }

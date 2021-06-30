@@ -2,12 +2,9 @@ package it.nicolalopatriello.thesis.runner.watchers.impl;
 
 import com.google.common.collect.Lists;
 import it.nicolalopatriello.thesis.common.Jsonizable;
-import it.nicolalopatriello.thesis.common.dto.DependencyLight;
 import it.nicolalopatriello.thesis.common.dto.Metric;
 import it.nicolalopatriello.thesis.common.dto.RunnerJobResponse;
 import it.nicolalopatriello.thesis.common.dto.WatcherResponse;
-import it.nicolalopatriello.thesis.common.utils.DataEncryptor;
-import it.nicolalopatriello.thesis.common.utils.ThesisConstant;
 import it.nicolalopatriello.thesis.common.utils.WatcherType;
 import it.nicolalopatriello.thesis.runner.service.DockerInspectServiceImpl;
 import it.nicolalopatriello.thesis.runner.watchers.Watcher;
@@ -23,10 +20,9 @@ public class SimpleDockerInspectWatcherImpl implements Watcher<SimpleDockerInspe
     @Override
     public WatcherResponse run(File folder, SimpleDockerInspectWatcherArgs args, RunnerJobResponse.RepositoryCredentials creds) {
         log.debug("Args: " + args.toString());
-        System.err.println("èèèèèèèèèèèèèèèèèèèèèèèèèèèè " + creds.getRepositoryPassword());
         WatcherResponse r = new WatcherResponse();
         DockerInspectServiceImpl d = new DockerInspectServiceImpl();
-        String inspectResponse = d.inspect(args.getServerAddress(), args.getDockerImage(), args.getDockerRunCmd(), creds);
+        String inspectResponse = d.inspect(args.getServerAddress(), args.getDockerImageName(), args.getDockerRunCmd(), creds);
         List<Metric> metrics = Lists.newLinkedList();
         Metric m = buildMetric(inspectResponse);
         metrics.add(m);
