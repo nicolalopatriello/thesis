@@ -25,7 +25,7 @@ services:
       - SPRING_PROFILES_ACTIVE=postgres
       - SPRING_DATASOURCE_URL=jdbc:postgresql://${THESIS_DB_HOST}:${THESIS_DB_PORT}/thesis_core
       - SPRING_DATASOURCE_USERNAME=${THESIS_DB_CORE_USERNAME}
-      - SPRING_DATASOURCE_PASSWORD=ENC(${THESIS_DB_CORE_PASSWORD})
+      - SPRING_DATASOURCE_PASSWORD=${THESIS_DB_CORE_PASSWORD}
       - SPRING_JPA_SHOW_SQL=false
       - PRIVATEKEY_FILENAME=/opt/cfg/rsa/private_key.der
       - PUBLICKEY_FILENAME=/opt/cfg/rsa/public_key.der
@@ -36,7 +36,6 @@ services:
       - MJ_APIKEY_PUBLIC=${MJ_APIKEY_PUBLIC}
       - MJ_APIKEY_PRIVATE=${MJ_APIKEY_PRIVATE}
     volumes:
-      - ${HOST_THESIS_CORE_SARBOX_DIR}:/var/thesis/sarbox/thesis-core/
       - <CURR_DIR>/var/thesis/sarbox/dictionaries:/var/thesis/sarbox/dictionaries
     restart: always
 
