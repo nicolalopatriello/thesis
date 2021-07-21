@@ -33,10 +33,10 @@ public class AppConfiguration {
     @Value(value = "${publickey.filename}")
     String publicKeyFilename;
 
-    @Value("${jwt.expiration}")
+    @Value(value = "${jwt.expiration}")
     private Long expiration;
 
-    @Value("${bcrypt.strength:12}")
+    @Value(value = "${bcrypt.strength:12}")
     private int bcryptStrength;
 
     @Bean
