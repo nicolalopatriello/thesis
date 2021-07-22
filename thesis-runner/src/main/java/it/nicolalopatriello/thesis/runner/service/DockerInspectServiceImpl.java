@@ -31,13 +31,13 @@ public class DockerInspectServiceImpl implements DockerInspectService {
                     creds.getRepositoryUsername(),
                     creds.getRepositoryPassword());
             System.err.println("-----loginCmd " + loginCmd);
-            Process loginPrc = Runtime.getRuntime().exec(new String[]{"bash", "-c", loginCmd});
+            Process loginPrc = Runtime.getRuntime().exec(new String[]{"/bin/bash", "-c", loginCmd});
             loginPrc.waitFor();
 
 
             String pullImageCmd = String.format("docker pull %s/%s", repositoryAddress, image);
             System.err.println("-----pullImageCmd " + pullImageCmd);
-            Process pullPrc = Runtime.getRuntime().exec(new String[]{"bash", "-c", loginCmd});
+            Process pullPrc = Runtime.getRuntime().exec(new String[]{"/bin/bash", "-c", loginCmd});
             pullPrc.waitFor();
 
             String serverWithImage = (String.format("%s/%s", repositoryAddress, image));
@@ -46,7 +46,7 @@ public class DockerInspectServiceImpl implements DockerInspectService {
             String fileName = UUID.randomUUID() + ".tmp";
             String cmd = String.format("docker run %s \"%s\" > /tmp/%s", serverWithImage, command, fileName);
             log.info("Command to execute " + cmd);
-            Process p = Runtime.getRuntime().exec(new String[]{"bash", "-c", cmd});
+            Process p = Runtime.getRuntime().exec(new String[]{"/bin/bash", "-c", cmd});
             p.waitFor();
             BufferedReader br = new BufferedReader(new FileReader("/tmp/" + fileName));
             String currentLine;
