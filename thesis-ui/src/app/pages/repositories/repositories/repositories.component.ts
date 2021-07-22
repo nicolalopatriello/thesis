@@ -84,7 +84,8 @@ export class RepositoriesComponent implements OnInit, OnDestroy {
     const r: RepositoryCreateRequest = this.newRepositoryFormGroup.getRawValue();
     this.repositoryService.create({
       ...r,
-      recipe: JSON.parse(r.recipe.replace(/\s/g, ''))
+      recipe: JSON.parse(r.recipe)
+      // recipe: JSON.parse(r.recipe.replace(/\s/g, ''))
     }).pipe(
       catchError(err => {
         this.toastrService.error('Cannot create repository');
