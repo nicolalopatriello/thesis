@@ -23,6 +23,7 @@ public class SimpleDockerInspectWatcherImpl implements Watcher<SimpleDockerInspe
         WatcherResponse r = new WatcherResponse();
         DockerInspectServiceImpl d = new DockerInspectServiceImpl();
         String inspectResponse = d.inspect(args.getServerAddress(), args.getDockerImageName(), args.getDockerRunCmd(), creds);
+        log.debug("Inspect output: " + inspectResponse);
         List<Metric> metrics = Lists.newLinkedList();
         Metric m = buildMetric(inspectResponse);
         metrics.add(m);

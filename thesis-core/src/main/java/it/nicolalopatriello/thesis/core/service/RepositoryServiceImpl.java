@@ -48,7 +48,6 @@ public class RepositoryServiceImpl implements RepositoryService {
     @Override
     public RepositoryCreateResponse create(JwtUser user, RepositoryCreateRequest repositoryCreateRequest) throws BadRequestException {
         try {
-            System.err.println(repositoryCreateRequest.getRecipe());
             DataEncryptor dataEncryptor = DataEncryptor.from(ThesisConstant.ENCRYPT_SECRET, ThesisConstant.ENCRYPT_SALT);
             RepositoryEntity repositoryEntity = new RepositoryEntity();
             repositoryEntity.setUrl(repositoryCreateRequest.getUrl());
