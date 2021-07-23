@@ -1,7 +1,5 @@
 package it.nicolalopatriello.thesis.runner.service;
 
-import com.spotify.docker.client.DefaultDockerClient;
-import com.spotify.docker.client.messages.RegistryAuth;
 import it.nicolalopatriello.thesis.common.dto.RunnerJobResponse;
 import lombok.extern.log4j.Log4j;
 
@@ -9,40 +7,26 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.UUID;
+
 @Log4j
 public class DockerInspectServiceImpl implements DockerInspectService {
     @Override
     public String inspect(String repositoryAddress, String image, String command, RunnerJobResponse.RepositoryCredentials creds) {
-//        RegistryAuth registryAuth = RegistryAuth.create(
-//                creds.getRepositoryUsername(),
-//                creds.getRepositoryPassword(),
-//                null,
-//                repositoryAddress,
-//                null,
-//                null);
-
-
         StringBuilder output = new StringBuilder();
         try {
-//            DefaultDockerClient docker = DefaultDockerClient.fromEnv().dockerAuth(false).registryAuth(registryAuth).build();
-//            docker.auth(registryAuth);
             String loginCmd = String.format("docker login %s --username %s --password %s",
                     repositoryAddress,
                     creds.getRepositoryUsername(),
                     creds.getRepositoryPassword());
-            System.err.println("-----loginCmd " + loginCmd);
             Process loginPrc = Runtime.getRuntime().exec(new String[]{"/bin/sh", "-c", loginCmd});
+            output.append("Output of command ").append("\"").append(command).append("\"").append(" is: \n");
             loginPrc.waitFor();
-
-
             String pullImageCmd = String.format("docker pull %s/%s", repositoryAddress, image);
-            System.err.println("-----pullImageCmd " + pullImageCmd);
+            log.debug("Pull image command: " + pullImageCmd);
             Process pullPrc = Runtime.getRuntime().exec(new String[]{"/bin/sh", "-c", loginCmd});
             pullPrc.waitFor();
-
             String serverWithImage = (String.format("%s/%s", repositoryAddress, image));
             log.info("Pull image from " + serverWithImage);
-//            docker.pull(serverWithImage);
             String fileName = UUID.randomUUID() + ".tmp";
             String cmd = String.format("docker run %s \"%s\" > /tmp/%s", serverWithImage, command, fileName);
             log.info("Command to execute " + cmd);
