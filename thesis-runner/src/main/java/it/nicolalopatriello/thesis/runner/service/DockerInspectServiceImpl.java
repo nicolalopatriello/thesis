@@ -19,7 +19,7 @@ public class DockerInspectServiceImpl implements DockerInspectService {
                     creds.getRepositoryUsername(),
                     creds.getRepositoryPassword());
             Process loginPrc = Runtime.getRuntime().exec(new String[]{"/bin/sh", "-c", loginCmd});
-            output.append("Output of command ").append("\"").append(command).append("\"").append(" is: \n");
+            output.append("Output of command ").append("\"").append(command).append("\"").append(" is: \n\n");
             loginPrc.waitFor();
             String pullImageCmd = String.format("docker pull %s/%s", repositoryAddress, image);
             log.debug("Pull image command: " + pullImageCmd);
