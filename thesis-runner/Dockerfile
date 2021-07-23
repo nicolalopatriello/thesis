@@ -1,10 +1,15 @@
 FROM openjdk:8-jre-alpine
+#FROM openjdk:13-alpine
 
 WORKDIR /opt/
 
 
 ADD docker/bin/ bin/
 RUN chmod +x bin/*
+
+RUN apk add --update docker openrc
+RUN rc-update add docker boot
+
 ADD target/lib lib/
 ADD target/*.jar lib/
 ADD docker/cfg/ cfg/
